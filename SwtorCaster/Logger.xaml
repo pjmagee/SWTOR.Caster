@@ -3,10 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:SwtorCaster"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="SwtorCaster.MainWindow"
-        Title="SWTOR Caster"
-        Height="350"
-        Width="250"
-        Icon="icons/swtorcaster.ico" d:DesignWidth="814" d:DesignHeight="507" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterOwner">
+        Title="SWTOR Caster" Height="350" Width="300" Icon="icons/swtorcaster.ico" d:DesignHeight="507" 
+        ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterOwner">
     <Grid>
         <ListView ItemsSource="{Binding LogLines}" Loaded="Window_Loaded"
                   BorderThickness="0" Foreground="Yellow" Background="Black"
@@ -16,10 +14,10 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="{Binding ImageUrl}" Width="52" Height="52" Margin="10,0,0,0">
+                        <Image x:Name="AbilityIcon" Source="{Binding ImageUrl}" Width="52" Height="52" Margin="10,0,0,0">
                             <Image.RenderTransform>
                                 <RotateTransform 
-                                    Angle="{Binding Source={x:Static local:App.ImageAngle}, Mode=OneWay}" />
+                                   Angle="{Binding Source={x:Static local:App.ImageAngle}, Mode=OneWay}" />
                             </Image.RenderTransform>
                         </Image>
                         <TextBlock 
@@ -27,6 +25,19 @@
                             VerticalAlignment="Center"
                             Visibility="{Binding Source={x:Static local:App.EnableAbilityName}, Mode=OneWay}" />
                     </StackPanel>
+                    <DataTemplate.Triggers>
+                        <!--<EventTrigger RoutedEvent="FrameworkElement.Loaded" SourceName="AbilityIcon">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="AbilityIcon"
+                                                     Storyboard.TargetProperty="(Image.RenderTransform).(RotateTransform.Angle)" 
+                                                     To="-360" 
+                                                     Duration="0:0:1">
+                                    </DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>-->
+                    </DataTemplate.Triggers>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

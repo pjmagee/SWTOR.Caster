@@ -1,12 +1,11 @@
 ﻿namespace SwtorCaster
 {
-    using System;
     using System.Windows;
     using System.Collections.ObjectModel;
     using System.IO;
     using static System.Environment;
 
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         private static string SwtorCombatLogPath =>
             Path.Combine(GetFolderPath(SpecialFolder.MyDocuments), "Star Wars - The Old Republic", "CombatLogs");
@@ -31,7 +30,7 @@
             if (LogLines.Count > 0 && LogLines[0].TimeStamp == item.TimeStamp) return;
             if (item.EventDetail != "AbilityActivate" || item.EventType != "Event") return;
 
-            if (item.ImageUrl == LogLine.Empty)
+            if (item.ImageUrl == LogLine.Missing)
             {
                 File.AppendAllText(Path.Combine(CurrentDirectory, "log.txt"), $"Missing image for {item.Ability}");
             }

@@ -1,6 +1,7 @@
 namespace SwtorCaster
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
@@ -8,12 +9,13 @@ namespace SwtorCaster
 
     public class LogLine
     {
-        private static readonly string[] Files;
-        public static readonly string Empty = Path.Combine(CurrentDirectory, "Images", "empty.png");
+        private static readonly Dictionary<string, string> Files;
+        public static readonly string Missing = Path.Combine(CurrentDirectory, "Images", "missing.png");
 
         static LogLine()
         {
-            Files = Directory.GetFiles(Path.Combine(CurrentDirectory, "Images"));
+            Files = Directory.GetFiles(Path.Combine(CurrentDirectory, "Images"))
+                             .ToDictionary(k => Path.GetFileNameWithoutExtension(k), v => v);
         }
 
         public DateTime TimeStamp { get; set; }
@@ -26,7 +28,22 @@ namespace SwtorCaster
         public int Value { get; set; }
         public string ValueType { get; set; }
         public int Threat { get; set; }
-        public string ImageUrl => Files.FirstOrDefault(f => f.ToLower().Contains(Ability.ToLower())) ?? Empty;
+        public string ImageUrl
+        {
+            get
+            {
+                try
+                {
+                    return Files[Ability.ToLower()];
+                }
+                catch
+                {
+                    
+                }
+
+                return Missing;
+            }
+        }
 
         static readonly Regex Regex = new Regex(@"\[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \((.*)\)[.<]*([!>]*)[\s<]*(\d*)?[>]*", RegexOptions.Compiled);
         static readonly Regex IdRegex = new Regex(@"\s*\{\d*}\s*", RegexOptions.Compiled);
