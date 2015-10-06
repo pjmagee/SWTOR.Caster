@@ -19,23 +19,28 @@
             DataContext = this;
         }
 
-        private void CombatLogParserOnItemAdded(object sender, LogLine combatLogItem)
+        private void CombatLogParserOnItemAdded(object sender, LogLine item)
         {
-            if (combatLogItem.Ability.Trim() == string.Empty) return;
-            Application.Current.Dispatcher.InvokeAsync(() => AddItem(combatLogItem));
+            if (App.EnableExitCombatClear && item.EventDetail == "ExitCombat")
+            {
+                Application.Current.Dispatcher.Invoke(() => LogLines.Clear());
+                return;
+            }
+
+            if (item.Ability.Trim() == string.Empty) return;
+
+            Application.Current.Dispatcher.Invoke(() => AddItem(item));
         }
 
         private void AddItem(LogLine item)
         {
             if (LogLines.Count > 0 && LogLines[0].TimeStamp == item.TimeStamp) return;
+
+            
+
             if (item.EventDetail != "AbilityActivate" || item.EventType != "Event") return;
 
-            if (item.ImageUrl == LogLine.Missing)
-            {
-                File.AppendAllText(Path.Combine(CurrentDirectory, "log.txt"), $"Missing image for {item.Ability}");
-            }
-
-            if (LogLines.Count == 5) LogLines.RemoveAt(4);
+            if (LogLines.Count == App.MaxItems) LogLines.RemoveAt(4);
             LogLines.Insert(0, item);
         }
 

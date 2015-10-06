@@ -3,15 +3,14 @@
     using System;
     using System.IO;
     using System.Linq;
-    using System.Text.RegularExpressions;
     using System.Threading;
     using System.Threading.Tasks;
-    using System.Windows;
+    using static System.Environment;
 
     public class CombatLogParser
     {
         private readonly string _path;
-        private readonly Regex _regex = new Regex(@"\[(?<date>.*?)\] \[(?<source>.*?)\] \[(?<target>.*?)\] \[(?<ability>.*?)\] \[(?<effect>.*?)\] \((?<resource>.*?)\)", RegexOptions.Compiled | RegexOptions.Multiline);
+        // private readonly Regex _regex = new Regex(@"\[(?<date>.*?)\] \[(?<source>.*?)\] \[(?<target>.*?)\] \[(?<ability>.*?)\] \[(?<effect>.*?)\] \((?<resource>.*?)\)", RegexOptions.Compiled | RegexOptions.Multiline);
 
         private CancellationTokenSource _tokenSource;
 
@@ -32,7 +31,7 @@
             }
             catch(Exception e)
             {
-                MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                File.AppendAllText(Path.Combine(CurrentDirectory, "log.txt"), $"Error starting: {e.Message} {NewLine}");
             }
         }
 
@@ -54,16 +53,17 @@
                     while (true)
                     {
                         string value = reader.ReadLine();
+                        if (value == null) continue;
 
-                        if (value != null)
+                        try
                         {
-                            try
+                            ItemAdded?.Invoke(this, new LogLine(value));
+                        }
+                        catch (Exception e)
+                        {
+                            if (App.EnableLog)
                             {
-                                ItemAdded?.Invoke(this, new LogLine(value));
-                            }
-                            catch (Exception e)
-                            {
-                                
+                                File.AppendAllText(Path.Combine(CurrentDirectory, "log.txt"), $"Error adding item: {e.Message} {NewLine}");
                             }
                         }
                     }
