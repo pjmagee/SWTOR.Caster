@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:SwtorCaster"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="SwtorCaster.MainWindow"
-        Title="SWTOR Caster" Height="350" Width="300" Icon="icons/swtorcaster.ico" d:DesignHeight="507" 
+        Title="Delegate's SWTOR Caster" Height="360" Width="350" Icon="icons/swtorcaster.ico" d:DesignHeight="507" 
         Background="Black" ResizeMode="CanResize" WindowStartupLocation="CenterOwner">
     <Grid>
         <ListView Name="AbilityList" Margin="0,10,0,0" ItemsSource="{Binding LogLines}" Loaded="Window_Loaded"

@@ -2,6 +2,8 @@
 {
     using System;
     using System.Configuration;
+    using System.IO;
+    using System.Threading;
     using System.Windows;
 
     public partial class App : Application
@@ -19,5 +21,12 @@
         public static bool EnableLog => ConfigurationManager.AppSettings["swtor.enable.log"] == "true";
         public static bool EnableAliases => ConfigurationManager.AppSettings["swtor.enable.aliases"] == "true";
         public static bool EnableExitCombatClear => ConfigurationManager.AppSettings["swtor.enable.combat.clear"] == "true";
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            var splash = new SplashScreen("splash.jpg");
+            splash.Show(autoClose: false);
+            splash.Close(TimeSpan.FromSeconds(10));
+        }
     }
 }
