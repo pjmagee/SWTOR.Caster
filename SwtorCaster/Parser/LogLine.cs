@@ -10,25 +10,24 @@ namespace SwtorCaster
 
     public class LogLine
     {
+        private const string Images = "Images";
         private static readonly Regex Regex = new Regex(@"\[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \((.*)\)[.<]*([!>]*)[\s<]*(\d*)?[>]*", RegexOptions.Compiled);
         private static readonly Regex IdRegex = new Regex(@"\s*\{\d*}\s*", RegexOptions.Compiled);
 
         private static readonly Dictionary<string, string> Files;
         private static readonly string[] SplitOptions = { "," };
-        private static readonly string Missing = Path.Combine(CurrentDirectory, "Images", "missing.png");
+        private static readonly string Missing = Path.Combine(CurrentDirectory, Images, "missing.png");
 
         static LogLine()
         {
-            Files = Directory.GetFiles(Path.Combine(CurrentDirectory, "Images"))
+            Files = Directory.GetFiles(Path.Combine(CurrentDirectory, Images))
                              .ToDictionary(k => Path.GetFileNameWithoutExtension(k), v => v);
         }
 
         public DateTime TimeStamp { get; set; }
         public string Source { get; set; }
         public string Target { get; set; }
-
         public string RandomAlias => App.EnableAliases ? Aliases[App.Random.Next(0, Aliases.Length)] : Ability;
-
         public string Ability { get; set; }
 
         public string[] Aliases
@@ -54,6 +53,7 @@ namespace SwtorCaster
                 return new[] {Ability};
             }
         }
+
         public string EventType { get; set; }
         public string EventDetail { get; set; }
         public bool CritValue { get; set; }

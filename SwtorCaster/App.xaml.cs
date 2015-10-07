@@ -2,8 +2,6 @@
 {
     using System;
     using System.Configuration;
-    using System.IO;
-    using System.Threading;
     using System.Windows;
 
     public partial class App : Application
@@ -24,7 +22,7 @@
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            var splash = new SplashScreen("splash.jpg");
+            var splash = new SplashScreen("Resources/splash.jpg");
             splash.Show(autoClose: false);
             splash.Close(TimeSpan.FromSeconds(10));
         }

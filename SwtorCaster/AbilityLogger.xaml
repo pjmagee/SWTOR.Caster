@@ -2,15 +2,19 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:SwtorCaster"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="SwtorCaster.MainWindow"
-        Title="Delegate's SWTOR Caster" Height="360" Width="350" Icon="icons/swtorcaster.ico" d:DesignHeight="507" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="SwtorCaster.AbilityLogger"
+        Title="SWTOR Caster - Ability Logger" Height="360" Width="350" Icon="Resources/swtorcaster.ico" d:DesignHeight="507" 
         Background="Black" ResizeMode="CanResize" WindowStartupLocation="CenterOwner">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="131*"/>
+            <ColumnDefinition Width="211*"/>
+        </Grid.ColumnDefinitions>
         <ListView Name="AbilityList" Margin="0,10,0,0" ItemsSource="{Binding LogLines}" Loaded="Window_Loaded"
                   BorderThickness="0" Foreground="Yellow" Background="Black"
-                  FontFamily="fonts/#SF Distant Galaxy"
+                  FontFamily="Resources/#SF Distant Galaxy"
                   Focusable="False" 
-                  IsTextSearchEnabled="False">
+                  IsTextSearchEnabled="False" Grid.ColumnSpan="2">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">

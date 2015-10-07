@@ -5,7 +5,7 @@
     using System.IO;
     using static System.Environment;
 
-    public partial class MainWindow
+    public partial class AbilityLogger
     {
         private static string SwtorCombatLogPath =>
             Path.Combine(GetFolderPath(SpecialFolder.MyDocuments), "Star Wars - The Old Republic", "CombatLogs");
@@ -13,7 +13,7 @@
         private readonly CombatLogParser _combatLogParser = new CombatLogParser(SwtorCombatLogPath);
         public ObservableCollection<LogLine> LogLines { get; } = new ObservableCollection<LogLine>();
 
-        public MainWindow()
+        public AbilityLogger()
         {
             InitializeComponent();
             DataContext = this;

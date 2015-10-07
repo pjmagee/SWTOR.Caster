@@ -10,8 +10,6 @@
     public class CombatLogParser
     {
         private readonly string _path;
-        // private readonly Regex _regex = new Regex(@"\[(?<date>.*?)\] \[(?<source>.*?)\] \[(?<target>.*?)\] \[(?<ability>.*?)\] \[(?<effect>.*?)\] \((?<resource>.*?)\)", RegexOptions.Compiled | RegexOptions.Multiline);
-
         private CancellationTokenSource _tokenSource;
 
         public event EventHandler<LogLine> ItemAdded;
@@ -48,25 +46,29 @@
             {
                 using (var reader = new StreamReader(fs))
                 {
-                    reader.ReadToEnd();
+                    reader.ReadToEnd(); // Read the existing items beforehand
 
-                    while (true)
+                    while (!_tokenSource.IsCancellationRequested)
                     {
                         string value = reader.ReadLine();
                         if (value == null) continue;
-
-                        try
-                        {
-                            ItemAdded?.Invoke(this, new LogLine(value));
-                        }
-                        catch (Exception e)
-                        {
-                            if (App.EnableLog)
-                            {
-                                File.AppendAllText(Path.Combine(CurrentDirectory, "log.txt"), $"Error adding item: {e.Message} {NewLine}");
-                            }
-                        }
+                        TryRead(value);
                     }
+                }
+            }
+        }
+
+        private void TryRead(string value)
+        {
+            try
+            {
+                ItemAdded?.Invoke(this, new LogLine(value));
+            }
+            catch (Exception e)
+            {
+                if (App.EnableLog)
+                {
+                    File.AppendAllText(Path.Combine(CurrentDirectory, "log.txt"), $"Error adding item: {e.Message} {NewLine}");
                 }
             }
         }
