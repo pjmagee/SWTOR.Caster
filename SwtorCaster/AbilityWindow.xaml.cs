@@ -3,9 +3,10 @@
     using System.Windows;
     using System.Collections.ObjectModel;
     using System.IO;
+    using Parser;
     using static System.Environment;
 
-    public partial class AbilityLogger
+    public partial class AbilityWindow
     {
         private static string SwtorCombatLogPath =>
             Path.Combine(GetFolderPath(SpecialFolder.MyDocuments), "Star Wars - The Old Republic", "CombatLogs");
@@ -13,7 +14,7 @@
         private readonly CombatLogParser _combatLogParser = new CombatLogParser(SwtorCombatLogPath);
         public ObservableCollection<LogLine> LogLines { get; } = new ObservableCollection<LogLine>();
 
-        public AbilityLogger()
+        public AbilityWindow()
         {
             InitializeComponent();
             DataContext = this;

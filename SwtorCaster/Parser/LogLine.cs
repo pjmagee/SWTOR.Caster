@@ -1,4 +1,4 @@
-namespace SwtorCaster
+namespace SwtorCaster.Parser
 {
     using System;
     using System.Collections.Generic;
@@ -6,7 +6,6 @@ namespace SwtorCaster
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
-    using static System.Environment;
 
     public class LogLine
     {
@@ -16,11 +15,11 @@ namespace SwtorCaster
 
         private static readonly Dictionary<string, string> Files;
         private static readonly string[] SplitOptions = { "," };
-        private static readonly string Missing = Path.Combine(CurrentDirectory, Images, "missing.png");
+        private static readonly string Missing = Path.Combine(Environment.CurrentDirectory, Images, "missing.png");
 
         static LogLine()
         {
-            Files = Directory.GetFiles(Path.Combine(CurrentDirectory, Images))
+            Files = Directory.GetFiles(Path.Combine(Environment.CurrentDirectory, Images))
                              .ToDictionary(k => Path.GetFileNameWithoutExtension(k), v => v);
         }
 
@@ -46,7 +45,7 @@ namespace SwtorCaster
                 {
                     if (App.EnableLog)
                     {
-                        File.AppendAllText(Path.Combine(CurrentDirectory, "log.txt"), $"Missing image for {Ability}. {NewLine}");
+                        File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "log.txt"), $"Missing image for {Ability}. {Environment.NewLine}");
                     }
                 }
 
@@ -71,7 +70,7 @@ namespace SwtorCaster
                 }
                 catch
                 {
-                    File.AppendAllText(Path.Combine(CurrentDirectory, "log.txt"), $"Missing image for {Ability}. {NewLine}");
+                    File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "log.txt"), $"Missing image for {Ability}. {Environment.NewLine}");
                 }
 
                 return Missing;

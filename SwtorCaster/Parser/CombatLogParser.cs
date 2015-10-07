@@ -1,11 +1,10 @@
-﻿namespace SwtorCaster
+﻿namespace SwtorCaster.Parser
 {
     using System;
     using System.IO;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using static System.Environment;
 
     public class CombatLogParser
     {
@@ -29,7 +28,7 @@
             }
             catch(Exception e)
             {
-                File.AppendAllText(Path.Combine(CurrentDirectory, "log.txt"), $"Error starting: {e.Message} {NewLine}");
+                File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "log.txt"), $"Error starting: {e.Message} {Environment.NewLine}");
             }
         }
 
@@ -68,7 +67,7 @@
             {
                 if (App.EnableLog)
                 {
-                    File.AppendAllText(Path.Combine(CurrentDirectory, "log.txt"), $"Error adding item: {e.Message} {NewLine}");
+                    File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "log.txt"), $"Error adding item: {e.Message} {Environment.NewLine}");
                 }
             }
         }

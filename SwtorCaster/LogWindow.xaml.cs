@@ -5,11 +5,11 @@
     using System.Windows;
 
     /// <summary>
-    /// Interaction logic for Log.xaml
+    /// Interaction logic for LogWindow.xaml
     /// </summary>
-    public partial class Log : Window
+    public partial class LogWindow : Window
     {
-        public Log()
+        public LogWindow()
         {
             InitializeComponent();
         }

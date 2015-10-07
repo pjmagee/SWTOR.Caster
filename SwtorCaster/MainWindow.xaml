@@ -1,11 +1,10 @@
-﻿<Window x:Class="SwtorCaster.Main"
+﻿<Window x:Class="SwtorCaster.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SwtorCaster"
         mc:Ignorable="d"
-        Title="Delegate's SWTOR Logger" Height="300" Width="300" Icon="Resources/swtorcaster.ico">
+        Title="SWTOR Caster" Height="300" Width="300" Icon="Resources/swtorcaster.ico">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -13,7 +12,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Button Name="SettingsButton" Grid.Row="0" Width="Auto" Height="Auto" Click="SettingsButton_Click">Settings</Button>
-        <Button Name="AbilityLoggerButton" Grid.Row="1"  Width="Auto" Height="Auto" Click="AbilityLoggerButton_Click">Ability Logger</Button>
+        <Button Name="AbilityLoggerButton" Grid.Row="1"  Width="Auto" Height="Auto" Click="AbilityLoggerButton_Click">Ability logger</Button>
         <Button Name="LogButton" Grid.Row="2"  Width="Auto" Height="Auto" Click="LogButton_Click">Debug log</Button>
     </Grid>
 </Window>
