@@ -1,6 +1,5 @@
 namespace SwtorCaster.ViewModel
 {
-    using System;
     using System.Collections.ObjectModel;
     using System.IO;
     using System.Windows;
@@ -19,13 +18,14 @@ namespace SwtorCaster.ViewModel
 
         public void Start()
         {
-            _combatLogParser.Start();
-            _combatLogParser.ItemAdded -= CombatLogParserOnItemAdded;
+
             _combatLogParser.ItemAdded += CombatLogParserOnItemAdded;
+            _combatLogParser.Start();
         }
 
         public void Stop()
         {
+            _combatLogParser.ItemAdded -= CombatLogParserOnItemAdded;
             _combatLogParser.Stop();
         }
 
@@ -44,7 +44,6 @@ namespace SwtorCaster.ViewModel
 
         private void AddItem(LogLine item)
         {
-            //if (LogLines.Count > 0 && LogLines[0].TimeStamp == item.TimeStamp) return;
             if (item.EventDetail != "AbilityActivate" || item.EventType != "Event") return;
             if (LogLines.Count == Settings.Current.MaxAbilityList) LogLines.RemoveAt(LogLines.Count - 1);
             LogLines.Insert(0, item);

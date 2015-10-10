@@ -12,7 +12,7 @@
             DataContext = this;
         }
 
-        private void SaveSettings_Click(object sender, RoutedEventArgs e)
+        private void Save_Click(object sender, RoutedEventArgs e)
         {
             Settings settings = new Settings();
 

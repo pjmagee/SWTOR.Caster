@@ -37,7 +37,7 @@
 
         public void Stop()
         {
-            _tokenSource.Cancel();
+            _tokenSource?.Cancel();
         }
 
         private void Open(string file)

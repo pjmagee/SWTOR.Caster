@@ -4,7 +4,7 @@
         xmlns:local="clr-namespace:SwtorCaster"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="SwtorCaster.AbilityWindow"
         Title="SWTOR Caster - Abilities" Height="360" Width="350" Icon="Resources/swtorcaster.ico" d:DesignHeight="507" 
-        Background="Black" ResizeMode="CanResize" WindowStartupLocation="CenterOwner"  
+        Background="Black" ResizeMode="CanResize" WindowStartupLocation="CenterOwner" Closed="Window_OnClosed"
         DataContext="{Binding Source={StaticResource Locator}, Path=AbilitiesViewModel}">
     <Grid>
         <Grid.ColumnDefinitions>

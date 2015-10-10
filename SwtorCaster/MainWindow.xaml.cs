@@ -14,20 +14,20 @@
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            var settings = new SettingsWindow();
-            settings.Show();
+            var window = new SettingsWindow();
+            window.ShowDialog();
         }
 
         private void AbilityLoggerButton_Click(object sender, RoutedEventArgs e)
         {
-            var logger = new AbilityWindow();
-            logger.Show();
+            var window = new AbilityWindow();
+            window.ShowDialog();
         }
 
         private void LogButton_Click(object sender, RoutedEventArgs e)
         {
-            var log = new LogWindow();
-            log.Show();
+            var window = new LogWindow();
+            window.ShowDialog();
         }
 
         private void Window_Closed(object sender, System.EventArgs e)

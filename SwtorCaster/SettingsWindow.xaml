@@ -55,7 +55,7 @@
             </StackPanel>
 
             <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                <Button Margin="10" Width="50" DockPanel.Dock="Bottom" Name="SaveSettings" Click="SaveSettings_Click">Save</Button>
+                <Button Margin="10" Width="50" DockPanel.Dock="Bottom" Name="SaveSettings" Click="Save_Click">Save</Button>
             </DockPanel>
 
         </DockPanel>

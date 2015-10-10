@@ -1,5 +1,6 @@
 ﻿namespace SwtorCaster
 {
+    using System;
     using System.Windows;
     using ViewModel;
 
@@ -12,8 +13,14 @@
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            var vm = DataContext as AbilitiesViewModel;
-            vm?.Start();
+            var viewModel = DataContext as AbilitiesViewModel;
+            viewModel?.Start();
+        }
+
+        private void Window_OnClosed(object sender, EventArgs e)
+        {
+            var viewModel = DataContext as AbilitiesViewModel;
+            viewModel?.Stop();
         }
     }
 }
