@@ -9,14 +9,21 @@
     /// </summary>
     public partial class LogWindow : Window
     {
+        private readonly string _logPath = Path.Combine(Environment.CurrentDirectory, "log.txt");
+
         public LogWindow()
         {
             InitializeComponent();
         }
 
-        private void Grid_Initialized(object sender, EventArgs e)
+        private void Window_Initialized(object sender, EventArgs e)
         {
-            DebugTextBlock.Text = File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "log.txt"));
+            if (File.Exists(_logPath))
+            {
+                DebugTextBlock.Text = File.ReadAllText(_logPath);
+            }
+            
+            ScrollViewer.ScrollToBottom();
         }
     }
 }

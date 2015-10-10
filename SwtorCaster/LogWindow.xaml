@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" Title="SWTOR Caster - LogWindow" Height="300" Width="300">
-    <Grid Initialized="Grid_Initialized" ScrollViewer.CanContentScroll="True">
+        mc:Ignorable="d" Title="SWTOR Caster - Log" Height="500" Width="600" Initialized="Window_Initialized">
+    <ScrollViewer Name="ScrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Padding="10">
         <TextBlock Name="DebugTextBlock" />
-    </Grid>
+    </ScrollViewer>
 </Window>

@@ -26,10 +26,18 @@
                 var fileInfo = fileInfos.OrderByDescending(x => x.LastWriteTime).FirstOrDefault();
                 Open(fileInfo.FullName);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "log.txt"), $"Error starting: {e.Message} {Environment.NewLine}");
+                if (Settings.Current.EnableLogging)
+                {
+                    File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "log.txt"), $"Error starting: {e.Message} {Environment.NewLine}");
+                }
             }
+        }
+
+        public void Stop()
+        {
+            _tokenSource.Cancel();
         }
 
         private void Open(string file)
@@ -65,7 +73,7 @@
             }
             catch (Exception e)
             {
-                if (App.EnableLog)
+                if (Settings.Current.EnableLogging)
                 {
                     File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "log.txt"), $"Error adding item: {e.Message} {Environment.NewLine}");
                 }

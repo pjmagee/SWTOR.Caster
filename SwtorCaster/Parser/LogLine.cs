@@ -2,7 +2,6 @@ namespace SwtorCaster.Parser
 {
     using System;
     using System.Collections.Generic;
-    using System.Configuration;
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
@@ -26,7 +25,7 @@ namespace SwtorCaster.Parser
         public DateTime TimeStamp { get; set; }
         public string Source { get; set; }
         public string Target { get; set; }
-        public string RandomAlias => App.EnableAliases ? Aliases[App.Random.Next(0, Aliases.Length)] : Ability;
+        public string AbilityText => Settings.Current.EnableAliases ? Aliases[App.Random.Next(0, Aliases.Length)] : Ability;
         public string Ability { get; set; }
 
         public string[] Aliases
@@ -35,15 +34,15 @@ namespace SwtorCaster.Parser
             {
                 try
                 {
-                    if (App.Keys.Contains(Ability, StringComparer.OrdinalIgnoreCase))
+                    var ability = Settings.Current.Abilities.FirstOrDefault(a => a.Name.Equals(Ability, StringComparison.OrdinalIgnoreCase));
+                    if (ability != null)
                     {
-                        var aliases = ConfigurationManager.AppSettings[Ability.ToLower()];
-                        return aliases.Split(SplitOptions, StringSplitOptions.None);
+                        return ability.Aliases.Split(SplitOptions, StringSplitOptions.None);
                     }
                 }
                 catch (Exception e)
                 {
-                    if (App.EnableLog)
+                    if (Settings.Current.EnableLogging)
                     {
                         File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "log.txt"), $"Missing image for {Ability}. {Environment.NewLine}");
                     }
@@ -82,7 +81,7 @@ namespace SwtorCaster.Parser
             line = IdRegex.Replace(line, string.Empty);
             var match = Regex.Match(line);
 
-            TimeStamp = DateTime.Parse(match.Groups[1].Value);
+            // TimeStamp = DateTime.Parse(match.Groups[1].Value);
             Source = match.Groups[2].Value;
             Target = match.Groups[3].Value;
             Ability = match.Groups[4].Value;

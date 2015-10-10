@@ -4,53 +4,60 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="SWTOR Caster - SettingsWindow" Height="332" Width="409" Icon="Resources/swtorcaster.ico">
-    <Grid>
-        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto" Margin="10"> 
+        Title="SWTOR Caster - Settings" Height="600" Width="600" Icon="Resources/swtorcaster.ico"
+        Loaded="Window_OnLoaded">
+    <Grid Margin="10">
+        <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto" Margin="10">
 
-            <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
+            <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Orientation="Horizontal">
                 <Label Width="Auto" Grid.Column="0" ToolTip="The maximum number of logged abilitys to display in the ability logger window (recommend between 5 and 7)">Max items to display</Label>
                 <TextBox Name="MaxItems" Width="50" Height="20" />
             </StackPanel>
 
-            <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
+            <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Orientation="Horizontal">
                 <Label Width="Auto" ToolTip="The minimum rotation angle in degrees (recommend between -5 and -15)">Minimum rotate angle</Label>
                 <TextBox Name="MinAngle" Width="50" Height="20" />
             </StackPanel>
 
-            <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
+            <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Orientation="Horizontal">
                 <Label ToolTip="The maximum rotation angle in degrees (recommended between 5 and 15)">Maximum rotate angle</Label>
                 <TextBox Name="MaxAngle" Width="50" Height="20" />
             </StackPanel>
 
-            <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
+            <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Orientation="Horizontal">
                 <Label ToolTip="When you exit combat, clear the ability logger window (Good for Ops/Ranked PVP)">Exiting combat clears log</Label>
                 <CheckBox Name="ExitCombatClearLog" VerticalAlignment="Center" />
             </StackPanel>
 
-            <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
+            <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Orientation="Horizontal">
                 <Label ToolTip="LogWindows variable errors such as missing images or parsing errors">Enable logging to file</Label>
                 <CheckBox Name="LogToFile" VerticalAlignment="Center"  />
             </StackPanel>
 
-            <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
+            <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Orientation="Horizontal">
                 <Label ToolTip="Display the ability name next to the icon in the ability logger window">Enable ability text</Label>
                 <CheckBox Name="EnableAbilityName" VerticalAlignment="Center"  />
             </StackPanel>
 
-            <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
+            <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Orientation="Horizontal">
                 <Label ToolTip="Enable different ability aliases (e.g Sap/CC/Breaker)">Enable ability aliases</Label>
                 <CheckBox Name="EnableAliases" VerticalAlignment="Center"  />
             </StackPanel>
 
-            <StackPanel>
-                <DataGrid ItemsSource="{Binding Abilities}" />
+            <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="0,10,0,0">
+                
+                <TextBlock Text="Use [DEL] to remove rows. " Padding="2" FontWeight="Bold" />
+                
+                <DataGrid Name="Aliases" Padding="10" AutoGenerateColumns="True"
+                          HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" ColumnWidth="*" 
+                          CanUserAddRows="True" CanUserDeleteRows="True" CanUserResizeColumns="True" CanUserResizeRows="False" 
+                          AlternatingRowBackground="LightGray" ToolTip="Aliases should be comma seperated values." />
             </StackPanel>
 
-            <DockPanel HorizontalAlignment="Right">
-                <Button Margin="10" Width="50" DockPanel.Dock="Right" Name="SaveSettings">Save</Button>
+            <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                <Button Margin="10" Width="50" DockPanel.Dock="Bottom" Name="SaveSettings" Click="SaveSettings_Click">Save</Button>
             </DockPanel>
 
-        </StackPanel>
+        </DockPanel>
     </Grid>
 </Window>

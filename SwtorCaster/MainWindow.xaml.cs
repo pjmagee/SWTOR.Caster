@@ -29,5 +29,10 @@
             var log = new LogWindow();
             log.Show();
         }
+
+        private void Window_Closed(object sender, System.EventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
     }
 }
