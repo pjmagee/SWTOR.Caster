@@ -1,0 +1,34 @@
+﻿<Window x:Class="SwtorCaster.About"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="SWTOR Caster - About" Height="400" Width="600" FontSize="54" ResizeMode="NoResize">
+    <Window.Background>
+        <ImageBrush ImageSource="Resources/about.jpg" Stretch="UniformToFill"/>
+    </Window.Background>
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Label Content="Author:" HorizontalAlignment="Left" Foreground="Yellow" FontFamily="Resources/#SF Distant Galaxy"/>
+                <TextBlock VerticalAlignment="Center" Foreground="Yellow" FontFamily="Resources/#SF Distant Galaxy" Background="Black">Delegate</TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <!--<Label Content="Server:" Foreground="Yellow" FontFamily="Resources/#SF Distant Galaxy" />-->
+                <TextBlock VerticalAlignment="Center" Foreground="Yellow" FontFamily="Resources/#SF Distant Galaxy">The Red Eclipse</TextBlock>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Guild:" Foreground="Yellow" FontFamily="Resources/#SF Distant Galaxy" VerticalAlignment="Top" HorizontalAlignment="Center" />
+                <TextBlock HorizontalAlignment="Center" Foreground="Yellow" FontFamily="Resources/#SF Distant Galaxy" VerticalAlignment="Center">
+                        <Hyperlink NavigateUri="http://www.awakenedgamers.com/" Click="Hyperlink_OnClick">
+                            Awakened
+                        </Hyperlink>
+                </TextBlock>
+            </StackPanel>
+        </StackPanel>
+    </DockPanel>
+
+</Window>

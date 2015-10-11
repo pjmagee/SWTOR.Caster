@@ -15,12 +15,14 @@
         {
             var splash = new SplashScreen("Resources/splash.jpg");
             splash.Show(autoClose: false);
-            splash.Close(TimeSpan.FromSeconds(20));
+            splash.Close(TimeSpan.FromSeconds(5));
+
+            FrameworkElement.StyleProperty.OverrideMetadata(typeof(Window), new FrameworkPropertyMetadata { DefaultValue = FindResource(typeof(Window)) });
         }
 
         protected override void OnExit(ExitEventArgs e)
         {
-            ViewModelLocator.Cleanup();
+
         }
     }
 }

@@ -8,12 +8,9 @@ namespace SwtorCaster.ViewModel
         public ViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-
-            SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<AbilitiesViewModel>();
         }
-
-        public MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
+        
         public AbilitiesViewModel AbilitiesViewModel => ServiceLocator.Current.GetInstance<AbilitiesViewModel>();
 
         public static void Cleanup()

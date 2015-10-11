@@ -2,7 +2,8 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:SwtorCaster"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="SwtorCaster.AbilityWindow"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        mc:Ignorable="d" x:Class="SwtorCaster.AbilityWindow"
         Title="SWTOR Caster - Abilities" Height="360" Width="350" Icon="Resources/swtorcaster.ico" d:DesignHeight="507" 
         Background="Black" ResizeMode="CanResize" WindowStartupLocation="CenterOwner" Closed="Window_OnClosed"
         DataContext="{Binding Source={StaticResource Locator}, Path=AbilitiesViewModel}">
@@ -21,16 +22,11 @@
                     <StackPanel Orientation="Horizontal">
                         <Image x:Name="AbilityIcon" Source="{Binding ImageUrl}" Width="52" Height="52" Margin="10,0,10,0">
                             <Image.RenderTransform>
-                                <RotateTransform 
-                                   Angle="{Binding 
-                                    RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AbilityWindow}}, 
-                                    Path=DataContext.ImageAngle}" />
+                                <RotateTransform Angle="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AbilityWindow}}, Path=DataContext.ImageAngle}" />
                             </Image.RenderTransform>
                         </Image>
-                        <TextBlock 
-                            FontSize="18" Text="{Binding AbilityText}"
-                            VerticalAlignment="Center"
-                            Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AbilityWindow}}, Path=DataContext.TextVisible}" />
+                        <TextBlock VerticalAlignment="Center" FontSize="18" Text="{Binding AbilityText}"
+                                   Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AbilityWindow}}, Path=DataContext.TextVisible}" />
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>

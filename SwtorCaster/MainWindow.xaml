@@ -10,9 +10,11 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Button Name="SettingsButton" Grid.Row="0" Width="Auto" Height="Auto" Click="SettingsButton_Click">Settings</Button>
         <Button Name="AbilityLoggerButton" Grid.Row="1"  Width="Auto" Height="Auto" Click="AbilityLoggerButton_Click">Ability logger</Button>
         <Button Name="LogButton" Grid.Row="2"  Width="Auto" Height="Auto" Click="LogButton_Click">Debug log</Button>
+        <Button Name="AboutButton" Grid.Row="3"  Width="Auto" Height="Auto" Click="AboutButton_OnClick">About</Button>
     </Grid>
 </Window>

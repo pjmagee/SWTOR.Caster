@@ -34,5 +34,11 @@
         {
             Application.Current.Shutdown();
         }
+
+        private void AboutButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var window = new About();
+            window.ShowDialog();
+        }
     }
 }

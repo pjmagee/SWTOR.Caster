@@ -1,5 +1,6 @@
 ﻿namespace SwtorCaster
 {
+    using System;
     using System.Linq;
     using System.Windows;
     using Parser;
@@ -14,35 +15,41 @@
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            Settings settings = new Settings();
+            try
+            {
+                Settings settings = new Settings
+                {
+                    MaxAbilityList = (int)MaxItems.Value,
+                    MinimumAngle = (int)MiniumAngle.Value,
+                    MaximumAngle = (int)MaximumAngle.Value,
+                    EnableCombatClear = ExitCombatClearLog.IsChecked.GetValueOrDefault(),
+                    EnableAbilityText = EnableAbilityName.IsChecked.GetValueOrDefault(),
+                    EnableAliases = EnableAliases.IsChecked.GetValueOrDefault(),
+                    EnableLogging = LogToFile.IsChecked.GetValueOrDefault(),
+                    Abilities = Aliases.ItemsSource.Cast<Ability>()
+                };
 
-            settings.MaxAbilityList = int.Parse(MaxItems.Text);
-            settings.MinimumAngle = int.Parse(MinAngle.Text);
-            settings.MaximumAngle = int.Parse(MaxAngle.Text);
-
-            settings.EnableCombatClear = ExitCombatClearLog.IsChecked.GetValueOrDefault();
-            settings.EnableAbilityText = EnableAbilityName.IsChecked.GetValueOrDefault();
-            settings.EnableAliases = EnableAliases.IsChecked.GetValueOrDefault();
-            settings.EnableLogging = LogToFile.IsChecked.GetValueOrDefault();
-
-            settings.Abilities = Aliases.ItemsSource.Cast<Ability>();
-
-            settings.Save();
+                settings.Save();
+                this.Close();
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void Window_OnLoaded(object sender, RoutedEventArgs e)
         {
             var settings = Settings.LoadSettings();
 
-            MaxItems.Text = settings.MaxAbilityList.ToString();
-            MinAngle.Text = settings.MinimumAngle.ToString();
-            MaxAngle.Text = settings.MaximumAngle.ToString();
+            MaxItems.Value= settings.MaxAbilityList;
+            MiniumAngle.Value= settings.MinimumAngle;
+            MaximumAngle.Value = settings.MaximumAngle;
 
             ExitCombatClearLog.IsChecked = settings.EnableCombatClear;
             EnableAliases.IsChecked = settings.EnableAliases;
             EnableAbilityName.IsChecked = settings.EnableAbilityText;
             LogToFile.IsChecked = settings.EnableLogging;
-
             Aliases.ItemsSource = settings.Abilities;
         }
     }

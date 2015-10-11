@@ -4,7 +4,7 @@
     using System.Windows;
     using ViewModel;
 
-    public partial class AbilityWindow
+    public partial class AbilityWindow : Window
     {
         public AbilityWindow()
         {

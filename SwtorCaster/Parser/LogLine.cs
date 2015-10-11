@@ -19,7 +19,7 @@ namespace SwtorCaster.Parser
         static LogLine()
         {
             Files = Directory.GetFiles(Path.Combine(Environment.CurrentDirectory, Images))
-                             .ToDictionary(k => Path.GetFileNameWithoutExtension(k), v => v);
+                             .ToDictionary(k => Path.GetFileNameWithoutExtension(k).ToLower(), v => v);
         }
 
         public DateTime TimeStamp { get; set; }
@@ -65,7 +65,7 @@ namespace SwtorCaster.Parser
             {
                 try
                 {
-                    return Files[Ability.ToLower()];
+                    return Files[Ability.Replace(":", string.Empty).ToLower()];
                 }
                 catch
                 {

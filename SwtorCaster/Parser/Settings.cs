@@ -46,10 +46,10 @@ namespace SwtorCaster.Parser
         public bool EnableLogging { get; set; } = true;
 
         [JsonProperty("minimumAngle")]
-        public int MinimumAngle { get; set; } = -15;
+        public int MinimumAngle { get; set; } = -5;
 
         [JsonProperty("maximumAngle")]
-        public int MaximumAngle { get; set; } = 15;
+        public int MaximumAngle { get; set; } = 5;
 
         [JsonProperty("enableCombatClear")]
         public bool EnableCombatClear { get; set; } = true;
