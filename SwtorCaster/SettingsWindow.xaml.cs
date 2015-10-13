@@ -3,9 +3,10 @@
     using System;
     using System.Linq;
     using System.Windows;
+    using MahApps.Metro.Controls;
     using Parser;
 
-    public partial class SettingsWindow : Window
+    public partial class SettingsWindow : MetroWindow
     {
         public SettingsWindow()
         {
@@ -26,7 +27,9 @@
                     EnableAbilityText = EnableAbilityName.IsChecked.GetValueOrDefault(),
                     EnableAliases = EnableAliases.IsChecked.GetValueOrDefault(),
                     EnableLogging = LogToFile.IsChecked.GetValueOrDefault(),
-                    Abilities = Aliases.ItemsSource.Cast<Ability>()
+                    Abilities = Aliases.ItemsSource.Cast<Ability>(),
+                    EnableClearInactivity = EnableInactivityClearLog.IsChecked.GetValueOrDefault(),
+                    ClearAfterInactivity = (int) InactivitySecondsToClear.Value
                 };
 
                 settings.Save();
@@ -51,6 +54,9 @@
             EnableAbilityName.IsChecked = settings.EnableAbilityText;
             LogToFile.IsChecked = settings.EnableLogging;
             Aliases.ItemsSource = settings.Abilities;
+
+            EnableInactivityClearLog.IsChecked = settings.EnableClearInactivity;
+            InactivitySecondsToClear.Value = settings.ClearAfterInactivity;
         }
     }
 }

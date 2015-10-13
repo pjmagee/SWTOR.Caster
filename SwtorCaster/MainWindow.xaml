@@ -1,20 +1,17 @@
-﻿<Window x:Class="SwtorCaster.MainWindow"
+﻿<controls:MetroWindow x:Class="SwtorCaster.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d"
-        Title="SWTOR Caster" Height="300" Width="300" Icon="Resources/swtorcaster.ico" Closed="Window_Closed">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Button Name="SettingsButton" Grid.Row="0" Width="Auto" Height="Auto" Click="SettingsButton_Click">Settings</Button>
-        <Button Name="AbilityLoggerButton" Grid.Row="1"  Width="Auto" Height="Auto" Click="AbilityLoggerButton_Click">Ability logger</Button>
-        <Button Name="LogButton" Grid.Row="2"  Width="Auto" Height="Auto" Click="LogButton_Click">Debug log</Button>
-        <Button Name="AboutButton" Grid.Row="3"  Width="Auto" Height="Auto" Click="AboutButton_OnClick">About</Button>
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d" SizeToContent="WidthAndHeight"
+        Title="SWTOR Caster" Icon="Resources/swtorcaster.ico" Closed="Window_Closed">
+    <Grid Margin="5">
+      <StackPanel Orientation="Vertical">
+            <Button Name="SettingsButton" Padding="10" Margin="5" ToolTip="Configure how the logger behaves" Click="SettingsButton_Click">Settings</Button>
+            <Button Name="AbilityLoggerButton" Padding="10" Margin="5" ToolTip="Add this window as a window source to OBS" Click="AbilityLoggerButton_Click">Ability logger</Button>
+            <Button Name="LogButton" Padding="10" Margin="5" Click="LogButton_Click">Debug log</Button>
+            <Button Name="AboutButton" Padding="10" Margin="5" Click="AboutButton_OnClick">About</Button>
+        </StackPanel>
     </Grid>
-</Window>
+</controls:MetroWindow>

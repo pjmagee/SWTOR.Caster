@@ -1,5 +1,6 @@
 namespace SwtorCaster.ViewModel
 {
+    using System;
     using System.Collections.ObjectModel;
     using System.IO;
     using System.Windows;
@@ -19,12 +20,19 @@ namespace SwtorCaster.ViewModel
         public void Start()
         {
             _combatLogParser.ItemAdded += CombatLogParserOnItemAdded;
+            _combatLogParser.Clear += CombatLogParserOnClear;
             _combatLogParser.Start();
+        }
+
+        private void CombatLogParserOnClear(object sender, EventArgs eventArgs)
+        {
+            Application.Current.Dispatcher.Invoke(() => LogLines.Clear());
         }
 
         public void Stop()
         {
             _combatLogParser.ItemAdded -= CombatLogParserOnItemAdded;
+            _combatLogParser.Clear -= CombatLogParserOnClear;
             _combatLogParser.Stop();
         }
 

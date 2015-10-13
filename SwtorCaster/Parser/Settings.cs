@@ -51,6 +51,12 @@ namespace SwtorCaster.Parser
         [JsonProperty("maximumAngle")]
         public int MaximumAngle { get; set; } = 5;
 
+        [JsonProperty("enableClearInactivity")]
+        public bool EnableClearInactivity { get; set; }
+
+        [JsonProperty("secondsOfInactivity")]
+        public int ClearAfterInactivity { get; set; } = 10;
+
         [JsonProperty("enableCombatClear")]
         public bool EnableCombatClear { get; set; } = true;
 
