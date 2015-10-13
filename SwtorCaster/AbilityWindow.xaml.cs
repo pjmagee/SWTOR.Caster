@@ -2,6 +2,7 @@
 {
     using System;
     using System.Windows;
+    using Parser;
     using ViewModel;
 
     public partial class AbilityWindow : Window

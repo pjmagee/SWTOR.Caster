@@ -3,53 +3,46 @@
         xmlns:local="clr-namespace:SwtorCaster"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" x:Class="SwtorCaster.AbilityWindow"
-        Title="SWTOR Caster - Abilities" Height="360" Width="350" Icon="Resources/swtorcaster.ico" 
+        Title="SWTOR Caster - Abilities" Height="360" Width="500" Icon="Resources/swtorcaster.ico" 
         Background="Black" ResizeMode="CanResize" WindowStartupLocation="CenterOwner" Closed="Window_OnClosed"
         DataContext="{Binding Source={StaticResource Locator}, Path=AbilitiesViewModel}">
-    
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="131*"/>
-            <ColumnDefinition Width="211*"/>
-        </Grid.ColumnDefinitions>
-        <ListView Name="AbilityList" Margin="0,10,0,0" ItemsSource="{Binding LogLines}" Loaded="Window_Loaded"
+    <ListView Name="AbilityList" Margin="0,10,0,0" ItemsSource="{Binding LogLines}" Loaded="Window_Loaded"
                   BorderThickness="0" Foreground="Yellow" Background="Black"
                   FontFamily="Resources/#SF Distant Galaxy"
-                  Focusable="False" 
-                  IsTextSearchEnabled="False" Grid.ColumnSpan="2">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <Image x:Name="AbilityIcon" Source="{Binding ImageUrl}" Width="52" Height="52" Margin="10,0,10,0">
-                            <Image.RenderTransform>
-                                <RotateTransform Angle="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AbilityWindow}}, Path=DataContext.ImageAngle}" />
-                            </Image.RenderTransform>
-                        </Image>
-                        <TextBlock VerticalAlignment="Center" FontSize="18" Text="{Binding AbilityText}" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AbilityWindow}}, Path=DataContext.TextVisible}" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="{x:Type ListViewItem}">
-                    <Setter Property="LayoutTransform">
-                        <Setter.Value>
-                            <ScaleTransform x:Name="transform" />
-                        </Setter.Value>
-                    </Setter>
-                    <Style.Triggers>
-                        <EventTrigger RoutedEvent="Loaded">
-                            <EventTrigger.Actions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.05" />
-                                        <DoubleAnimation Storyboard.TargetProperty="LayoutTransform.ScaleY" From="0" Duration="0:0:0.05"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger.Actions>
-                        </EventTrigger>
-                    </Style.Triggers>
-                </Style>
-            </ListBox.ItemContainerStyle>
-        </ListView>
-    </Grid>
+                  Focusable="False"
+                  IsTextSearchEnabled="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.ColumnSpan="2">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <StackPanel Orientation="Horizontal">
+                    <Image x:Name="AbilityIcon" Source="{Binding ImageUrl}" Width="52" Height="52" Margin="10,0,10,0">
+                        <Image.RenderTransform>
+                            <RotateTransform Angle="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AbilityWindow}}, Path=DataContext.ImageAngle}" />
+                        </Image.RenderTransform>
+                    </Image>
+                    <TextBlock VerticalAlignment="Center" FontSize="18" Text="{Binding AbilityText}" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AbilityWindow}}, Path=DataContext.TextVisible}" />
+                </StackPanel>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+        <ListBox.ItemContainerStyle>
+            <Style TargetType="{x:Type ListViewItem}">
+                <Setter Property="LayoutTransform">
+                    <Setter.Value>
+                        <ScaleTransform x:Name="transform" />
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <EventTrigger.Actions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.05" />
+                                    <DoubleAnimation Storyboard.TargetProperty="LayoutTransform.ScaleY" From="0" Duration="0:0:0.05"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger.Actions>
+                    </EventTrigger>
+                </Style.Triggers>
+            </Style>
+        </ListBox.ItemContainerStyle>
+    </ListView>
 </Window>
