@@ -18,7 +18,6 @@ namespace SwtorCaster.ViewModel
 
         public void Start()
         {
-
             _combatLogParser.ItemAdded += CombatLogParserOnItemAdded;
             _combatLogParser.Start();
         }

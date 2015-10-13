@@ -53,7 +53,7 @@
             {
                 using (var reader = new StreamReader(fs))
                 {
-                    reader.ReadToEnd(); // Read the existing items beforehand
+                    reader.ReadToEnd();
 
                     while (!_tokenSource.IsCancellationRequested)
                     {

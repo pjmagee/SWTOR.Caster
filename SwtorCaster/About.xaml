@@ -20,11 +20,18 @@
             </StackPanel>
         </StackPanel>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Label Content="Guild:" Foreground="Yellow" FontFamily="Resources/#SF Distant Galaxy" VerticalAlignment="Top" HorizontalAlignment="Center" />
                 <TextBlock HorizontalAlignment="Center" Foreground="Yellow" FontFamily="Resources/#SF Distant Galaxy" VerticalAlignment="Center">
-                        <Hyperlink NavigateUri="http://www.awakenedgamers.com/" Click="Hyperlink_OnClick">
+                        <Hyperlink NavigateUri="http://www.awakenedgamers.com/" Click="Guild_OnClick">
                             Awakened
+                        </Hyperlink>
+                </TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock HorizontalAlignment="Center" Foreground="Yellow" FontSize="28" FontFamily="Resources/#SF Distant Galaxy" VerticalAlignment="Center">
+                        <Hyperlink NavigateUri="http://www.torcommunity.com/" Click="TorCommunity_OnClick">
+                           Special thanks to TorCommunity
                         </Hyperlink>
                 </TextBlock>
             </StackPanel>

@@ -13,9 +13,14 @@
             InitializeComponent();
         }
 
-        private void Hyperlink_OnClick(object sender, RoutedEventArgs e)
+        private void Guild_OnClick(object sender, RoutedEventArgs e)
         {
             Process.Start("http://www.awakenedgamers.com/");
+        }
+
+        private void TorCommunity_OnClick(object sender, RoutedEventArgs e)
+        {
+            Process.Start("http://torcommunity.com/");
         }
     }
 }

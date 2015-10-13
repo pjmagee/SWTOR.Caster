@@ -9,7 +9,7 @@ namespace SwtorCaster.Parser
     public class LogLine
     {
         private const string Images = "Images";
-        private static readonly Regex Regex = new Regex(@"\[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \((.*)\)[.<]*([!>]*)[\s<]*(\d*)?[>]*", RegexOptions.Compiled);
+        private static readonly Regex Regex = new Regex(@"\[(.*)\] \[(.*)\] \[(.*)\] \[((.*)\s{(\d*)}?)?\] \[(.*)\s{(\d*)}:\s(.*)\s{(\d*)}\]", RegexOptions.Compiled);
         private static readonly Regex IdRegex = new Regex(@"\s*\{\d*}\s*", RegexOptions.Compiled);
 
         private static readonly Dictionary<string, string> Files;
@@ -19,12 +19,14 @@ namespace SwtorCaster.Parser
         static LogLine()
         {
             Files = Directory.GetFiles(Path.Combine(Environment.CurrentDirectory, Images))
-                             .ToDictionary(k => Path.GetFileNameWithoutExtension(k).ToLower(), v => v);
+                .ToDictionary(k => Path.GetFileNameWithoutExtension(k).ToLower(), value => value);
         }
 
-        public DateTime TimeStamp { get; set; }
+        public string Id { get; set; }
         public string Source { get; set; }
         public string Target { get; set; }
+        public string EventType { get; set; }
+        public string EventDetail { get; set; }
         public string AbilityText => Settings.Current.EnableAliases ? Aliases[App.Random.Next(0, Aliases.Length)] : Ability;
         public string Ability { get; set; }
 
@@ -34,7 +36,8 @@ namespace SwtorCaster.Parser
             {
                 try
                 {
-                    var ability = Settings.Current.Abilities.FirstOrDefault(a => a.Name.Equals(Ability, StringComparison.OrdinalIgnoreCase));
+                    var ability = Settings.Current.Abilities.FirstOrDefault(a => a.Name.Equals(Id, StringComparison.OrdinalIgnoreCase));
+
                     if (ability != null)
                     {
                         return ability.Aliases.Split(SplitOptions, StringSplitOptions.None);
@@ -48,16 +51,9 @@ namespace SwtorCaster.Parser
                     }
                 }
 
-                return new[] {Ability};
+                return new[] { Ability };
             }
         }
-
-        public string EventType { get; set; }
-        public string EventDetail { get; set; }
-        public bool CritValue { get; set; }
-        public int Value { get; set; }
-        public string ValueType { get; set; }
-        public int Threat { get; set; }
 
         public string ImageUrl
         {
@@ -65,7 +61,7 @@ namespace SwtorCaster.Parser
             {
                 try
                 {
-                    return Files[Ability.Replace(":", string.Empty).ToLower()];
+                    return Files[Id];
                 }
                 catch
                 {
@@ -78,30 +74,15 @@ namespace SwtorCaster.Parser
 
         public LogLine(string line)
         {
-            line = IdRegex.Replace(line, string.Empty);
             var match = Regex.Match(line);
 
-            // TimeStamp = DateTime.Parse(match.Groups[1].Value);
-            Source = match.Groups[2].Value;
-            Target = match.Groups[3].Value;
-            Ability = match.Groups[4].Value;
-
-            if (match.Groups[5].Value.Contains(":"))
+            if (match.Success)
             {
-                EventType = match.Groups[5].Value.Split(':')[0];
-                EventDetail = match.Groups[5].Value.Split(':')[1].Trim();
+                Ability = match.Groups[5].Value;
+                Id = match.Groups[6].Value;
+                EventType = match.Groups[7].Value;
+                EventDetail = match.Groups[9].Value;
             }
-            else
-            {
-                EventType = match.Groups[5].Value;
-                EventDetail = string.Empty;
-            }
-
-            CritValue = match.Groups[6].Value.Contains("*");
-            var rawValue = match.Groups[6].Value.Replace("*", string.Empty).Split(' ');
-            Value = rawValue[0].Length > 0 ? int.Parse(rawValue[0]) : 0;
-            ValueType = rawValue.Length > 1 ? rawValue[1] : string.Empty;
-            Threat = match.Groups[8].Value.Length > 0 ? int.Parse(match.Groups[8].Value) : 0;
         }
     }
 }

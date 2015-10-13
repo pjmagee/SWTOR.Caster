@@ -25,8 +25,7 @@
                                 <RotateTransform Angle="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AbilityWindow}}, Path=DataContext.ImageAngle}" />
                             </Image.RenderTransform>
                         </Image>
-                        <TextBlock VerticalAlignment="Center" FontSize="18" Text="{Binding AbilityText}"
-                                   Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AbilityWindow}}, Path=DataContext.TextVisible}" />
+                        <TextBlock VerticalAlignment="Center" FontSize="18" Text="{Binding AbilityText}" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AbilityWindow}}, Path=DataContext.TextVisible}" />
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
