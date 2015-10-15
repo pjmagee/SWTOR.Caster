@@ -22,6 +22,8 @@
 
             if (!Directory.Exists(imagesFolder))
             {
+                File.WriteAllLines(Settings.LogPath, new[] {$"[{DateTime.Now}] Extracting Images.zip for Ability Window. {Environment.NewLine}"});
+
                 ZipFile.ExtractToDirectory(imagesZip, Environment.CurrentDirectory);
             }
 

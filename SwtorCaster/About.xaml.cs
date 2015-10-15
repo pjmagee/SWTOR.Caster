@@ -17,11 +17,13 @@
         private void Guild_OnClick(object sender, RoutedEventArgs e)
         {
             Process.Start("http://www.awakenedgamers.com/");
+            this.Close();
         }
 
         private void TorCommunity_OnClick(object sender, RoutedEventArgs e)
         {
             Process.Start("http://torcommunity.com/");
+            this.Close();
         }
     }
 }

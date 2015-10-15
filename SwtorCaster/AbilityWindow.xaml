@@ -25,6 +25,7 @@
         </ListView.ItemTemplate>
         <ListBox.ItemContainerStyle>
             <Style TargetType="{x:Type ListViewItem}">
+                <Setter Property="Focusable" Value="false" />
                 <Setter Property="LayoutTransform">
                     <Setter.Value>
                         <ScaleTransform x:Name="transform" />

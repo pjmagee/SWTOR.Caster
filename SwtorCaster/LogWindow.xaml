@@ -5,7 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls" Icon="Resources/swtorcaster.ico" IconBitmapScalingMode="HighQuality"
         mc:Ignorable="d" Title="SWTOR Caster - Log" Height="500" Width="600" Initialized="Window_Initialized">
-    <ScrollViewer Name="ScrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Padding="10">
-        <TextBlock Name="DebugTextBlock" />
-    </ScrollViewer>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="0.2*"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="0" Name="ScrollViewer" 
+                      HorizontalScrollBarVisibility="Auto" 
+                      VerticalScrollBarVisibility="Auto" 
+                      Margin="10">
+            <TextBlock Name="DebugTextBlock" />
+        </ScrollViewer>
+        <Button Grid.Row="1" Name="Clear" DockPanel.Dock="Bottom" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="ClearLog_Click" Margin="5">
+            Clear log
+        </Button>
+    </Grid>
 </controls:MetroWindow>

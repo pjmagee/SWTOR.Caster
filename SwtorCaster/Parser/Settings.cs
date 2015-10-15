@@ -8,10 +8,13 @@ namespace SwtorCaster.Parser
     using System.Windows;
     using Annotations;
     using Newtonsoft.Json;
+    using static System.Environment;
 
     public class Settings : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public static string LogPath = Path.Combine(CurrentDirectory, "log.txt");
 
         [JsonIgnore]
         private static Settings _settings;
@@ -31,7 +34,10 @@ namespace SwtorCaster.Parser
         }
 
         [JsonIgnore]
-        private static readonly string SettingsPath = Path.Combine(Environment.CurrentDirectory, "settings.json");
+        private static readonly string SwtorCaster = Path.Combine(GetFolderPath(SpecialFolder.LocalApplicationData), "SwtorCaster");
+
+        [JsonIgnore]
+        private static readonly string SettingsPath = Path.Combine(SwtorCaster, "settings.json");
 
         [JsonProperty("maxAbilityList")]
         public int MaxAbilityList { get; set; } = 5;
@@ -62,7 +68,7 @@ namespace SwtorCaster.Parser
 
         [JsonProperty("abilities")]
         public IEnumerable<Ability> Abilities { get; set; } = new List<Ability>();
-        
+
         public static Settings LoadSettings()
         {
             try
@@ -88,7 +94,13 @@ namespace SwtorCaster.Parser
             try
             {
                 Current = this;
-                var json = JsonConvert.SerializeObject(Current);
+                var json = JsonConvert.SerializeObject(Current, Formatting.Indented);
+
+                if (!Directory.Exists(SwtorCaster))
+                {
+                    Directory.CreateDirectory(SwtorCaster);
+                }
+
                 File.WriteAllText(SettingsPath, json);
             }
             catch (Exception e)

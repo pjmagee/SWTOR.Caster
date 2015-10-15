@@ -4,62 +4,61 @@
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
-    using System.Runtime.Caching;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Windows.Threading;
 
     public class CombatLogParser
     {
-        private readonly string _path;
-        private CancellationTokenSource _tokenSource;
+        private readonly Stopwatch _watch;
         private readonly DispatcherTimer _dispatcherTimer;
-        public Stopwatch _watch;
+        private readonly DispatcherTimer _fileTimer;
+        private readonly DirectoryInfo _directoryInfo;
 
-        public event EventHandler Clear; 
+        private FileInfo _currentFile;
+        private CancellationTokenSource _tokenSource;
+
+        public event EventHandler Clear;
         public event EventHandler<LogLine> ItemAdded;
-        
+
 
         public CombatLogParser(string path)
         {
-            _path = path;
             _watch = new Stopwatch();
             _dispatcherTimer = new DispatcherTimer(DispatcherPriority.Normal);
+            _fileTimer = new DispatcherTimer(DispatcherPriority.Background);
+            _directoryInfo = new DirectoryInfo(path);
         }
 
         public void Start()
         {
             try
             {
-                var fileInfos = new DirectoryInfo(_path).GetFiles("*.txt", SearchOption.TopDirectoryOnly);
-                var fileInfo = fileInfos.OrderByDescending(x => x.LastWriteTime).FirstOrDefault();
-                Open(fileInfo.FullName);
+                _currentFile = GetLatestFile();
+                Open(_currentFile.FullName);
 
                 if (Settings.Current.EnableClearInactivity)
                 {
                     _dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
-                    _dispatcherTimer.Tick -= OnTick;
-                    _dispatcherTimer.Tick += OnTick;
+                    _dispatcherTimer.Tick -= DispatcherTimerOnTick;
+                    _dispatcherTimer.Tick += DispatcherTimerOnTick;
                     _dispatcherTimer.IsEnabled = true;
                     _dispatcherTimer.Start();
-
                     _watch.Start();
                 }
+
+                _fileTimer.Interval = TimeSpan.FromSeconds(10);
+                _fileTimer.Tick -= FileTimerOnTick;
+                _fileTimer.Tick += FileTimerOnTick;
+                _fileTimer.Start();
+
             }
             catch (Exception e)
             {
                 if (Settings.Current.EnableLogging)
                 {
-                    File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "log.txt"), $"Error starting: {e.Message} {Environment.NewLine}");
+                    File.AppendAllText(Settings.LogPath, $"[{DateTime.Now}] Error starting: {e.Message} {Environment.NewLine}");
                 }
-            }
-        }
-
-        private void OnTick(object sender, EventArgs eventArgs)
-        {
-            if (_watch.Elapsed.TotalSeconds > Settings.Current.ClearAfterInactivity)
-            {
-                Clear?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -68,6 +67,32 @@
             _tokenSource?.Cancel();
             _watch?.Stop();
             _dispatcherTimer?.Stop();
+            _fileTimer?.Stop();
+        }
+
+        private void DispatcherTimerOnTick(object sender, EventArgs eventArgs)
+        {
+            if (_watch.Elapsed.TotalSeconds > Settings.Current.ClearAfterInactivity)
+            {
+                Clear?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        private void FileTimerOnTick(object sender, EventArgs eventArgs)
+        {
+            var time = Directory.GetLastWriteTime(_directoryInfo.FullName);
+
+            if (time != _currentFile.LastWriteTime)
+            {
+                Stop();
+                Start();
+            }
+        }
+
+        private FileInfo GetLatestFile()
+        {
+            var fileInfos = _directoryInfo.EnumerateFiles("*.txt", SearchOption.TopDirectoryOnly);
+            return fileInfos.OrderByDescending(x => x.LastWriteTime).FirstOrDefault();
         }
 
         private void Open(string file)
@@ -106,7 +131,7 @@
             {
                 if (Settings.Current.EnableLogging)
                 {
-                    File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "log.txt"), $"Error adding item: {e.Message} {Environment.NewLine}");
+                    File.AppendAllText(Settings.LogPath, $"[{DateTime.Now}] Error adding item: {e.Message} {Environment.NewLine}");
                 }
             }
         }

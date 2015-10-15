@@ -2,15 +2,15 @@
 {
     using System;
     using System.IO;
+    using System.Windows;
     using MahApps.Metro.Controls;
+    using Parser;
 
     /// <summary>
     /// Interaction logic for LogWindow.xaml
     /// </summary>
     public partial class LogWindow : MetroWindow
     {
-        private readonly string _logPath = Path.Combine(Environment.CurrentDirectory, "log.txt");
-
         public LogWindow()
         {
             InitializeComponent();
@@ -18,17 +18,32 @@
 
         private void Window_Initialized(object sender, EventArgs e)
         {
-            if (File.Exists(_logPath))
+            if (File.Exists(Settings.LogPath))
             {
-                DebugTextBlock.Text = File.ReadAllText(_logPath);
+                ReadFile();
             }
 
             if (DebugTextBlock.Text == string.Empty)
             {
-                DebugTextBlock.Text = "No errors found in debug log file";
+                DebugTextBlock.Text = $"[{DateTime.Now}] No errors found in debug log file";
             }
 
             ScrollViewer.ScrollToBottom();
+        }
+
+        private void ClearLog_Click(object sender, RoutedEventArgs e)
+        {
+            if (File.Exists(Settings.LogPath))
+            {
+                File.WriteAllText(Settings.LogPath, $"[{DateTime.Now}] Log file cleared.");
+            }
+
+            ReadFile();
+        }
+
+        private void ReadFile()
+        {
+            DebugTextBlock.Text = File.ReadAllText(Settings.LogPath);
         }
     }
 }

@@ -30,14 +30,16 @@
         </StackPanel>
 
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Margin="0,0,0,5">
-            <Label ToolTip="Log errors such as missing images or parsing errors to log.txt">
+            <Label ToolTip="After a defined amount of seconds, clear the ability window">
                 Inactvity clears the ability window:
             </Label>
             <CheckBox Name="EnableInactivityClearLog" VerticalAlignment="Center" />
         </StackPanel>
         
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Margin="0,0,0,5">
-            <Label ToolTip="The number of seconds of inactivity before the ability log is cleared">Clear the ability after seconds of inactivity:</Label>
+            <Label ToolTip="The number of seconds of inactivity before the ability log is cleared">
+                Clear the ability window after seconds of inactivity:
+            </Label>
             <Slider x:Name="InactivitySecondsToClear" Minimum="5" Maximum="30" Width="150" IsSnapToTickEnabled="True" Value="5" VerticalAlignment="Center" AutoToolTipPlacement="TopLeft" />
         </StackPanel>
 
@@ -67,7 +69,7 @@
         <DataGrid Name="Aliases" AutoGenerateColumns="True" Margin="0,0,0,5"
                 HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" ColumnWidth="*" 
                 CanUserAddRows="True" CanUserDeleteRows="True" CanUserResizeColumns="True" CanUserResizeRows="False"
-                AlternatingRowBackground="LightGray" ToolTip="Aliases should be comma seperated values." />
+                AlternatingRowBackground="LightGray" ToolTip="The 'Name' should be the Ability {ID} from the Combat log file, Aliases should be comma seperated values." />
 
         <Button Name="SaveSettings" Click="Save_Click" HorizontalAlignment="Right">
             Save &amp; close

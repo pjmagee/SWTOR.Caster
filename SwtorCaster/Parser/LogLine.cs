@@ -47,7 +47,7 @@ namespace SwtorCaster.Parser
                 {
                     if (Settings.Current.EnableLogging)
                     {
-                        File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "log.txt"), $"Missing image for {Ability}. {Environment.NewLine}");
+                        File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "log.txt"), $"[{DateTime.Now}] Missing image for {Ability}. {Environment.NewLine}");
                     }
                 }
 
@@ -65,7 +65,12 @@ namespace SwtorCaster.Parser
                 }
                 catch
                 {
-                    File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "log.txt"), $"Missing image for {Ability}. {Environment.NewLine}");
+                    if (Settings.Current.EnableLogging)
+                    {
+                        File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "log.txt"), $"[{DateTime.Now}] Missing image for {Ability}. {Environment.NewLine}");
+                    }
+
+
                 }
 
                 return Missing;
