@@ -29,7 +29,7 @@
                     EnableLogging = LogToFile.IsChecked.GetValueOrDefault(),
                     Abilities = Aliases.ItemsSource.Cast<Ability>(),
                     EnableClearInactivity = EnableInactivityClearLog.IsChecked.GetValueOrDefault(),
-                    ClearAfterInactivity = (int) InactivitySecondsToClear.Value
+                    ClearAfterInactivity = (int)InactivitySecondsToClear.Value
                 };
 
                 settings.Save();
@@ -45,8 +45,8 @@
         {
             var settings = Settings.LoadSettings();
 
-            MaxItems.Value= settings.MaxAbilityList;
-            MiniumAngle.Value= settings.MinimumAngle;
+            MaxItems.Value = settings.MaxAbilityList;
+            MiniumAngle.Value = settings.MinimumAngle;
             MaximumAngle.Value = settings.MaximumAngle;
 
             ExitCombatClearLog.IsChecked = settings.EnableCombatClear;

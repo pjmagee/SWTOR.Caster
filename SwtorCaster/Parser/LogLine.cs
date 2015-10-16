@@ -69,8 +69,6 @@ namespace SwtorCaster.Parser
                     {
                         File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "log.txt"), $"[{DateTime.Now}] Missing image for {Ability}. {Environment.NewLine}");
                     }
-
-
                 }
 
                 return Missing;

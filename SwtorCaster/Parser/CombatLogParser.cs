@@ -8,7 +8,7 @@
     using System.Threading.Tasks;
     using System.Windows.Threading;
 
-    public class CombatLogParser
+    public class CombatLogParser : IDisposable
     {
         private readonly Stopwatch _watch;
         private readonly DispatcherTimer _dispatcherTimer;
@@ -25,7 +25,7 @@
         public CombatLogParser(string path)
         {
             _watch = new Stopwatch();
-            _dispatcherTimer = new DispatcherTimer(DispatcherPriority.Normal);
+            _dispatcherTimer = new DispatcherTimer(DispatcherPriority.Background);
             _fileTimer = new DispatcherTimer(DispatcherPriority.Background);
             _directoryInfo = new DirectoryInfo(path);
         }
@@ -39,7 +39,7 @@
 
                 if (Settings.Current.EnableClearInactivity)
                 {
-                    _dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
+                    _dispatcherTimer.Interval = TimeSpan.FromSeconds(5);
                     _dispatcherTimer.Tick -= DispatcherTimerOnTick;
                     _dispatcherTimer.Tick += DispatcherTimerOnTick;
                     _dispatcherTimer.IsEnabled = true;
@@ -51,7 +51,6 @@
                 _fileTimer.Tick -= FileTimerOnTick;
                 _fileTimer.Tick += FileTimerOnTick;
                 _fileTimer.Start();
-
             }
             catch (Exception e)
             {
@@ -113,9 +112,9 @@
                     while (!_tokenSource.IsCancellationRequested)
                     {
                         string value = reader.ReadLine();
-                        if (value == null) continue;
-                        TryRead(value);
+                        if (value != null) TryRead(value);
                         if (_watch.IsRunning) _watch.Restart();
+                        Thread.Sleep(100);
                     }
                 }
             }
@@ -134,6 +133,11 @@
                     File.AppendAllText(Settings.LogPath, $"[{DateTime.Now}] Error adding item: {e.Message} {Environment.NewLine}");
                 }
             }
+        }
+
+        public void Dispose()
+        {
+            _tokenSource.Dispose();
         }
     }
 }
