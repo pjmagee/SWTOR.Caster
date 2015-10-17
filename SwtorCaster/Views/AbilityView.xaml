@@ -2,11 +2,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Height="360" Width="500" Icon="../Resources/swtorcaster.ico" Background="Black" ResizeMode="CanResize" 
         WindowStartupLocation="CenterOwner"
-        Title="SWTOR Caster - Abilities" x:Class="SwtorCaster.Views.AbilityView" Margin="20">
+        Title="SWTOR Caster - Abilities" 
+        x:Class="SwtorCaster.Views.AbilityView">
     <ListView Name="AbilityList" Margin="0,10,0,0" ItemsSource="{Binding LogLines}"
                   BorderThickness="0" Foreground="Yellow" Background="Black"
                   FontFamily="../Resources/#SF Distant Galaxy"
-                  Focusable="False"
+                  Focusable="False" Padding="10"
                   IsTextSearchEnabled="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
         <ListView.ItemTemplate>
             <DataTemplate>

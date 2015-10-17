@@ -45,18 +45,10 @@ namespace SwtorCaster.ViewModels
         }
 
         private readonly ISettingsService _settingsService;
-        private readonly IWindowManager _windowManager;
 
-        public SettingsViewModel(ISettingsService settingsService, IWindowManager windowManager)
+        public SettingsViewModel(ISettingsService settingsService)
         {
             _settingsService = settingsService;
-            _windowManager = windowManager;
-        }
-
-        public void Focus()
-        {
-            var window = GetView() as Window;
-            window?.Activate();
         }
     }
 }

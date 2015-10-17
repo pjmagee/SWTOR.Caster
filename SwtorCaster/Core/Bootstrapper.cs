@@ -45,11 +45,11 @@ namespace SwtorCaster.Core
             _container.Singleton<IParserService, ParserService>();
             _container.Singleton<IWindowManager, WindowManager>();
 
-            _container.PerRequest<MainViewModel>();
-            _container.PerRequest<AbilityViewModel>();
-            _container.PerRequest<LogViewModel>();
-            _container.PerRequest<AboutViewModel>();
-            _container.PerRequest<SettingsViewModel>();
+            _container.Singleton<MainViewModel>();
+            _container.Singleton<AbilityViewModel>();
+            _container.Singleton<LogViewModel>();
+            _container.Singleton<AboutViewModel>();
+            _container.Singleton<SettingsViewModel>();
         }
 
         protected override void OnStartup(object sender, StartupEventArgs e)
@@ -66,7 +66,8 @@ namespace SwtorCaster.Core
 
         protected override void OnExit(object sender, EventArgs e)
         {
-            base.OnExit(sender, e);
+            var parser = _container.GetInstance<IParserService>();
+            parser?.Stop();
         }
     }
 }

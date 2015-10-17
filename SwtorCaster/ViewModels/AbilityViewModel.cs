@@ -17,7 +17,10 @@ namespace SwtorCaster.ViewModels
 
         public ObservableCollection<LogLineEventArgs> LogLines { get; } = new ObservableCollection<LogLineEventArgs>();
 
-        public AbilityViewModel(IParserService parserService, ILoggerService loggerService, ISettingsService settingsService)
+        public AbilityViewModel(
+            IParserService parserService, 
+            ILoggerService loggerService,
+            ISettingsService settingsService)
         {
             _parserService = parserService;
             _loggerService = loggerService;
@@ -45,12 +48,6 @@ namespace SwtorCaster.ViewModels
             Application.Current.Dispatcher.Invoke(() => AddItem(e));
         }
 
-        public void Focus()
-        {
-            var window = GetView() as Window;
-            window?.Activate();
-        }
-
         private void AddItem(LogLineEventArgs item)
         {
             if (item.EventDetail != "AbilityActivate" || item.EventType != "Event") return;
@@ -60,16 +57,15 @@ namespace SwtorCaster.ViewModels
 
         protected override void OnActivate()
         {
-            if (!_parserService.IsRunning)
-            {
-                _parserService.Clear -= ParserServiceOnClear;
-                _parserService.ItemAdded -= ParserServiceOnItemAdded;
+            _parserService.Clear -= ParserServiceOnClear;
+            _parserService.ItemAdded -= ParserServiceOnItemAdded;
 
-                _parserService.Clear += ParserServiceOnClear;
-                _parserService.ItemAdded += ParserServiceOnItemAdded;
+            _parserService.Clear += ParserServiceOnClear;
+            _parserService.ItemAdded += ParserServiceOnItemAdded;
 
-                _parserService.Start();
-            }
+
+            if (_parserService.IsRunning) return;
+            _parserService.Start();
         }
 
         protected override void OnDeactivate(bool close)
@@ -77,8 +73,6 @@ namespace SwtorCaster.ViewModels
             _parserService.Clear -= ParserServiceOnClear;
             _parserService.ItemAdded -= ParserServiceOnItemAdded;
             _parserService.Stop();
-
-            base.OnDeactivate(close);
         }
     }
 }

@@ -12,7 +12,9 @@ namespace SwtorCaster.Core.Services
     public class ParserService : IParserService
     {
         private Thread _thread;
-        
+
+        private object syncLock = new object();
+
         public event EventHandler Clear;
         public event EventHandler<LogLineEventArgs> ItemAdded;
 
@@ -25,16 +27,14 @@ namespace SwtorCaster.Core.Services
         private readonly DispatcherTimer _clearTimer;
         private readonly DispatcherTimer _fileWriteTimer;
         private readonly DirectoryInfo _logDirectory;
-        
+
         public bool IsRunning => _thread != null && _thread.ThreadState == ThreadState.Running;
 
         private ParserService()
         {
             _clearTimer = new DispatcherTimer(DispatcherPriority.Normal) { Interval = TimeSpan.FromSeconds(1), IsEnabled = true };
-            _clearTimer.Tick += ClearTimerOnTick;
             _clearStopwatch = new Stopwatch();
-            _fileWriteTimer = new DispatcherTimer(DispatcherPriority.Normal) {Interval = TimeSpan.FromSeconds(10)};
-            _fileWriteTimer.Tick += FileWriteTimerOnTick;
+            _fileWriteTimer = new DispatcherTimer(DispatcherPriority.Normal) { Interval = TimeSpan.FromSeconds(10) };
             _logDirectory = new DirectoryInfo(SwtorCombatLogPath);
         }
 
@@ -48,28 +48,25 @@ namespace SwtorCaster.Core.Services
         {
             try
             {
-                SetupCurrentCombatFile();
-                InitializeClearActivity();
+                _currentFile = GetLatestFile();
+
+                if (_settingsService.Settings.EnableClearInactivity)
+                {
+                    _clearTimer.Start();
+                    _clearTimer.Tick -= ClearTimerOnTick;
+                    _clearTimer.Tick += ClearTimerOnTick;
+                    _clearStopwatch.Start();
+                }
+
                 ReadCurrentFile();
+
+                _fileWriteTimer.Tick -= FileWriteTimerOnTick;
+                _fileWriteTimer.Tick += FileWriteTimerOnTick;
+                _fileWriteTimer.Start();
             }
             catch (Exception e)
             {
                 _loggerService.Log($"Error starting: {e.Message}");
-            }
-        }
-
-        private void SetupCurrentCombatFile()
-        {
-            _fileWriteTimer.Start();
-            _currentFile = GetLatestFile();
-        }
-
-        private void InitializeClearActivity()
-        {
-            if (_settingsService.Settings.EnableClearInactivity)
-            {
-                _clearTimer.Start();
-                _clearStopwatch.Start();
             }
         }
 
@@ -90,26 +87,33 @@ namespace SwtorCaster.Core.Services
 
         private void ClearTimerOnTick(object sender, EventArgs eventArgs)
         {
-            if (_clearStopwatch.Elapsed.TotalSeconds > _settingsService.Settings.ClearAfterInactivity)
+            lock (syncLock)
             {
-                Clear?.Invoke(this, EventArgs.Empty);
+                if (_clearStopwatch.Elapsed.TotalSeconds > _settingsService.Settings.ClearAfterInactivity)
+                {
+                    Clear?.Invoke(this, EventArgs.Empty);
+                }
             }
         }
 
         private void FileWriteTimerOnTick(object sender, EventArgs eventArgs)
         {
-            var time = Directory.GetLastWriteTime(_logDirectory.FullName);
-
-            if (time != _currentFile.LastWriteTime)
+            lock (syncLock)
             {
-                Stop();
-                Start();
+                var file = GetLatestFile();
+
+                if (file.FullName != _currentFile.FullName)
+                {
+                    Stop();
+                    Start();
+                }
             }
         }
 
         private void ReadCurrentFile()
         {
-            _thread = new Thread(() => Read(_currentFile.FullName));
+            var file = GetLatestFile();
+            _thread = new Thread(() => Read(file.FullName));
             _thread.Start();
         }
 
@@ -121,7 +125,7 @@ namespace SwtorCaster.Core.Services
                 {
                     reader.ReadToEnd();
 
-                    while(true)
+                    while (true)
                     {
                         var value = await reader.ReadLineAsync();
 
