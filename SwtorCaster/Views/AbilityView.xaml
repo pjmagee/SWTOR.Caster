@@ -1,25 +1,22 @@
 ﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:SwtorCaster"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" x:Class="SwtorCaster.AbilityWindow"
-        Title="SWTOR Caster - Abilities" Height="360" Width="500" Icon="Resources/swtorcaster.ico" 
-        Background="Black" ResizeMode="CanResize" WindowStartupLocation="CenterOwner" Closed="Window_OnClosed"
-        DataContext="{Binding Source={StaticResource Locator}, Path=AbilitiesViewModel}">
-    <ListView Name="AbilityList" Margin="0,10,0,0" ItemsSource="{Binding LogLines}" Loaded="Window_Loaded"
+        Height="360" Width="500" Icon="../Resources/swtorcaster.ico" Background="Black" ResizeMode="CanResize" 
+        WindowStartupLocation="CenterOwner"
+        Title="SWTOR Caster - Abilities" x:Class="SwtorCaster.Views.AbilityView" Margin="20">
+    <ListView Name="AbilityList" Margin="0,10,0,0" ItemsSource="{Binding LogLines}"
                   BorderThickness="0" Foreground="Yellow" Background="Black"
-                  FontFamily="Resources/#SF Distant Galaxy"
+                  FontFamily="../Resources/#SF Distant Galaxy"
                   Focusable="False"
-                  IsTextSearchEnabled="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.ColumnSpan="2">
+                  IsTextSearchEnabled="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
         <ListView.ItemTemplate>
             <DataTemplate>
                 <StackPanel Orientation="Horizontal">
                     <Image x:Name="AbilityIcon" Source="{Binding ImageUrl}" Width="52" Height="52" Margin="10,0,10,0">
                         <Image.RenderTransform>
-                            <RotateTransform Angle="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AbilityWindow}}, Path=DataContext.ImageAngle}" />
+                            <RotateTransform Angle="{Binding Angle}" />
                         </Image.RenderTransform>
                     </Image>
-                    <TextBlock VerticalAlignment="Center" FontSize="18" Text="{Binding AbilityText}" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AbilityWindow}}, Path=DataContext.TextVisible}" />
+                    <TextBlock VerticalAlignment="Center" FontSize="18" Text="{Binding Ability}" Visibility="{Binding EnableAbilityName}" />
                 </StackPanel>
             </DataTemplate>
         </ListView.ItemTemplate>
@@ -36,7 +33,7 @@
                         <EventTrigger.Actions>
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.05" />
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.10" />
                                     <DoubleAnimation Storyboard.TargetProperty="LayoutTransform.ScaleY" From="0" Duration="0:0:0.05"/>
                                 </Storyboard>
                             </BeginStoryboard>

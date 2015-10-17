@@ -1,0 +1,17 @@
+﻿<controls:MetroWindow x:Class="SwtorCaster.Views.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d" SizeToContent="WidthAndHeight"
+        Title="SWTOR Caster" Icon="../Resources/swtorcaster.ico">
+    <Grid Margin="5">
+        <StackPanel Orientation="Vertical">
+            <Button x:Name="OpenSettingsView" Padding="10" Margin="5" ToolTip="Configure how the LoggerService behaves">Settings</Button>
+            <Button x:Name="OpenAbilityView" Padding="10" Margin="5" ToolTip="Add this window as a window source to OBS">Ability Logger</Button>
+            <Button x:Name="OpenLogView" Padding="10" Margin="5">Debug log</Button>
+            <Button x:Name="OpenAboutView" Padding="10" Margin="5">About</Button>
+        </StackPanel>
+    </Grid>
+</controls:MetroWindow>

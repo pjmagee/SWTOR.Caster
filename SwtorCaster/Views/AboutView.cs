@@ -1,15 +1,15 @@
-﻿namespace SwtorCaster
+﻿namespace SwtorCaster.Views
 {
-    using System.Windows;
     using System.Diagnostics;
+    using System.Windows;
     using MahApps.Metro.Controls;
 
     /// <summary>
-    /// Interaction logic for About.xaml
+    /// Interaction logic for AboutView.xaml
     /// </summary>
-    public partial class About : MetroWindow
+    public partial class AboutView : MetroWindow
     {
-        public About()
+        public AboutView()
         {
             InitializeComponent();
         }
