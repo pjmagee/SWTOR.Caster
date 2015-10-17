@@ -10,13 +10,13 @@ namespace SwtorCaster.ViewModel
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
             SimpleIoc.Default.Register<AbilitiesViewModel>();
         }
-        
+
         public AbilitiesViewModel AbilitiesViewModel => ServiceLocator.Current.GetInstance<AbilitiesViewModel>();
 
         public static void Cleanup()
         {
             var abilitiesViewModel = ServiceLocator.Current.GetInstance<AbilitiesViewModel>();
-            abilitiesViewModel.Stop();
+            abilitiesViewModel?.Stop();
         }
     }
 }

@@ -63,6 +63,8 @@
 
         public void Stop()
         {
+            _dispatcherTimer.Tick -= DispatcherTimerOnTick;
+            _fileTimer.Tick -= FileTimerOnTick;
             _tokenSource?.Cancel();
             _watch?.Stop();
             _dispatcherTimer?.Stop();
@@ -137,6 +139,7 @@
 
         public void Dispose()
         {
+            Stop();
             _tokenSource.Dispose();
         }
     }

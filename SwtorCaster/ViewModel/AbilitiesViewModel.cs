@@ -19,9 +19,21 @@ namespace SwtorCaster.ViewModel
 
         public void Start()
         {
+            UnwireEvents();
+            WireEvents();
+            _combatLogParser.Start();
+        }
+
+        private void WireEvents()
+        {
             _combatLogParser.ItemAdded += CombatLogParserOnItemAdded;
             _combatLogParser.Clear += CombatLogParserOnClear;
-            _combatLogParser.Start();
+        }
+
+        private void UnwireEvents()
+        {
+            _combatLogParser.ItemAdded -= CombatLogParserOnItemAdded;
+            _combatLogParser.Clear -= CombatLogParserOnClear;
         }
 
         private void CombatLogParserOnClear(object sender, EventArgs eventArgs)
@@ -31,8 +43,7 @@ namespace SwtorCaster.ViewModel
 
         public void Stop()
         {
-            _combatLogParser.ItemAdded -= CombatLogParserOnItemAdded;
-            _combatLogParser.Clear -= CombatLogParserOnClear;
+            UnwireEvents();
             _combatLogParser.Stop();
         }
 
