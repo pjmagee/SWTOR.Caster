@@ -1,6 +1,24 @@
 * {
   box-sizing: border-box; }
 
+@font-face {
+    font-family: swtorCaster;
+    src: url(../fonts/font.ttf);
+}
+
+h1 {
+  font-family: swtorCaster;
+  color: yellow;
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+}
+
+h2, a {
+  font-family: swtorCaster;
+  color: yellow;
+  font-size: 1.25rem;
+}
+
 body {
   padding: 0;
   margin: 0;
