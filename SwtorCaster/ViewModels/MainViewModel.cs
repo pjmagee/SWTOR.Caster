@@ -1,6 +1,7 @@
 namespace SwtorCaster.ViewModels
 {
     using Caliburn.Micro;
+    using Screens;
 
     public class MainViewModel : Screen
     {
@@ -29,22 +30,34 @@ namespace SwtorCaster.ViewModels
 
         public void OpenSettingsView()
         {
-            _windowManager.ShowWindow(_settingsViewModel);
+            OpenOrReactivate(_settingsViewModel);
         }
 
         public void OpenAbilityView()
         {
-            _windowManager.ShowWindow(_abilityViewModel);
+            OpenOrReactivate(_abilityViewModel);
         }
 
         public void OpenLogView()
         {
-            _windowManager.ShowWindow(_logViewModel);
+            OpenOrReactivate(_logViewModel);
         }
 
         public void OpenAboutView()
         {
-            _windowManager.ShowWindow(_aboutViewModel);
+            OpenOrReactivate(_aboutViewModel);
+        }
+
+        private void OpenOrReactivate(FocusableScreen focusableScreen)
+        {
+            if (!focusableScreen.IsActive)
+            {
+                _windowManager.ShowWindow(focusableScreen);
+            }
+            else
+            {
+                focusableScreen.Focus();
+            }
         }
     }
 }

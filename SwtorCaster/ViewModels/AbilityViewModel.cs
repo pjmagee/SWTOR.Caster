@@ -3,11 +3,11 @@ namespace SwtorCaster.ViewModels
     using System;
     using System.Collections.ObjectModel;
     using System.Windows;
-    using Caliburn.Micro;
     using Core.Parser;
     using Core.Services;
+    using Screens;
 
-    public class AbilityViewModel : Screen
+    public class AbilityViewModel : FocusableScreen
     {
         private readonly IParserService _parserService;
         private readonly ILoggerService _loggerService;
@@ -57,14 +57,9 @@ namespace SwtorCaster.ViewModels
 
         protected override void OnActivate()
         {
-            _parserService.Clear -= ParserServiceOnClear;
-            _parserService.ItemAdded -= ParserServiceOnItemAdded;
-
+            if (_parserService.IsRunning) return;
             _parserService.Clear += ParserServiceOnClear;
             _parserService.ItemAdded += ParserServiceOnItemAdded;
-
-
-            if (_parserService.IsRunning) return;
             _parserService.Start();
         }
 

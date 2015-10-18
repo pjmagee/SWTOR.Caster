@@ -2,8 +2,9 @@ namespace SwtorCaster.ViewModels
 {
     using Caliburn.Micro;
     using Core.Services;
+    using Screens;
 
-    public class LogViewModel : Screen
+    public class LogViewModel : FocusableScreen
     {
         private readonly ILoggerService _loggerService;
 

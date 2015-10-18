@@ -3,8 +3,9 @@ namespace SwtorCaster.ViewModels
     using System.Windows;
     using Caliburn.Micro;
     using Core.Services;
+    using Screens;
 
-    public class SettingsViewModel : Screen
+    public class SettingsViewModel : FocusableScreen
     {
         public override string DisplayName { get; set; } = "SWTOR Caster - Settings";
 

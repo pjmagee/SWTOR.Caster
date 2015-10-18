@@ -4,12 +4,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:cal="http://www.caliburnproject.org"
         mc:Ignorable="d" SizeToContent="WidthAndHeight"
         Title="SWTOR Caster" Icon="../Resources/swtorcaster.ico">
     <Grid Margin="5">
         <StackPanel Orientation="Vertical">
             <Button x:Name="OpenSettingsView" Padding="10" Margin="5" ToolTip="Configure how the LoggerService behaves">Settings</Button>
-            <Button x:Name="OpenAbilityView" Padding="10" Margin="5" ToolTip="Add this window as a window source to OBS">Ability Logger</Button>
+            <Button Padding="10" Margin="5" ToolTip="Add this window as a window source to OBS" Content="Ability Logger">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <cal:ActionMessage MethodName="OpenAbilityView" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
             <Button x:Name="OpenLogView" Padding="10" Margin="5">Debug log</Button>
             <Button x:Name="OpenAboutView" Padding="10" Margin="5">About</Button>
         </StackPanel>

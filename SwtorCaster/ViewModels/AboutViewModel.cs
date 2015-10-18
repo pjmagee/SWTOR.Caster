@@ -1,17 +1,14 @@
 namespace SwtorCaster.ViewModels
 {
     using System.Windows;
-    using Caliburn.Micro;
+    using Screens;
 
-    public class AboutViewModel : Screen
+    public class AboutViewModel : FocusableScreen
     {
-        private IWindowManager _windowManager;
-
         public override string DisplayName { get; set; } = "SWTOR Caster - About";
 
-        public AboutViewModel(IWindowManager windowManager)
+        public AboutViewModel()
         {
-            _windowManager = windowManager;
         }
 
         public void Focus()
