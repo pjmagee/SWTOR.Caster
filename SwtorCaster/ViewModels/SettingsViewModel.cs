@@ -1,18 +1,33 @@
 namespace SwtorCaster.ViewModels
 {
-    using System.Windows;
-    using Caliburn.Micro;
     using Core.Services;
     using Screens;
 
+    /// <summary>
+    /// We hook into the Settings Property Changed event and any time a value changes, we serialize the settings instantly.
+    /// So the user does not have to press Save changes. Changes are instant.
+    /// </summary>
     public class SettingsViewModel : FocusableScreen
     {
         public override string DisplayName { get; set; } = "SWTOR Caster - Settings";
+
+        private readonly ISettingsService _settingsService;
+
+        public SettingsViewModel(ISettingsService settingsService)
+        {
+            _settingsService = settingsService;
+        }
 
         public int Items
         {
             get { return _settingsService.Settings.Items; }
             set { _settingsService.Settings.Items = value; }
+        }
+
+        public bool EnableCompanionAbilities
+        {
+            get { return _settingsService.Settings.EnableCompanionAbilities; }
+            set { _settingsService.Settings.EnableCompanionAbilities = value; }
         }
 
         public int Rotate
@@ -45,11 +60,10 @@ namespace SwtorCaster.ViewModels
             set { _settingsService.Settings.ClearAfterInactivity = value; }
         }
 
-        private readonly ISettingsService _settingsService;
-
-        public SettingsViewModel(ISettingsService settingsService)
+        public bool EnableLogging
         {
-            _settingsService = settingsService;
+            get { return _settingsService.Settings.EnableLogging; }
+            set { _settingsService.Settings.EnableLogging = value; }
         }
     }
 }

@@ -5,31 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d" Icon="../Resources/swtorcaster.ico"
-        Title="SWTOR Caster - AboutView" Height="400" Width="600" FontSize="50" ResizeMode="NoResize">
+        Title="SWTOR Caster - AboutView" Height="400" Width="600" FontSize="50" ResizeMode="NoResize" 
+                  FontStyle="Normal" FontWeight="Normal" FontFamily="../Resources/#SF Distant Galaxy">
     <Window.Background>
         <ImageBrush ImageSource="../Resources/about.jpg" Stretch="UniformToFill"/>
     </Window.Background>
     <DockPanel Margin="5">
         <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
                 <Label Content="Author:" HorizontalAlignment="Left" Foreground="Yellow" FontFamily="../Resources/#SF Distant Galaxy"/>
-                <TextBlock VerticalAlignment="Center" Foreground="Yellow" FontFamily="../Resources/#SF Distant Galaxy">Delegate</TextBlock>
+                <TextBlock VerticalAlignment="Center" Foreground="Yellow">Delegate</TextBlock>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock VerticalAlignment="Center" Foreground="Yellow" FontFamily="../Resources/#SF Distant Galaxy">The Red Eclipse</TextBlock>
+                <TextBlock VerticalAlignment="Center" Foreground="Yellow">The Red Eclipse</TextBlock>
             </StackPanel>
         </StackPanel>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Bottom">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Label Content="Guild:" Foreground="Yellow" FontFamily="../Resources/#SF Distant Galaxy" VerticalAlignment="Top" HorizontalAlignment="Center" />
-                <TextBlock HorizontalAlignment="Center" Foreground="Yellow" FontFamily="../Resources/#SF Distant Galaxy" VerticalAlignment="Center">
+                <Label Content="Guild:" Foreground="Yellow" VerticalAlignment="Top" HorizontalAlignment="Center" />
+                <TextBlock HorizontalAlignment="Center" Foreground="Yellow" VerticalAlignment="Center">
                         <Hyperlink NavigateUri="http://www.awakenedgamers.com/" Click="Guild_OnClick">
                             Awakened
                         </Hyperlink>
                 </TextBlock>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock HorizontalAlignment="Center" Foreground="Yellow" FontSize="28" FontFamily="../Resources/#SF Distant Galaxy" VerticalAlignment="Center">
+                <TextBlock HorizontalAlignment="Center" Foreground="Yellow" FontSize="28" VerticalAlignment="Center">
                         <Hyperlink NavigateUri="http://www.torcommunity.com/" Click="TorCommunity_OnClick">
                            Special thanks to TorCommunity
                         </Hyperlink>

@@ -20,11 +20,6 @@ namespace SwtorCaster.Core.Services
         public SettingsService(ILoggerService loggerService)
         {
             _loggerService = loggerService;
-            Initialize();
-        }
-
-        private void Initialize()
-        {
             Load();
         }
 
@@ -84,6 +79,7 @@ namespace SwtorCaster.Core.Services
                 Settings = new Settings();
             }
 
+            // Hook into the property changed event, so that we instantly save changes.
             Settings.PropertyChanged -= SettingsOnPropertyChanged;
             Settings.PropertyChanged += SettingsOnPropertyChanged;
         }

@@ -4,18 +4,29 @@ namespace SwtorCaster.Core.Domain
     using System.Runtime.CompilerServices;
     using Newtonsoft.Json;
 
+
     public class Settings : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
         [JsonIgnore] private string _version = string.Empty;
+
         [JsonIgnore] private int _items = 5;
-        [JsonIgnore] private bool _enableAbilityText = true;
+
         [JsonIgnore] private int _rotate = 5;
-        [JsonIgnore] private bool _enableClearInactivity = true;
+
         [JsonIgnore] private int _clearAfterInactivity = 10;
+
+        [JsonIgnore] private bool _enableAbilityText = true;
+
+        [JsonIgnore] private bool _enableClearInactivity = true;
+
         [JsonIgnore] private bool _enableCombatClear = true;
-        
+
+        [JsonIgnore] private bool _enableCompanionAbilities = true;
+
+        [JsonIgnore] private bool _enableLogging = true;
+
         [JsonProperty("maxAbilityList")]
         public int Items
         {
@@ -24,6 +35,18 @@ namespace SwtorCaster.Core.Domain
             {
                 if (value == _items) return;
                 _items = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonProperty("enableCompanionAbilities")]
+        public bool EnableCompanionAbilities
+        {
+            get { return _enableCompanionAbilities; }
+            set
+            {
+                if (value == _enableCompanionAbilities) return;
+                _enableCompanionAbilities = value;
                 OnPropertyChanged();
             }
         }
@@ -95,6 +118,18 @@ namespace SwtorCaster.Core.Domain
             set
             {
                 _version = value;
+            }
+        }
+
+        [JsonProperty("enableLogging")]
+        public bool EnableLogging
+        {
+            get { return _enableLogging; }
+            set
+            {
+                if (value == _enableLogging) return;
+                _enableLogging = value;
+                OnPropertyChanged();
             }
         }
 

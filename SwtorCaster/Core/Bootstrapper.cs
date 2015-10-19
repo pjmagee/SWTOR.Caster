@@ -24,8 +24,7 @@ namespace SwtorCaster.Core
         protected override object GetInstance(Type service, string key)
         {
             var instance = _container.GetInstance(service, key);
-            if (instance != null)
-                return instance;
+            if (instance != null) return instance;
 
             throw new Exception("Could not locate any instances.");
         }
@@ -38,20 +37,10 @@ namespace SwtorCaster.Core
         protected override void Configure()
         {
             _container = new SimpleContainer();
-          
-            _container.Singleton<IImageService, ImageService>();
-            _container.Singleton<ISettingsService, SettingsService>();
-            _container.Singleton<ILoggerService, LoggerService>();
-            _container.Singleton<IParserService, ParserService>();
-            _container.Singleton<IWindowManager, WindowManager>();
-
-            _container.Singleton<MainViewModel>();
-            _container.Singleton<AbilityViewModel>();
-            _container.Singleton<LogViewModel>();
-            _container.Singleton<AboutViewModel>();
-            _container.Singleton<SettingsViewModel>();
+            BindServices();
+            BindViewModels();
         }
-
+        
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
             var imageService = _container.GetInstance<IImageService>();
@@ -62,6 +51,25 @@ namespace SwtorCaster.Core
             splash.Close(TimeSpan.FromSeconds(2));
 
             DisplayRootViewFor<MainViewModel>();
+        }
+
+        private void BindViewModels()
+        {
+            _container.Singleton<MainViewModel>();
+            _container.Singleton<AbilityViewModel>();
+            _container.Singleton<LogViewModel>();
+            _container.Singleton<AboutViewModel>();
+            _container.Singleton<SettingsViewModel>();
+        }
+
+        private void BindServices()
+        {
+            _container.Singleton<IImageService, ImageService>();
+            _container.Singleton<ISettingsService, SettingsService>();
+            _container.Singleton<ILoggerService, LoggerService>();
+            _container.Singleton<IParserService, ParserService>();
+            _container.Singleton<IWindowManager, WindowManager>();
+            _container.Singleton<ILogLineEventArgFactory, LogLineEventArgFactory>();
         }
 
         protected override void OnExit(object sender, EventArgs e)

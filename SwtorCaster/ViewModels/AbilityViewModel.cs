@@ -1,3 +1,5 @@
+using SwtorCaster.Core.Domain;
+
 namespace SwtorCaster.ViewModels
 {
     using System;
@@ -34,13 +36,13 @@ namespace SwtorCaster.ViewModels
 
         private void ParserServiceOnItemAdded(object sender, LogLineEventArgs e)
         {
-            if (_settingsService.Settings.EnableCombatClear && e.EventDetail == "ExitCombat")
+            if (_settingsService.Settings.EnableCombatClear && e.EventDetailType == EventDetailType.ExitCombat)
             {
                 Application.Current.Dispatcher.Invoke(() => LogLines.Clear());
                 return;
             }
 
-            if (e.Ability.Trim() == string.Empty)
+            if (e.Action.Trim() == string.Empty)
             {
                 _loggerService.Log($"{e.Id} was empty.");
             };
@@ -50,7 +52,7 @@ namespace SwtorCaster.ViewModels
 
         private void AddItem(LogLineEventArgs item)
         {
-            if (item.EventDetail != "AbilityActivate" || item.EventType != "Event") return;
+            if (item.EventDetailType != EventDetailType.AbilityActivate || item.EventType != EventType.Event) return;
             if (LogLines.Count == _settingsService.Settings.Items) LogLines.RemoveAt(LogLines.Count - 1);
             LogLines.Insert(0, item);
         }
@@ -61,6 +63,8 @@ namespace SwtorCaster.ViewModels
             _parserService.Clear += ParserServiceOnClear;
             _parserService.ItemAdded += ParserServiceOnItemAdded;
             _parserService.Start();
+
+            _loggerService.Log($"Parser service started");
         }
 
         protected override void OnDeactivate(bool close)
@@ -68,6 +72,8 @@ namespace SwtorCaster.ViewModels
             _parserService.Clear -= ParserServiceOnClear;
             _parserService.ItemAdded -= ParserServiceOnItemAdded;
             _parserService.Stop();
+
+            _loggerService.Log($"Parser service stopped");
         }
     }
 }

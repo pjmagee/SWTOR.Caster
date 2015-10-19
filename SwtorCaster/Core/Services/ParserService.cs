@@ -13,7 +13,7 @@ namespace SwtorCaster.Core.Services
     {
         private Thread _thread;
 
-        private object syncLock = new object();
+        private readonly object _syncLock = new object();
 
         public event EventHandler Clear;
         public event EventHandler<LogLineEventArgs> ItemAdded;
@@ -23,10 +23,13 @@ namespace SwtorCaster.Core.Services
 
         private readonly ILoggerService _loggerService;
         private readonly ISettingsService _settingsService;
+        private readonly ILogLineEventArgFactory _logLineEventArgFactory;
         private readonly Stopwatch _clearStopwatch;
         private readonly DispatcherTimer _clearTimer;
         private readonly DispatcherTimer _fileWriteTimer;
         private readonly DirectoryInfo _logDirectory;
+
+        public static readonly Random Random = new Random();
 
         public bool IsRunning => _thread != null && _thread.ThreadState == ThreadState.Running;
 
@@ -38,10 +41,11 @@ namespace SwtorCaster.Core.Services
             _logDirectory = new DirectoryInfo(SwtorCombatLogPath);
         }
 
-        public ParserService(ILoggerService loggerService, ISettingsService settingsService) : this()
+        public ParserService(ILoggerService loggerService, ISettingsService settingsService, ILogLineEventArgFactory logLineEventArgFactory) : this()
         {
             _loggerService = loggerService;
             _settingsService = settingsService;
+            _logLineEventArgFactory = logLineEventArgFactory;
         }
 
         public void Start()
@@ -63,10 +67,12 @@ namespace SwtorCaster.Core.Services
                 _fileWriteTimer.Tick -= FileWriteTimerOnTick;
                 _fileWriteTimer.Tick += FileWriteTimerOnTick;
                 _fileWriteTimer.Start();
+
+                _loggerService.Log($"Parser service started.");
             }
             catch (Exception e)
             {
-                _loggerService.Log($"Error starting: {e.Message}");
+                _loggerService.Log($"Error starting parser service: {e.Message}");
             }
         }
 
@@ -77,6 +83,7 @@ namespace SwtorCaster.Core.Services
             _clearTimer?.Stop();
             _fileWriteTimer?.Stop();
             _thread = null;
+            _loggerService.Log($"Parser service stopped");
         }
 
         private FileInfo GetLatestFile()
@@ -87,7 +94,7 @@ namespace SwtorCaster.Core.Services
 
         private void ClearTimerOnTick(object sender, EventArgs eventArgs)
         {
-            lock (syncLock)
+            lock (_syncLock)
             {
                 if (_clearStopwatch.Elapsed.TotalSeconds > _settingsService.Settings.ClearAfterInactivity)
                 {
@@ -98,12 +105,15 @@ namespace SwtorCaster.Core.Services
 
         private void FileWriteTimerOnTick(object sender, EventArgs eventArgs)
         {
-            lock (syncLock)
+            lock (_syncLock)
             {
                 var file = GetLatestFile();
 
                 if (file.FullName != _currentFile.FullName)
                 {
+                    _loggerService.Log($"Detected new file {file.FullName}");
+                    _loggerService.Log($"Restarting parser service with new file");
+
                     Stop();
                     Start();
                 }
@@ -153,7 +163,12 @@ namespace SwtorCaster.Core.Services
         {
             try
             {
-                ItemAdded?.Invoke(this, new LogLineEventArgs(value));
+                var eventArgs = _logLineEventArgFactory.Create(value);
+
+                if (eventArgs != null)
+                {
+                    ItemAdded?.Invoke(this, eventArgs);
+                }
             }
             catch (Exception e)
             {

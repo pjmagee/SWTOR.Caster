@@ -144,12 +144,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Core\Domain\EventDetailType.cs" />
+    <Compile Include="Core\Domain\EventType.cs" />
+    <Compile Include="Core\Domain\SourceTargetType.cs" />
     <Compile Include="Core\Services\IImageService.cs" />
     <Compile Include="Core\Services\ILoggerService.cs" />
+    <Compile Include="Core\Services\ILogLineEventArgFactory.cs" />
     <Compile Include="Core\Services\ImageService.cs" />
     <Compile Include="Core\Services\IParserService.cs" />
     <Compile Include="Core\Services\ISettingsService.cs" />
     <Compile Include="Core\Services\LoggerService.cs" />
+    <Compile Include="Core\Services\LogLineEventArgFactory.cs" />
     <Compile Include="Core\Services\ParserService.cs" />
     <Compile Include="Core\Services\SettingsService.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />

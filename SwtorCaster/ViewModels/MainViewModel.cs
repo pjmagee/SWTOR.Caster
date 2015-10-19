@@ -1,3 +1,10 @@
+using System;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Controls;
+using MahApps.Metro.Controls;
+using SwtorCaster.Core.Services;
+
 namespace SwtorCaster.ViewModels
 {
     using Caliburn.Micro;
@@ -11,19 +18,22 @@ namespace SwtorCaster.ViewModels
         private readonly AbilityViewModel _abilityViewModel;
         private readonly LogViewModel _logViewModel;
         private readonly AboutViewModel _aboutViewModel;
-        
+        private readonly ISettingsService _settingsService;
+
         public MainViewModel(
             IWindowManager windowManager,
             SettingsViewModel settingsViewModel, 
             AbilityViewModel abilityViewModel, 
             LogViewModel logViewModel, 
-            AboutViewModel aboutViewModel)
+            AboutViewModel aboutViewModel, 
+            ISettingsService settingsService)
         {
             _windowManager = windowManager;
             _settingsViewModel = settingsViewModel;
             _abilityViewModel = abilityViewModel;
             _logViewModel = logViewModel;
             _aboutViewModel = aboutViewModel;
+            _settingsService = settingsService;
         }
 
         public override string DisplayName { get; set; } = "SWTOR Caster";
@@ -58,6 +68,19 @@ namespace SwtorCaster.ViewModels
             {
                 focusableScreen.Focus();
             }
+        }
+
+        protected override void OnActivate()
+        {
+            _settingsService.Settings.PropertyChanged += SettingsOnPropertyChanged;
+        }
+
+        private void SettingsOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            var view = GetView() as MetroWindow;
+            var button = view.FindChild<Button>("OpenLogView");
+            button.Visibility = !_settingsService.Settings.EnableLogging ? Visibility.Collapsed : Visibility.Visible;
+            Refresh();
         }
     }
 }

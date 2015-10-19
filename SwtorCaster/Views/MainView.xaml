@@ -10,16 +10,10 @@
         Title="SWTOR Caster" Icon="../Resources/swtorcaster.ico">
     <Grid Margin="5">
         <StackPanel Orientation="Vertical">
-            <Button x:Name="OpenSettingsView" Padding="10" Margin="5" ToolTip="Configure how the LoggerService behaves">Settings</Button>
-            <Button Padding="10" Margin="5" ToolTip="Add this window as a window source to OBS" Content="Ability Logger">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <cal:ActionMessage MethodName="OpenAbilityView" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
-            <Button x:Name="OpenLogView" Padding="10" Margin="5">Debug log</Button>
-            <Button x:Name="OpenAboutView" Padding="10" Margin="5">About</Button>
+            <Button x:Name="OpenSettingsView" Padding="10" Margin="5" ToolTip="Configure how the LoggerService behaves" Content="Settings" />
+            <Button x:Name="OpenAbilityView" Padding="10" Margin="5" ToolTip="Add this window as a window source to OBS" Content="Ability Logger" />
+            <Button x:Name="OpenLogView" Padding="10" Margin="5" Content="Debug log"/>
+            <Button x:Name="OpenAboutView" Padding="10" Margin="5" Content="About" />
         </StackPanel>
     </Grid>
 </controls:MetroWindow>

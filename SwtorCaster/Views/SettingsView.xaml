@@ -42,10 +42,24 @@
         </StackPanel>
 
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Margin="0,0,0,5">
-            <Label ToolTip="Display the ability name next to the icon in the ability LoggerService window">
+            <Label ToolTip="Display the ability name next to the icon in the ability window">
                 Enable ability text:
             </Label>
             <CheckBox Name="EnableAbilityText" VerticalAlignment="Center" />
+        </StackPanel>
+
+        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Margin="0,0,0,5">
+            <Label ToolTip="Display the ability name next to the icon in the ability window">
+                Enable companion abilities:
+            </Label>
+            <CheckBox Name="EnableCompanionAbilities" VerticalAlignment="Center" />
+        </StackPanel>
+
+        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Margin="0,0,0,5">
+            <Label ToolTip="Display the ability name next to the icon in the ability window">
+                Enable debug logging:
+            </Label>
+            <CheckBox Name="EnableLogging" VerticalAlignment="Center" />
         </StackPanel>
 
     </StackPanel>

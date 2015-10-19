@@ -9,12 +9,7 @@ namespace SwtorCaster.ViewModels
 
         public AboutViewModel()
         {
-        }
 
-        public void Focus()
-        {
-            var window = GetView() as Window;
-            window?.Activate();
         }
     }
 }
