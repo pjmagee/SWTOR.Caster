@@ -1,23 +1,38 @@
 ﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Height="360" Width="500" Icon="../Resources/swtorcaster.ico" Background="Black" ResizeMode="CanResize" 
+        xmlns:controls="clr-namespace:SwtorCaster.Core.Controls"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:cal="http://www.caliburnproject.org"
+        Height="360" Width="500" Icon="../Resources/swtorcaster.ico" 
+        Background="{Binding BackgroundColor}" ResizeMode="CanResize" 
         WindowStartupLocation="CenterOwner"
         Title="SWTOR Caster - Abilities" 
         x:Class="SwtorCaster.Views.AbilityView">
     <ListView Name="AbilityList" Margin="0,10,0,0" ItemsSource="{Binding LogLines}"
-                  BorderThickness="0" Foreground="Yellow" Background="Black"
+                  BorderThickness="0" Foreground="Yellow" Background="{Binding BackgroundColor}"
                   FontFamily="../Resources/#SF Distant Galaxy"
                   Focusable="False" Padding="10"
                   IsTextSearchEnabled="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
         <ListView.ItemTemplate>
             <DataTemplate>
-                <StackPanel Orientation="Horizontal">
+                <StackPanel x:Name="Item" Orientation="Horizontal" ToolTip="{Binding Id}">
                     <Image x:Name="AbilityIcon" Source="{Binding ImageUrl}" Width="52" Height="52" Margin="10,0,10,0">
                         <Image.RenderTransform>
                             <RotateTransform Angle="{Binding Angle}" />
                         </Image.RenderTransform>
                     </Image>
-                    <TextBlock VerticalAlignment="Center" FontSize="18" Text="{Binding Ability}" Visibility="{Binding EnableAbilityName}" />
+                    <controls:OutlinedText
+                        VerticalAlignment="Center" 
+                        FontFamily="../Resources/#SF Distant Galaxy" FontSize="28"
+                        Stroke="Black" StrokeThickness="2"
+                        Fill="Yellow" Text="{Binding Action}" Visibility="{Binding ActionVisibility}" />
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeftButtonUp">
+                            <cal:ActionMessage MethodName="CopyToClipBoard">
+                                <cal:Parameter Value="{Binding Id}" />
+                            </cal:ActionMessage>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                 </StackPanel>
             </DataTemplate>
         </ListView.ItemTemplate>

@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Windows.Media;
+
 namespace SwtorCaster.Core.Domain
 {
     using System.ComponentModel;
@@ -9,25 +12,40 @@ namespace SwtorCaster.Core.Domain
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [JsonIgnore] private string _version = string.Empty;
+        [JsonIgnore]
+        private string _version = string.Empty;
 
-        [JsonIgnore] private int _items = 5;
+        [JsonIgnore]
+        private int _items = 5;
 
-        [JsonIgnore] private int _rotate = 5;
+        [JsonIgnore]
+        private int _rotate = 5;
 
-        [JsonIgnore] private int _clearAfterInactivity = 10;
+        [JsonIgnore]
+        private int _clearAfterInactivity = 10;
 
-        [JsonIgnore] private bool _enableAbilityText = true;
+        [JsonIgnore]
+        private bool _enableAbilityText = true;
 
-        [JsonIgnore] private bool _enableClearInactivity = true;
+        [JsonIgnore]
+        private bool _enableClearInactivity = true;
 
-        [JsonIgnore] private bool _enableCombatClear = true;
+        [JsonIgnore]
+        private bool _enableCombatClear = true;
 
-        [JsonIgnore] private bool _enableCompanionAbilities = true;
+        [JsonIgnore]
+        private bool _enableCompanionAbilities = true;
 
-        [JsonIgnore] private bool _enableLogging = true;
+        [JsonIgnore]
+        private bool _enableLogging = true;
 
-        [JsonProperty("maxAbilityList")]
+        [JsonIgnore]
+        private string _abilityLoggerBackgroundColor = "255,255,255";
+
+        [JsonIgnore]
+        private List<AbilitySetting> _abilitySettings = new List<AbilitySetting>();
+
+        [JsonProperty("items")]
         public int Items
         {
             get { return _items; }
@@ -129,6 +147,32 @@ namespace SwtorCaster.Core.Domain
             {
                 if (value == _enableLogging) return;
                 _enableLogging = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonProperty("abilityLoggerBackgroundColour")]
+        public string AbilityLoggerBackgroundColor
+        {
+            get
+            {
+                return _abilityLoggerBackgroundColor;
+            }
+            set
+            {
+                if (value == _abilityLoggerBackgroundColor) return;
+                _abilityLoggerBackgroundColor = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonProperty("abilitySettings")]
+        public List<AbilitySetting> AbilitySettings
+        {
+            get { return _abilitySettings; }
+            set
+            {
+                _abilitySettings = value;
                 OnPropertyChanged();
             }
         }

@@ -7,12 +7,21 @@ namespace SwtorCaster.Core
     using Services;
     using ViewModels;
 
-    public class Bootstrapper : BootstrapperBase
+    public sealed class Bootstrapper : BootstrapperBase
     {
         private SimpleContainer _container;
 
         public Bootstrapper()
         {
+            //if (Execute.InDesignMode)
+            //{
+            //    StartDesignTime();
+            //}
+            //else 
+            //{
+            //    StartRuntime();
+            //}
+
             Initialize();
         }
 
@@ -67,7 +76,10 @@ namespace SwtorCaster.Core
             _container.Singleton<IImageService, ImageService>();
             _container.Singleton<ISettingsService, SettingsService>();
             _container.Singleton<ILoggerService, LoggerService>();
-            _container.Singleton<IParserService, ParserService>();
+
+            
+
+            _container.Singleton<IParserService, FakeParserService>();
             _container.Singleton<IWindowManager, WindowManager>();
             _container.Singleton<ILogLineEventArgFactory, LogLineEventArgFactory>();
         }

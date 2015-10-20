@@ -1,4 +1,4 @@
-using SwtorCaster.Core.Domain;
+using SwtorCaster.Core;
 
 namespace SwtorCaster.ViewModels
 {
@@ -7,6 +7,9 @@ namespace SwtorCaster.ViewModels
     using System.Windows;
     using Core.Parser;
     using Core.Services;
+    using System.ComponentModel;
+    using System.Windows.Media;
+    using SwtorCaster.Core.Domain;
     using Screens;
 
     public class AbilityViewModel : FocusableScreen
@@ -16,6 +19,14 @@ namespace SwtorCaster.ViewModels
         private readonly ISettingsService _settingsService;
 
         public override string DisplayName { get; set; } = "SWTOR Caster - Abilities";
+
+        public SolidColorBrush BackgroundColor
+        {
+            get
+            {
+                return new SolidColorBrush(_settingsService.Settings.AbilityLoggerBackgroundColor.ToColorFromRgb());
+            }
+        }
 
         public ObservableCollection<LogLineEventArgs> LogLines { get; } = new ObservableCollection<LogLineEventArgs>();
 
@@ -57,14 +68,25 @@ namespace SwtorCaster.ViewModels
             LogLines.Insert(0, item);
         }
 
+        public void CopyToClipBoard(string id)
+        {
+            Clipboard.SetText(id, TextDataFormat.Text);
+        }
+
         protected override void OnActivate()
         {
             if (_parserService.IsRunning) return;
             _parserService.Clear += ParserServiceOnClear;
             _parserService.ItemAdded += ParserServiceOnItemAdded;
             _parserService.Start();
+            _settingsService.Settings.PropertyChanged += SettingsOnPropertyChanged;
 
             _loggerService.Log($"Parser service started");
+        }
+
+        private void SettingsOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            Refresh();
         }
 
         protected override void OnDeactivate(bool close)

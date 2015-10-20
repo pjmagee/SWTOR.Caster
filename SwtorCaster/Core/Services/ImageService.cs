@@ -35,6 +35,11 @@ namespace SwtorCaster.Core.Services
             return _missing;
         }
 
+        public IEnumerable<string> GetImages()
+        {
+            return Directory.EnumerateFiles(_imagesFolder, "*.png", SearchOption.AllDirectories);
+        }
+
         public void Initialize()
         {
             if (!Directory.Exists(_imagesFolder))

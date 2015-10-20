@@ -4,7 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:custom="clr-namespace:SwtorCaster.Core.Controls"
         mc:Ignorable="d" Icon="../Resources/swtorcaster.ico"
+                      
         Title="SWTOR Caster - AboutView" Height="400" Width="600" FontSize="50" ResizeMode="NoResize" 
                   FontStyle="Normal" FontWeight="Normal" FontFamily="../Resources/#SF Distant Galaxy">
     <Window.Background>
@@ -13,7 +15,7 @@
     <DockPanel Margin="5">
         <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Top">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
-                <Label Content="Author:" HorizontalAlignment="Left" Foreground="Yellow" FontFamily="../Resources/#SF Distant Galaxy"/>
+                <custom:OutlinedText HorizontalAlignment="Left" FontFamily="../Resources/#SF Distant Galaxy" Stroke="Black" StrokeThickness="2" Text="Author" Fill="Yellow" />
                 <TextBlock VerticalAlignment="Center" Foreground="Yellow">Delegate</TextBlock>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

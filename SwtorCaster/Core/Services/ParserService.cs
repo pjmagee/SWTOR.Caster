@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace SwtorCaster.Core.Services
 {
     using System;

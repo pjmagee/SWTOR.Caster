@@ -2,8 +2,11 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:views="clr-namespace:SwtorCaster.Views"
+        xmlns:cal="http://www.caliburnproject.org"
         Title="SWTOR Caster - Settings" Icon="../Resources/swtorcaster.ico"
-        Width="500" SizeToContent="Height">
+        Width="500" SizeToContent="Height" Height="396">
     <StackPanel HorizontalAlignment="Stretch" Margin="10" VerticalAlignment="Stretch">
 
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Margin="0,0,0,5">
@@ -12,7 +15,7 @@
             </Label>
             <Slider x:Name="Items" Minimum="1" IsSelectionRangeEnabled="True" Maximum="20" Width="200" IsSnapToTickEnabled="True" VerticalAlignment="Center" AutoToolTipPlacement="TopLeft" />
         </StackPanel>
-        
+
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Margin="0,0,0,5">
             <Label Width="Auto" ToolTip="The rotation angle in degrees (recommend between -5 and 5). Set to 0 for both for no image rotation.">
                 Image rotate in degrees:
@@ -33,7 +36,7 @@
             </Label>
             <CheckBox x:Name="EnableInactivityClear" VerticalAlignment="Center" />
         </StackPanel>
-        
+
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Margin="0,0,0,5">
             <Label ToolTip="The number of seconds of inactivity before the ability log is cleared">
                 Clear the ability window after seconds of inactivity:
@@ -61,6 +64,47 @@
             </Label>
             <CheckBox Name="EnableLogging" VerticalAlignment="Center" />
         </StackPanel>
+
+        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Margin="0,0,0,5">
+            <Label ToolTip="This should also be set as the Color key in OBS">
+                Ability logger background:
+            </Label>
+            <xctk:ColorPicker ColorMode="ColorPalette"
+                              Width="Auto" 
+                              DisplayColorAndName="True" SelectedColor="{Binding SelectedAbilityBackgroundColor}">
+            </xctk:ColorPicker>
+        </StackPanel>
+
+        <DataGrid ItemsSource="{Binding AbilitySettingViewModels}" 
+                  AutoGenerateColumns="False" 
+                  CanUserAddRows="True" 
+                  CanUserDeleteRows="True" >
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Ability ID" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding Id, Mode=TwoWay}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Image" Width="*">
+                  <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding Image, Mode=TwoWay}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Border" Width="*">
+                   <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <xctk:ColorPicker ColorMode="ColorPalette" SelectedColor="{Binding Border, Mode=TwoWay}" DisplayColorAndName="True" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <Button x:Name="AddAbility" Margin="0,10" Content="Add Ability" HorizontalAlignment="Right" HorizontalContentAlignment="Right" />
 
     </StackPanel>
 </controls:MetroWindow>

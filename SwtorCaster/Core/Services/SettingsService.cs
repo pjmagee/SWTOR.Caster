@@ -65,7 +65,6 @@ namespace SwtorCaster.Core.Services
                     {
                         Settings = new Settings();
                     }
-
                 }
                 catch (Exception e)
                 {
