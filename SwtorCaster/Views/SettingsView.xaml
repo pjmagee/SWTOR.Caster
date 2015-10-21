@@ -3,10 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        xmlns:views="clr-namespace:SwtorCaster.Views"
         xmlns:cal="http://www.caliburnproject.org"
         Title="SWTOR Caster - Settings" Icon="../Resources/swtorcaster.ico"
-        Width="500" SizeToContent="Height" Height="396">
+        Width="500" SizeToContent="Height" Height="526">
     <StackPanel HorizontalAlignment="Stretch" Margin="10" VerticalAlignment="Stretch">
 
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Margin="0,0,0,5">
@@ -75,36 +74,48 @@
             </xctk:ColorPicker>
         </StackPanel>
 
-        <DataGrid ItemsSource="{Binding AbilitySettingViewModels}" 
-                  AutoGenerateColumns="False" 
-                  CanUserAddRows="True" 
-                  CanUserDeleteRows="True" >
-            <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Ability ID" Width="*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Id, Mode=TwoWay}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Image" Width="*">
-                  <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Image, Mode=TwoWay}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Border" Width="*">
-                   <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <xctk:ColorPicker ColorMode="ColorPalette" SelectedColor="{Binding Border, Mode=TwoWay}" DisplayColorAndName="True" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
-        
-        <Button x:Name="AddAbility" Margin="0,10" Content="Add Ability" HorizontalAlignment="Right" HorizontalContentAlignment="Right" />
+        <Grid>
+            <DataGrid ScrollViewer.CanContentScroll="True" 
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                      Height="150"
+                      ItemsSource="{Binding AbilitySettingViewModels}"
+                      AutoGenerateColumns="False" VirtualizingPanel.IsVirtualizing="False" 
+                      AlternatingRowBackground="WhiteSmoke">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Ability ID" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox cal:Bind.Model="{Binding}" cal:Bind.ModelWithoutContext="{Binding}" Text="{Binding Id}" ToolTip="Click the Ability in the Logger window to copy it to Clipboard! Then Ctrl+V into here." />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Custom image" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox cal:Bind.Model="{Binding}" cal:Bind.ModelWithoutContext="{Binding}" Text="{Binding Image}" ToolTip="Provide a custom image to use for this Ability." />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Ability Border" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <xctk:ColorPicker cal:Bind.Model="{Binding}" cal:Bind.ModelWithoutContext="{Binding}" ColorMode="ColorPalette" SelectedColor="{Binding Border, Mode=TwoWay}" DisplayColorAndName="True" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Delete" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button cal:Bind.Model="{Binding}" cal:Action.TargetWithoutContext="{Binding}" Padding="10,6" Content="Delete" cal:Message.Attach="Delete" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
+        <Button x:Name="AddAbility" Margin="0,10" Content="Add Ability" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Bottom" />
 
     </StackPanel>
 </controls:MetroWindow>

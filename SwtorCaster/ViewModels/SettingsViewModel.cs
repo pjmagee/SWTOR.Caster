@@ -1,13 +1,11 @@
-using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using Caliburn.Micro;
-using SwtorCaster.Core;
-using SwtorCaster.Core.Domain;
 
 namespace SwtorCaster.ViewModels
 {
+    using Caliburn.Micro;
+    using SwtorCaster.Core;
+    using SwtorCaster.Core.Domain;
     using System.Linq;
     using System.Windows.Media;
     using Core.Services;
@@ -36,15 +34,28 @@ namespace SwtorCaster.ViewModels
 
             foreach (var item in _settingsService.Settings.AbilitySettings)
             {
-                var abilitySettingviewModel = new AbilitySettingViewModel(item);
-                abilitySettingviewModel.AbilitySetting.PropertyChanged += (sender, arg) => UpdateAbilities();
+                var abilitySettingviewModel = new AbilitySettingViewModel(item, this);
+                abilitySettingviewModel.AbilitySetting.PropertyChanged += OnAbilitySettingOnPropertyChanged;
                 AbilitySettingViewModels.Add(abilitySettingviewModel);
             }
+
+            AbilitySettingViewModels.CollectionChanged += OnAbilitySettingViewModelsOnCollectionChanged;
+        }
+
+        private void OnAbilitySettingViewModelsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
+        {
+            UpdateAbilities();
+        }
+
+        private void OnAbilitySettingOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            UpdateAbilities();
         }
 
         private void UpdateAbilities()
         {
             _settingsService.Settings.AbilitySettings = AbilitySettingViewModels.Select(x => x.AbilitySetting).ToList();
+            _settingsService.Save();
         }
 
         public int Items
@@ -97,24 +108,18 @@ namespace SwtorCaster.ViewModels
 
         public Color SelectedAbilityBackgroundColor
         {
-            get
-            {
-                return _settingsService.Settings.AbilityLoggerBackgroundColor.ToColorFromRgb();
-            }
-            set
-            {
-                _settingsService.Settings.AbilityLoggerBackgroundColor = value.ToRgbFromColor();
-            }
-        }
-
-        public void AddAbility()
-        {
-            var newAbilityViewModel = new AbilitySettingViewModel(new AbilitySetting());
-            newAbilityViewModel.AbilitySetting.PropertyChanged += (sender, arg) => UpdateAbilities();
-            AbilitySettingViewModels.Add(newAbilityViewModel);
+            get { return _settingsService.Settings.AbilityLoggerBackgroundColor.ToColorFromRgb(); }
+            set { _settingsService.Settings.AbilityLoggerBackgroundColor = value.ToRgbFromColor(); }
         }
 
         public BindableCollection<AbilitySettingViewModel> AbilitySettingViewModels { get; set; }
-        
+
+        public void AddAbility()
+        {
+            var abilitySetting = new AbilitySetting();
+            var newAbilityViewModel = new AbilitySettingViewModel(abilitySetting, this);
+            newAbilityViewModel.AbilitySetting.PropertyChanged += (sender, arg) => UpdateAbilities();
+            AbilitySettingViewModels.Add(newAbilityViewModel);
+        }
     }
 }

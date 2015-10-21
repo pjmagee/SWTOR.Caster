@@ -1,4 +1,4 @@
-using System;
+using Caliburn.Micro;
 
 namespace SwtorCaster.ViewModels
 {
@@ -6,18 +6,17 @@ namespace SwtorCaster.ViewModels
     using SwtorCaster.Core;
     using SwtorCaster.Core.Domain;
 
-    public class AbilitySettingViewModel
+    public class AbilitySettingViewModel : PropertyChangedBase
     {
-        public readonly AbilitySetting _abilitySetting;
+        private readonly AbilitySetting _abilitySetting;
+        private readonly SettingsViewModel _settingsViewModel;
 
         public AbilitySetting AbilitySetting => _abilitySetting;
 
-        public AbilitySettingViewModel(AbilitySetting abilitySetting)
+        public AbilitySettingViewModel(AbilitySetting abilitySetting, SettingsViewModel settingsViewModel)
         {
-            if (abilitySetting == null)
-                throw new ArgumentNullException(nameof(abilitySetting));
-
             _abilitySetting = abilitySetting;
+            _settingsViewModel = settingsViewModel;
         }
 
         public string Id
@@ -36,6 +35,11 @@ namespace SwtorCaster.ViewModels
         {
             get { return _abilitySetting.BorderColor.ToColorFromRgb(); }
             set { _abilitySetting.BorderColor = value.ToRgbFromColor(); }
+        }
+
+        public void Delete()
+        {
+            _settingsViewModel.AbilitySettingViewModels.Remove(this);
         }
     }
 }

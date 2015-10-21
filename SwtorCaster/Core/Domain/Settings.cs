@@ -1,5 +1,9 @@
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Windows.Media;
+using Caliburn.Micro;
 
 namespace SwtorCaster.Core.Domain
 {
@@ -43,7 +47,8 @@ namespace SwtorCaster.Core.Domain
         private string _abilityLoggerBackgroundColor = "255,255,255";
 
         [JsonIgnore]
-        private List<AbilitySetting> _abilitySettings = new List<AbilitySetting>();
+        private IEnumerable<AbilitySetting> _abilitySettings = new List<AbilitySetting>();
+
 
         [JsonProperty("items")]
         public int Items
@@ -167,7 +172,7 @@ namespace SwtorCaster.Core.Domain
         }
 
         [JsonProperty("abilitySettings")]
-        public List<AbilitySetting> AbilitySettings
+        public IEnumerable<AbilitySetting> AbilitySettings
         {
             get { return _abilitySettings; }
             set

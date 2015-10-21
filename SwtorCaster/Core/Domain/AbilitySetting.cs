@@ -7,11 +7,14 @@ namespace SwtorCaster.Core.Domain
 {
     public class AbilitySetting : INotifyPropertyChanged
     {
+        private Settings _settings;
+
         [JsonIgnore] private string _abilityId;
 
         [JsonIgnore] private string _image;
 
         [JsonIgnore] private string _abilityBorderColor;
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -56,15 +56,6 @@ namespace SwtorCaster.Core.Services
                 {
                     var json = File.ReadAllText(SettingsPath);
                     Settings = JsonConvert.DeserializeObject<Settings>(json);
-
-                    if (ApplicationDeployment.IsNetworkDeployed && ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString() != Settings.Version)
-                    {
-                        Settings = new Settings();
-                    }
-                    else
-                    {
-                        Settings = new Settings();
-                    }
                 }
                 catch (Exception e)
                 {
