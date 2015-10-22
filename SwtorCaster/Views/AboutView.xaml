@@ -5,26 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:custom="clr-namespace:SwtorCaster.Core.Controls"
-        mc:Ignorable="d" Icon="../Resources/swtorcaster.ico"
-                      
+        mc:Ignorable="d" 
+        Icon="../Resources/swtorcaster.ico"
         Title="SWTOR Caster - AboutView" Height="400" Width="600" FontSize="50" ResizeMode="NoResize" 
-                  FontStyle="Normal" FontWeight="Normal" FontFamily="../Resources/#SF Distant Galaxy">
+        FontStyle="Normal" FontWeight="Normal" FontFamily="../Resources/#SF Distant Galaxy">
     <Window.Background>
         <ImageBrush ImageSource="../Resources/about.jpg" Stretch="UniformToFill"/>
     </Window.Background>
     <DockPanel Margin="5">
         <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Top">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
-                <custom:OutlinedText HorizontalAlignment="Left" FontFamily="../Resources/#SF Distant Galaxy" Stroke="Black" StrokeThickness="2" Text="Author" Fill="Yellow" />
-                <TextBlock VerticalAlignment="Center" Foreground="Yellow">Delegate</TextBlock>
+                <custom:OutlinedText HorizontalAlignment="Left" Text="Author:" FontFamily="../Resources/#SF Distant Galaxy" Stroke="Black" StrokeThickness="2" Fill="Yellow" />
+                <custom:OutlinedText HorizontalAlignment="Left" Text="Delegate" FontFamily="../Resources/#SF Distant Galaxy" Stroke="Black" StrokeThickness="2" Fill="Yellow" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock VerticalAlignment="Center" Foreground="Yellow">The Red Eclipse</TextBlock>
+                <custom:OutlinedText HorizontalAlignment="Left" Text="The Red Eclipse" FontFamily="../Resources/#SF Distant Galaxy" Stroke="Black" StrokeThickness="2" Fill="Yellow" />
             </StackPanel>
         </StackPanel>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Bottom">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Label Content="Guild:" Foreground="Yellow" VerticalAlignment="Top" HorizontalAlignment="Center" />
+                <custom:OutlinedText HorizontalAlignment="Center" Text="Guild:" FontFamily="../Resources/#SF Distant Galaxy" Stroke="Black" StrokeThickness="2" Fill="Yellow" />
                 <TextBlock HorizontalAlignment="Center" Foreground="Yellow" VerticalAlignment="Center">
                         <Hyperlink NavigateUri="http://www.awakenedgamers.com/" Click="Guild_OnClick">
                             Awakened

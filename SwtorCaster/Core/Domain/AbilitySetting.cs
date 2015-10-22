@@ -9,12 +9,15 @@ namespace SwtorCaster.Core.Domain
     {
         private Settings _settings;
 
+        [JsonIgnore] private bool _enabled;
+
         [JsonIgnore] private string _abilityId;
 
         [JsonIgnore] private string _image;
 
         [JsonIgnore] private string _abilityBorderColor;
 
+        [JsonIgnore] private string _aliases;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -50,6 +53,30 @@ namespace SwtorCaster.Core.Domain
             {
                 if (value == _abilityBorderColor) return;
                 _abilityBorderColor = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonProperty("aliases")]
+        public string Aliases
+        {
+            get { return _aliases; }
+            set
+            {
+                if (value == _aliases) return;
+                _aliases = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonProperty("enabled")]
+        public bool Enabled
+        {
+            get { return _enabled; }
+            set
+            {
+                if (value == _enabled) return;
+                _enabled = value;
                 OnPropertyChanged();
             }
         }

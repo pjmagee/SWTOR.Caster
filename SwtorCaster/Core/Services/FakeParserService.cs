@@ -1,13 +1,15 @@
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Windows;
-using SwtorCaster.Core.Domain;
-using SwtorCaster.Core.Parser;
-
 namespace SwtorCaster.Core.Services
 {
+    using System;
+    using System.IO;
+    using System.Linq;
+    using System.Threading;
+    using System.Windows;
+    using System.Windows.Media;
+    using SwtorCaster.Core.Domain;
+    using SwtorCaster.Core.Parser;
+
+
     public class FakeParserService : IParserService
     {
         private readonly IImageService _imageService;
@@ -41,17 +43,23 @@ namespace SwtorCaster.Core.Services
             {
                 var image = images[random.Next(0, images.Count)];
                 var id = Path.GetFileNameWithoutExtension(image);
+                var color = Color.FromRgb((byte)random.Next(0, 255), (byte)random.Next(0, 255), (byte)random.Next(0, 255));
+                var settings = _settingsService.Settings;
 
-                ItemAdded?.Invoke(this, new LogLineEventArgs(
-                    id,
-                    SourceTargetType.Self,
-                    SourceTargetType.Other,
-                    EventType.Event,
-                    EventDetailType.AbilityActivate,
-                    "ACTION", 
-                    _imageService.GetImageById(id), 
-                    random.Next(-_settingsService.Settings.Rotate, _settingsService.Settings.Rotate),
-                    Visibility.Visible));
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    ItemAdded?.Invoke(this, new LogLineEventArgs(
+                        id,
+                        SourceTargetType.Self,
+                        SourceTargetType.Other,
+                        EventType.Event,
+                        EventDetailType.AbilityActivate,
+                        "ACTION",
+                        _imageService.GetImageById(id),
+                        random.Next(-settings.Rotate, settings.Rotate),
+                        Visibility.Visible,
+                        color));
+                });
 
                 Thread.Sleep(1000);
             }

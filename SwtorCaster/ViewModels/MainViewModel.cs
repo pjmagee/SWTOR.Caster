@@ -1,14 +1,13 @@
-using System;
-using System.ComponentModel;
-using System.Windows;
-using System.Windows.Controls;
-using MahApps.Metro.Controls;
-using SwtorCaster.Core.Services;
-
 namespace SwtorCaster.ViewModels
 {
     using Caliburn.Micro;
     using Screens;
+    using System.ComponentModel;
+    using System.Drawing;
+    using System.Windows;
+    using System.Windows.Controls;
+    using MahApps.Metro.Controls;
+    using SwtorCaster.Core.Services;
 
     public class MainViewModel : Screen
     {

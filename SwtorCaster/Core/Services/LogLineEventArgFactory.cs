@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using SwtorCaster.Core.Domain;
@@ -24,15 +25,18 @@ namespace SwtorCaster.Core.Services
         {
             var match = _regex.Match(line);
 
+            var settings = _settingsService.Settings;
+
             if (match.Success)
             {
                 var id = match.Groups[6].Value;
                 var imageUrl = _imageService.GetImageById(id);
-                var angle = _random.Next(-_settingsService.Settings.Rotate, _settingsService.Settings.Rotate);
-                var enableAbilityName = _settingsService.Settings.EnableAbilityText ? Visibility.Visible : Visibility.Hidden;
+                var angle = _random.Next(-settings.Rotate, settings.Rotate);
+                var enableAbilityName = settings.EnableAbilityText ? Visibility.Visible : Visibility.Hidden;
                 var eventType = match.Groups[7].Value;
                 var abilityName = match.Groups[5].Value;
                 var eventDetail = match.Groups[9].Value;
+                var abilitySetting = settings.AbilitySettings.FirstOrDefault(s => s.AbilityId == id);
 
                 var logLineEventArgs = new LogLineEventArgs
                 {

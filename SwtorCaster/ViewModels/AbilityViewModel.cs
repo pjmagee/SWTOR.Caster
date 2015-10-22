@@ -68,9 +68,9 @@ namespace SwtorCaster.ViewModels
             LogLines.Insert(0, item);
         }
 
-        public void CopyToClipBoard(string id)
+        public void CopyToClipBoard(LogLineEventArgs e)
         {
-            Clipboard.SetText(id, TextDataFormat.Text);
+            Clipboard.SetText(e.Id, TextDataFormat.Text);
         }
 
         protected override void OnActivate()

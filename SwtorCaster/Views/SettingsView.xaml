@@ -4,118 +4,177 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:cal="http://www.caliburnproject.org"
-        Title="SWTOR Caster - Settings" Icon="../Resources/swtorcaster.ico"
-        Width="500" SizeToContent="Height" Height="526">
-    <StackPanel HorizontalAlignment="Stretch" Margin="10" VerticalAlignment="Stretch">
+        Icon="../Resources/swtorcaster.ico"
+        Width="600"  Height="550"
+        SizeToContent="Height">
+    <Grid HorizontalAlignment="Stretch" Margin="10" VerticalAlignment="Stretch">
 
-        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Margin="0,0,0,5">
-            <Label ToolTip="The maximum number of logged abilitys to display in the ability LoggerService window (recommend between 5 and 7)">
-                Number of abilities to display:
-            </Label>
-            <Slider x:Name="Items" Minimum="1" IsSelectionRangeEnabled="True" Maximum="20" Width="200" IsSnapToTickEnabled="True" VerticalAlignment="Center" AutoToolTipPlacement="TopLeft" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Vertical" Grid.Row="0">
+
+            <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Margin="0,0,0,5">
+                <Label ToolTip="The maximum number of logged abilitys to display in the ability LoggerService window (recommend between 5 and 7)" 
+                    Content="Number of abilities to display:" />
+                <Slider x:Name="Items" Minimum="1" IsSelectionRangeEnabled="True" Maximum="20" Width="200" IsSnapToTickEnabled="True" VerticalAlignment="Center" AutoToolTipPlacement="TopLeft" />
+            </StackPanel>
+
+            <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Margin="0,0,0,5">
+                <Label ToolTip="The rotation angle in degrees (recommend between -5 and 5). Set to 0 for both for no image rotation." 
+                    Content="Image rotate in degrees:" />
+                <Slider x:Name="Rotate" Minimum="0" Maximum="45" Width="150" IsSnapToTickEnabled="True" HorizontalAlignment="Center" VerticalAlignment="Center" AutoToolTipPlacement="TopLeft" Margin="0,0,10,0"/>
+            </StackPanel>
+
+            <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Margin="0,0,0,5">
+                <Label ToolTip="When you exit combat, clear the ability LoggerService window (Good for Ops/Ranked PVP)" 
+                       Content="Exiting combat clears the ability window:" />
+                <CheckBox x:Name="EnableExitCombatClear" VerticalAlignment="Center" />
+            </StackPanel>
+
+            <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Margin="0,0,0,5">
+                <Label ToolTip="After a defined amount of seconds, clear the ability window" 
+                       Content="Inactvity clears the ability window:" />
+                <CheckBox x:Name="EnableInactivityClear" VerticalAlignment="Center" />
+            </StackPanel>
+
+            <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Margin="0,0,0,5">
+                <Label ToolTip="The number of seconds of inactivity before the ability log is cleared"
+                       Content="Clear the ability window after seconds of inactivity:" />
+                <Slider x:Name="ClearAfterInactivity" Minimum="5" Maximum="30" Width="150" IsSnapToTickEnabled="True" VerticalAlignment="Center" AutoToolTipPlacement="TopLeft" />
+            </StackPanel>
+
+            <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Margin="0,0,0,5">
+                <Label ToolTip="Display the ability name next to the icon in the ability window" Content="Enable ability text:" />
+                <CheckBox Name="EnableAbilityText" VerticalAlignment="Center" />
+            </StackPanel>
+
+            <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Margin="0,0,0,5">
+                <Label ToolTip="Display the ability name next to the icon in the ability window" Content="Enable companion abilities:" />
+                <CheckBox Name="EnableCompanionAbilities" VerticalAlignment="Center" />
+            </StackPanel>
+
+            <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Margin="0,0,0,5">
+                <Label ToolTip="Display the ability name next to the icon in the ability window"
+                       Content="Enable debug logging:" />
+                <CheckBox Name="EnableLogging" VerticalAlignment="Center" />
+            </StackPanel>
+
+            <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Margin="0,0,0,5">
+                <Label ToolTip="This should also be set as the Color key in OBS" Content="Ability logger background:" />
+                <xctk:ColorPicker 
+                    ColorMode="ColorPalette" 
+                    Width="Auto" 
+                    DisplayColorAndName="False"
+                    SelectedColor="{Binding SelectedAbilityBackgroundColor}" />
+            </StackPanel>
+
         </StackPanel>
 
-        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Margin="0,0,0,5">
-            <Label Width="Auto" ToolTip="The rotation angle in degrees (recommend between -5 and 5). Set to 0 for both for no image rotation.">
-                Image rotate in degrees:
-            </Label>
-            <Slider x:Name="Rotate" Minimum="0" Maximum="45" Width="150" IsSnapToTickEnabled="True" HorizontalAlignment="Center" VerticalAlignment="Center" AutoToolTipPlacement="TopLeft" Margin="0,0,10,0"/>
-        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Vertical" VerticalAlignment="Bottom">
 
-        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Margin="0,0,0,5">
-            <Label ToolTip="When you exit combat, clear the ability LoggerService window (Good for Ops/Ranked PVP)">
-                Exiting combat clears the ability window:
-            </Label>
-            <CheckBox x:Name="EnableExitCombatClear" VerticalAlignment="Center" />
-        </StackPanel>
+            <Label Content="Ability settings" FontWeight="Bold" Margin="10" HorizontalContentAlignment="Center" HorizontalAlignment="Center" />
 
-        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Margin="0,0,0,5">
-            <Label ToolTip="After a defined amount of seconds, clear the ability window">
-                Inactvity clears the ability window:
-            </Label>
-            <CheckBox x:Name="EnableInactivityClear" VerticalAlignment="Center" />
-        </StackPanel>
-
-        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Margin="0,0,0,5">
-            <Label ToolTip="The number of seconds of inactivity before the ability log is cleared">
-                Clear the ability window after seconds of inactivity:
-            </Label>
-            <Slider x:Name="ClearAfterInactivity" Minimum="5" Maximum="30" Width="150" IsSnapToTickEnabled="True" VerticalAlignment="Center" AutoToolTipPlacement="TopLeft" />
-        </StackPanel>
-
-        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Margin="0,0,0,5">
-            <Label ToolTip="Display the ability name next to the icon in the ability window">
-                Enable ability text:
-            </Label>
-            <CheckBox Name="EnableAbilityText" VerticalAlignment="Center" />
-        </StackPanel>
-
-        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Margin="0,0,0,5">
-            <Label ToolTip="Display the ability name next to the icon in the ability window">
-                Enable companion abilities:
-            </Label>
-            <CheckBox Name="EnableCompanionAbilities" VerticalAlignment="Center" />
-        </StackPanel>
-
-        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Margin="0,0,0,5">
-            <Label ToolTip="Display the ability name next to the icon in the ability window">
-                Enable debug logging:
-            </Label>
-            <CheckBox Name="EnableLogging" VerticalAlignment="Center" />
-        </StackPanel>
-
-        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Margin="0,0,0,5">
-            <Label ToolTip="This should also be set as the Color key in OBS">
-                Ability logger background:
-            </Label>
-            <xctk:ColorPicker ColorMode="ColorPalette"
-                              Width="Auto" 
-                              DisplayColorAndName="True" SelectedColor="{Binding SelectedAbilityBackgroundColor}">
-            </xctk:ColorPicker>
-        </StackPanel>
-
-        <Grid>
-            <DataGrid ScrollViewer.CanContentScroll="True" 
+            <DataGrid ItemsSource="{Binding AbilitySettingViewModels}"
+                      ScrollViewer.CanContentScroll="True" 
                       ScrollViewer.VerticalScrollBarVisibility="Auto"
                       ScrollViewer.HorizontalScrollBarVisibility="Auto" 
-                      Height="150"
-                      ItemsSource="{Binding AbilitySettingViewModels}"
                       AutoGenerateColumns="False" VirtualizingPanel.IsVirtualizing="False" 
-                      AlternatingRowBackground="WhiteSmoke">
+                      AlternatingRowBackground="WhiteSmoke" MaxHeight="300" VerticalContentAlignment="Stretch" 
+                      HorizontalScrollBarVisibility="Disabled">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Ability ID" Width="*">
+
+                    <DataGridTemplateColumn Header="Enabled">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox cal:Bind.Model="{Binding}" cal:Bind.ModelWithoutContext="{Binding}" Text="{Binding Id}" ToolTip="Click the Ability in the Logger window to copy it to Clipboard! Then Ctrl+V into here." />
+                                <Viewbox Margin="-1">
+                                    <CheckBox IsChecked="{Binding Path=Enabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </Viewbox>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Custom image" Width="*">
+
+                    <DataGridTemplateColumn Header="ID" Width="1*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox cal:Bind.Model="{Binding}" cal:Bind.ModelWithoutContext="{Binding}" Text="{Binding Image}" ToolTip="Provide a custom image to use for this Ability." />
+                                <TextBox Text="{Binding Path=Id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                         ToolTip="Click the Ability in the Logger window to copy it to Clipboard! Then Ctrl+V into here." />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Ability Border" Width="*">
+
+                    <DataGridTemplateColumn Header="Border" Width="1*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <xctk:ColorPicker cal:Bind.Model="{Binding}" cal:Bind.ModelWithoutContext="{Binding}" ColorMode="ColorPalette" SelectedColor="{Binding Border, Mode=TwoWay}" DisplayColorAndName="True" />
+                                <xctk:ColorPicker 
+                                    SelectedColor="{Binding Path=Border, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    ColorMode="ColorPalette" 
+                                    DisplayColorAndName="False" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Delete" Width="*">
+
+                    <DataGridTemplateColumn Header="Image" Width="1*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button cal:Bind.Model="{Binding}" cal:Action.TargetWithoutContext="{Binding}" Padding="10,6" Content="Delete" cal:Message.Attach="Delete" />
+                                <Image Height="52" Width="52" Source="{Binding Path=ImageUrl}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="Actions" Width="3*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button cal:Action.TargetWithoutContext="{Binding}" Margin="5" 
+                                            cal:Message.Attach="AddImage" 
+                                            ToolTip="Provide a custom image to use for this Ability."
+                                            Width="50" Height="50">
+                                        <Rectangle Width="20" Height="20" 
+                                                   Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_add}" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </Button>
+                                    <Button cal:Action.TargetWithoutContext="{Binding}" Margin="5" 
+                                            cal:Message.Attach="RemoveImage" 
+                                            Width="50" Height="50"
+                                            ToolTip="Clear the custom image and use the default.">
+                                        <Rectangle Width="20" Height="20" 
+                                                   Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_app_remove}" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </Button>
+                                    <Button cal:Action.TargetWithoutContext="{Binding}" 
+                                            Width="50" Height="50"
+                                            cal:Message.Attach="Delete" 
+                                            ToolTip="Delete this row">
+                                        <Rectangle Width="25" Height="25"
+                                                   Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_cell_row_delete}" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </Button>
+                                </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-        </Grid>
 
-        <Button x:Name="AddAbility" Margin="0,10" Content="Add Ability" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Bottom" />
+            <Button DockPanel.Dock="Bottom"
+                    x:Name="AddAbility" 
+                    Margin="0,10" 
+                    Content="Add Ability" 
+                    HorizontalAlignment="Right" 
+                    VerticalAlignment="Bottom" />
+        </StackPanel>
 
-    </StackPanel>
+    </Grid>
 </controls:MetroWindow>

@@ -1,4 +1,3 @@
-using Caliburn.Micro;
 using SwtorCaster.Core.Parser;
 
 namespace SwtorCaster.Core.Services

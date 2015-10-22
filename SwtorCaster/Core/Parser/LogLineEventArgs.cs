@@ -1,3 +1,4 @@
+using System.Windows.Media;
 using SwtorCaster.Core.Domain;
 
 namespace SwtorCaster.Core.Parser
@@ -16,25 +17,28 @@ namespace SwtorCaster.Core.Parser
         public EventType EventType { get; set; }
 
         public EventDetailType EventDetailType { get; set; }
-
-        /// <summary>
-        /// e.g Force Charge, Sprint, Fury, Bloodthirst, Frenzy, Beserk, Gore
-        /// </summary>
+        
         public string Action { get; set; }
-
-        /// <summary>
-        /// The image inside the /Images/ directory to use
-        /// </summary>
+        
         public string ImageUrl { get; set; }
-
-        /// <summary>
-        /// The rotate angle in degrees to apply
-        /// </summary>
+        
         public int Angle { get; set; }
-
+        
         public Visibility ActionVisibility { get; set; }
 
-        public LogLineEventArgs(string id, SourceTargetType source, SourceTargetType target, EventType eventType, EventDetailType eventDetail, string action, string imageUrl, int angle, Visibility actionVisibility)
+        public Brush ImageBorderColor { get; set; }
+
+        public LogLineEventArgs(
+            string id, 
+            SourceTargetType source, 
+            SourceTargetType target, 
+            EventType eventType, 
+            EventDetailType eventDetail, 
+            string action, 
+            string imageUrl, 
+            int angle, 
+            Visibility actionVisibility,
+            Color borderColor)
         {
             Id = id;
             Source = source;
@@ -45,6 +49,7 @@ namespace SwtorCaster.Core.Parser
             ImageUrl = imageUrl;
             Angle = angle;
             ActionVisibility = actionVisibility;
+            ImageBorderColor = new SolidColorBrush(borderColor);
         }
 
         public LogLineEventArgs()

@@ -9,23 +9,25 @@ namespace SwtorCaster.Core.Services
     public class ImageService : IImageService
     {
         private readonly ILoggerService _loggerService;
+        private readonly ISettingsService _settingsService;
         private IDictionary<string, string> _files;
 
         private readonly string _imagesZip = Path.Combine(Environment.CurrentDirectory, "Images.zip");
         private readonly string _imagesFolder = Path.Combine(Environment.CurrentDirectory, "Images");
         private readonly string _missing = Path.Combine(Environment.CurrentDirectory, "Images", "missing.png");
-        private readonly string[] _splitOptions = { "," };
 
-        public ImageService(ILoggerService loggerService)
+        public ImageService(ILoggerService loggerService, ISettingsService settingsService)
         {
             _loggerService = loggerService;
+            _settingsService = settingsService;
         }
 
         public string GetImageById(string abilityId)
         {
             try
             {
-                return _files[abilityId];
+                var customImage = _settingsService.Settings.AbilitySettings.FirstOrDefault(s => s.Enabled && s.AbilityId == abilityId && !string.IsNullOrEmpty(s.Image));
+                return customImage != null ? customImage.Image : _files[abilityId];
             }
             catch (Exception e)
             {
