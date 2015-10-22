@@ -7,6 +7,7 @@ namespace SwtorCaster.Core.Services
     using System.IO;
     using System.Linq;
     using System.Threading;
+    using System.Windows;
     using System.Windows.Threading;
     using Parser;
     using ThreadState = System.Threading.ThreadState;
@@ -100,7 +101,10 @@ namespace SwtorCaster.Core.Services
             {
                 if (_clearStopwatch.Elapsed.TotalSeconds > _settingsService.Settings.ClearAfterInactivity)
                 {
-                    Clear?.Invoke(this, EventArgs.Empty);
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        Clear?.Invoke(this, EventArgs.Empty);
+                    });
                 }
             }
         }
@@ -165,12 +169,17 @@ namespace SwtorCaster.Core.Services
         {
             try
             {
-                var eventArgs = _logLineEventArgFactory.Create(value);
-
-                if (eventArgs != null)
+                Application.Current.Dispatcher.Invoke(() =>
                 {
-                    ItemAdded?.Invoke(this, eventArgs);
-                }
+                    var eventArgs = _logLineEventArgFactory.Create(value);
+
+                    if (eventArgs != null)
+                    {
+
+                        ItemAdded?.Invoke(this, eventArgs);
+                    }
+
+                });
             }
             catch (Exception e)
             {

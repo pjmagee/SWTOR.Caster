@@ -1,12 +1,14 @@
-using System;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Windows;
-using SwtorCaster.Core.Domain;
-using SwtorCaster.Core.Parser;
-
 namespace SwtorCaster.Core.Services
 {
+    using System;
+    using System.Linq;
+    using System.Text.RegularExpressions;
+    using System.Windows;
+    using SwtorCaster.Core.Domain;
+    using SwtorCaster.Core.Parser;
+    using System.IO;
+    using System.Windows.Media;
+
     public class LogLineEventArgFactory : ILogLineEventArgFactory
     {
         private readonly Random _random = new Random();
@@ -30,14 +32,30 @@ namespace SwtorCaster.Core.Services
             if (match.Success)
             {
                 var id = match.Groups[6].Value;
+
+                var abilitySetting = settings.AbilitySettings.FirstOrDefault(s => s.AbilityId == id && s.Enabled);
+
+
                 var imageUrl = _imageService.GetImageById(id);
                 var angle = _random.Next(-settings.Rotate, settings.Rotate);
                 var enableAbilityName = settings.EnableAbilityText ? Visibility.Visible : Visibility.Hidden;
                 var eventType = match.Groups[7].Value;
                 var abilityName = match.Groups[5].Value;
                 var eventDetail = match.Groups[9].Value;
-                var abilitySetting = settings.AbilitySettings.FirstOrDefault(s => s.AbilityId == id);
+                var border = Colors.Transparent;
 
+                if (abilitySetting != null)
+                {
+                    if (abilitySetting.Image != null && File.Exists(abilitySetting.Image))
+                        imageUrl = abilitySetting.Image;
+
+                    if (!string.IsNullOrEmpty(abilitySetting.BorderColor))
+                        border = abilitySetting.BorderColor.ToColorFromRgb();
+                }
+
+                EventDetailType detailType;
+                Enum.TryParse(eventDetail, ignoreCase: true, result: out detailType);
+                
                 var logLineEventArgs = new LogLineEventArgs
                 {
                     Id = id,
@@ -45,8 +63,9 @@ namespace SwtorCaster.Core.Services
                     ActionVisibility = enableAbilityName,
                     ImageUrl = imageUrl,
                     Angle = angle,
-                    EventType = (EventType) Enum.Parse(typeof (EventType), eventType, ignoreCase: true),
-                    EventDetailType = (EventDetailType) Enum.Parse(typeof (EventDetailType), eventDetail, ignoreCase: true)
+                    EventType = (EventType)Enum.Parse(typeof(EventType), eventType, ignoreCase: true),
+                    EventDetailType = detailType,
+                    ImageBorderColor = new SolidColorBrush(border)
                 };
 
                 return logLineEventArgs;

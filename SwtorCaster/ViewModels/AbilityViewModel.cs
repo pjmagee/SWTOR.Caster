@@ -20,13 +20,7 @@ namespace SwtorCaster.ViewModels
 
         public override string DisplayName { get; set; } = "SWTOR Caster - Abilities";
 
-        public SolidColorBrush BackgroundColor
-        {
-            get
-            {
-                return new SolidColorBrush(_settingsService.Settings.AbilityLoggerBackgroundColor.ToColorFromRgb());
-            }
-        }
+        public SolidColorBrush BackgroundColor => new SolidColorBrush(_settingsService.Settings.AbilityLoggerBackgroundColor.ToColorFromRgb());
 
         public ObservableCollection<LogLineEventArgs> LogLines { get; } = new ObservableCollection<LogLineEventArgs>();
 
@@ -42,14 +36,14 @@ namespace SwtorCaster.ViewModels
 
         private void ParserServiceOnClear(object sender, EventArgs eventArgs)
         {
-            Application.Current.Dispatcher.Invoke(() => LogLines.Clear());
+            LogLines.Clear();
         }
 
         private void ParserServiceOnItemAdded(object sender, LogLineEventArgs e)
         {
             if (_settingsService.Settings.EnableCombatClear && e.EventDetailType == EventDetailType.ExitCombat)
             {
-                Application.Current.Dispatcher.Invoke(() => LogLines.Clear());
+                LogLines.Clear();
                 return;
             }
 
@@ -58,7 +52,7 @@ namespace SwtorCaster.ViewModels
                 _loggerService.Log($"{e.Id} was empty.");
             };
 
-            Application.Current.Dispatcher.Invoke(() => AddItem(e));
+            AddItem(e);
         }
 
         private void AddItem(LogLineEventArgs item)
@@ -80,7 +74,6 @@ namespace SwtorCaster.ViewModels
             _parserService.ItemAdded += ParserServiceOnItemAdded;
             _parserService.Start();
             _settingsService.Settings.PropertyChanged += SettingsOnPropertyChanged;
-
             _loggerService.Log($"Parser service started");
         }
 
@@ -94,7 +87,6 @@ namespace SwtorCaster.ViewModels
             _parserService.Clear -= ParserServiceOnClear;
             _parserService.ItemAdded -= ParserServiceOnItemAdded;
             _parserService.Stop();
-
             _loggerService.Log($"Parser service stopped");
         }
     }

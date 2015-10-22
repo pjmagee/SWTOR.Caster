@@ -70,7 +70,7 @@
   <PropertyGroup />
   <PropertyGroup />
   <PropertyGroup>
-    <ManifestCertificateThumbprint>6D738C53BDD2A8A11075C04AE2EF1739E70606F8</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>51E8FAB9A7BE0B8EA8223557DA9825807C1469C5</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>SwtorCaster_TemporaryKey.pfx</ManifestKeyFile>
@@ -85,7 +85,8 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>SwtorCaster_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
@@ -255,6 +256,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="SwtorCaster_TemporaryKey.pfx" />
     <Resource Include="Resources\WindowsIcons-license.txt" />
     <Resource Include="Resources\swtorcaster.png" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -267,7 +269,6 @@
     <None Include="app.config" />
     <None Include="Properties\app.manifest" />
     <Resource Include="Resources\Entypo.ttf" />
-    <None Include="SwtorCaster_TemporaryKey.pfx" />
     <Resource Include="Resources\font.ttf" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

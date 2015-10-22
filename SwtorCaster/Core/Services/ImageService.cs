@@ -26,8 +26,7 @@ namespace SwtorCaster.Core.Services
         {
             try
             {
-                var customImage = _settingsService.Settings.AbilitySettings.FirstOrDefault(s => s.Enabled && s.AbilityId == abilityId && !string.IsNullOrEmpty(s.Image));
-                return customImage != null ? customImage.Image : _files[abilityId];
+                return _files[abilityId];
             }
             catch (Exception e)
             {
@@ -44,7 +43,7 @@ namespace SwtorCaster.Core.Services
 
         public void Initialize()
         {
-            if (!Directory.Exists(_imagesFolder))
+            if (!Directory.Exists(_imagesFolder) || !Directory.EnumerateFiles(_imagesFolder).Any())
             {
                 _loggerService.Log($"Extracting Images.zip for Ability Window");
                 ZipFile.ExtractToDirectory(_imagesZip, Environment.CurrentDirectory);
