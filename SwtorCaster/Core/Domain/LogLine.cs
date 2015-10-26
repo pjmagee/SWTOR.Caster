@@ -1,18 +1,19 @@
-using System.Windows.Media;
-using SwtorCaster.Core.Domain;
-
-namespace SwtorCaster.Core.Parser
+namespace SwtorCaster.Core.Domain
 {
     using System.Windows;
-    using Caliburn.Micro;
+    using System.Windows.Media;
 
-    public class LogLineEventArgs : PropertyChangedBase
+    public class LogLine
     {
         public string Id { get; set; }
 
-        public SourceTargetType Source { get; set; }
+        public string Source { get; set; }
 
-        public SourceTargetType Target { get; set; }
+        public SourceTargetType SourceType { get; set; }
+
+        public string Target { get; set; }
+
+        public SourceTargetType TargetType { get; set; }
 
         public EventType EventType { get; set; }
 
@@ -28,21 +29,28 @@ namespace SwtorCaster.Core.Parser
 
         public Brush ImageBorderColor { get; set; }
 
-        public LogLineEventArgs(
+        public bool IsUnknown { get; set; }
+
+        public bool IsCurrentPlayer { get; set; }
+
+        public bool IsEmpty => string.IsNullOrEmpty(Action);
+
+        public LogLine(
             string id, 
-            SourceTargetType source, 
-            SourceTargetType target, 
+            SourceTargetType sourceType, 
+            SourceTargetType targetType, 
             EventType eventType, 
             EventDetailType eventDetail, 
             string action, 
             string imageUrl, 
             int angle, 
             Visibility actionVisibility,
-            Color borderColor)
+            Color borderColor,
+            bool unknown, bool isCurrentPlayer)
         {
             Id = id;
-            Source = source;
-            Target = target;
+            SourceType = sourceType;
+            TargetType = targetType;
             EventType = eventType;
             EventDetailType = eventDetail;
             Action = action;
@@ -50,9 +58,11 @@ namespace SwtorCaster.Core.Parser
             Angle = angle;
             ActionVisibility = actionVisibility;
             ImageBorderColor = new SolidColorBrush(borderColor);
+            IsUnknown = unknown;
+            IsCurrentPlayer = isCurrentPlayer;
         }
 
-        public LogLineEventArgs()
+        public LogLine()
         {
         }
     }

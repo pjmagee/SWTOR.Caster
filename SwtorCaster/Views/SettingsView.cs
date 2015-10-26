@@ -1,7 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Media;
-
-namespace SwtorCaster.Views
+﻿namespace SwtorCaster.Views
 {
     using MahApps.Metro.Controls;
 

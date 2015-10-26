@@ -2,14 +2,9 @@ namespace SwtorCaster.ViewModels
 {
     using Caliburn.Micro;
     using Screens;
-    using System.ComponentModel;
-    using System.Drawing;
-    using System.Windows;
-    using System.Windows.Controls;
-    using MahApps.Metro.Controls;
-    using SwtorCaster.Core.Services;
+    using Core.Domain;
 
-    public class MainViewModel : Screen
+    public class MainViewModel : Screen, IHandle<Settings>
     {
         private readonly IWindowManager _windowManager;
         private readonly SettingsViewModel _settingsViewModel;
@@ -17,7 +12,6 @@ namespace SwtorCaster.ViewModels
         private readonly AbilityViewModel _abilityViewModel;
         private readonly LogViewModel _logViewModel;
         private readonly AboutViewModel _aboutViewModel;
-        private readonly ISettingsService _settingsService;
 
         public MainViewModel(
             IWindowManager windowManager,
@@ -25,14 +19,15 @@ namespace SwtorCaster.ViewModels
             AbilityViewModel abilityViewModel, 
             LogViewModel logViewModel, 
             AboutViewModel aboutViewModel, 
-            ISettingsService settingsService)
+            IEventAggregator eventAggregator)
         {
             _windowManager = windowManager;
             _settingsViewModel = settingsViewModel;
             _abilityViewModel = abilityViewModel;
             _logViewModel = logViewModel;
             _aboutViewModel = aboutViewModel;
-            _settingsService = settingsService;
+
+            eventAggregator.Subscribe(this);
         }
 
         public override string DisplayName { get; set; } = "SWTOR Caster";
@@ -69,16 +64,8 @@ namespace SwtorCaster.ViewModels
             }
         }
 
-        protected override void OnActivate()
+        public void Handle(Settings message)
         {
-            _settingsService.Settings.PropertyChanged += SettingsOnPropertyChanged;
-        }
-
-        private void SettingsOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
-        {
-            var view = GetView() as MetroWindow;
-            var button = view.FindChild<Button>("OpenLogView");
-            button.Visibility = !_settingsService.Settings.EnableLogging ? Visibility.Collapsed : Visibility.Visible;
             Refresh();
         }
     }

@@ -1,10 +1,11 @@
-﻿using System.Globalization;
-using System.Windows;
-using System.Windows.Markup;
-using System.Windows.Media;
-
-namespace SwtorCaster.Core.Controls
+﻿namespace SwtorCaster.Custom
 {
+    using System;
+    using System.Globalization;
+    using System.Windows;
+    using System.Windows.Markup;
+    using System.Windows.Media;
+
     [ContentProperty("Text")]
     public class OutlinedText : FrameworkElement
     {
@@ -72,7 +73,7 @@ namespace SwtorCaster.Core.Controls
             typeof(Brush),
             typeof(OutlinedText),
             new FrameworkPropertyMetadata(
-                new SolidColorBrush(Colors.LightSteelBlue),
+                new SolidColorBrush(Colors.Yellow),
                 FrameworkPropertyMetadataOptions.AffectsRender,
                 OnOutlineTextInvalidated,
                 null
@@ -90,7 +91,7 @@ namespace SwtorCaster.Core.Controls
             typeof(FontFamily),
             typeof(OutlinedText),
             new FrameworkPropertyMetadata(
-                new FontFamily("Arial"),
+                new FontFamily(new Uri("pack://application:,,,/"), "./resources/#SF Distant Galaxy"),
                 FrameworkPropertyMetadataOptions.AffectsRender,
                 OnOutlineTextInvalidated,
                 null
@@ -108,7 +109,7 @@ namespace SwtorCaster.Core.Controls
             typeof(double),
             typeof(OutlinedText),
             new FrameworkPropertyMetadata(
-                 48.0,
+                 36.0,
                  FrameworkPropertyMetadataOptions.AffectsRender,
                  OnOutlineTextInvalidated,
                  null
@@ -144,7 +145,7 @@ namespace SwtorCaster.Core.Controls
             typeof(Brush),
             typeof(OutlinedText),
             new FrameworkPropertyMetadata(
-                 new SolidColorBrush(Colors.Teal),
+                 new SolidColorBrush(Colors.Black),
                  FrameworkPropertyMetadataOptions.AffectsRender,
                  OnOutlineTextInvalidated,
                  null
@@ -162,7 +163,7 @@ namespace SwtorCaster.Core.Controls
             typeof(ushort),
             typeof(OutlinedText),
             new FrameworkPropertyMetadata(
-                 (ushort)0,
+                 (ushort)2,
                  FrameworkPropertyMetadataOptions.AffectsRender,
                  OnOutlineTextInvalidated,
                  null
@@ -180,7 +181,7 @@ namespace SwtorCaster.Core.Controls
             typeof(string),
             typeof(OutlinedText),
             new FrameworkPropertyMetadata(
-                 "",
+                 string.Empty,
                  FrameworkPropertyMetadataOptions.AffectsRender,
                  OnOutlineTextInvalidated,
                  null

@@ -1,15 +1,16 @@
-namespace SwtorCaster.Core.Services
+namespace SwtorCaster.Core.Factories
 {
     using System;
+    using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Windows;
-    using SwtorCaster.Core.Domain;
-    using SwtorCaster.Core.Parser;
-    using System.IO;
     using System.Windows.Media;
+    using Domain;
+    using Services.Images;
+    using Services.Settings;
 
-    public class LogLineEventArgFactory : ILogLineEventArgFactory
+    public class LogLineFactory : ILogLineFactory
     {
         private readonly Random _random = new Random();
         private readonly Regex _regex = new Regex(@"\[(.*)\] \[(.*)\] \[(.*)\] \[((.*)\s{(\d*)}?)?\] \[(.*)\s{(\d*)}:\s(.*)\s{(\d*)}\]", RegexOptions.Compiled);
@@ -17,13 +18,23 @@ namespace SwtorCaster.Core.Services
         private readonly IImageService _imageService;
         private readonly ISettingsService _settingsService;
 
-        public LogLineEventArgFactory(IImageService imageService, ISettingsService settingsService)
+        private string _currentPlayer;
+
+        private void UpdatePlayer(EventDetailType type, string source)
+        {
+            if (type == EventDetailType.AbilityActivate)
+            {
+                _currentPlayer = source;
+            }
+        }
+
+        public LogLineFactory(IImageService imageService, ISettingsService settingsService)
         {
             _imageService = imageService;
             _settingsService = settingsService;
         }
 
-        public LogLineEventArgs Create(string line)
+        public LogLine Create(string line)
         {
             var match = _regex.Match(line);
 
@@ -32,13 +43,11 @@ namespace SwtorCaster.Core.Services
             if (match.Success)
             {
                 var id = match.Groups[6].Value;
-
                 var abilitySetting = settings.AbilitySettings.FirstOrDefault(s => s.AbilityId == id && s.Enabled);
-
-
                 var imageUrl = _imageService.GetImageById(id);
                 var angle = _random.Next(-settings.Rotate, settings.Rotate);
                 var enableAbilityName = settings.EnableAbilityText ? Visibility.Visible : Visibility.Hidden;
+                var source = match.Groups[2].Value;
                 var eventType = match.Groups[7].Value;
                 var abilityName = match.Groups[5].Value;
                 var eventDetail = match.Groups[9].Value;
@@ -51,24 +60,38 @@ namespace SwtorCaster.Core.Services
 
                     if (!string.IsNullOrEmpty(abilitySetting.BorderColor))
                         border = abilitySetting.BorderColor.ToColorFromRgb();
+
+                    if (abilitySetting.Aliases.Any())
+                        abilityName = abilitySetting.Aliases.Concat(new[] { abilityName }).ToList()[_random.Next(0, abilitySetting.Aliases.Count)];
                 }
 
                 EventDetailType detailType;
-                Enum.TryParse(eventDetail, ignoreCase: true, result: out detailType);
-                
-                var logLineEventArgs = new LogLineEventArgs
+                Enum.TryParse(eventDetail, true, out detailType);
+                SourceTargetType targetType = SourceTargetType.Self;
+
+                if (detailType == EventDetailType.AbilityActivate)
+                {
+                    targetType = source.Contains(":") ? SourceTargetType.Companion : SourceTargetType.Self;
+                }
+
+                UpdatePlayer(detailType, source);
+
+                var logLine = new LogLine
                 {
                     Id = id,
                     Action = abilityName,
                     ActionVisibility = enableAbilityName,
                     ImageUrl = imageUrl,
                     Angle = angle,
-                    EventType = (EventType)Enum.Parse(typeof(EventType), eventType, ignoreCase: true),
+                    SourceType = targetType,
+                    EventType = (EventType)Enum.Parse(typeof(EventType), eventType, true),
                     EventDetailType = detailType,
-                    ImageBorderColor = new SolidColorBrush(border)
+                    ImageBorderColor = new SolidColorBrush(border),
+                    IsUnknown = _imageService.IsUnknown(id),
+                    IsCurrentPlayer = _currentPlayer == source
                 };
 
-                return logLineEventArgs;
+                return logLine;
             }
 
             // Bad

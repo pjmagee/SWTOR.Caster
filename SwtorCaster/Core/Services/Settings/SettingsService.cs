@@ -1,25 +1,27 @@
-namespace SwtorCaster.Core.Services
+namespace SwtorCaster.Core.Services.Settings
 {
     using System;
     using System.ComponentModel;
-    using System.Deployment.Application;
     using System.IO;
     using System.Windows;
+    using Caliburn.Micro;
     using Domain;
+    using Logging;
     using Newtonsoft.Json;
-    using static System.Environment;
 
     public class SettingsService : ISettingsService
     {
-        private static readonly string SwtorCaster = Path.Combine(GetFolderPath(SpecialFolder.LocalApplicationData), "SwtorCaster");
+        private static readonly string SwtorCaster = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SwtorCaster");
         private static readonly string SettingsPath = Path.Combine(SwtorCaster, "settings.json");
         private readonly ILoggerService _loggerService;
+        private readonly IEventAggregator _eventAggregator;
 
         public Settings Settings { get; set; }
 
-        public SettingsService(ILoggerService loggerService)
+        public SettingsService(ILoggerService loggerService, IEventAggregator eventAggregator)
         {
             _loggerService = loggerService;
+            _eventAggregator = eventAggregator;
             Load();
         }
 
@@ -32,7 +34,9 @@ namespace SwtorCaster.Core.Services
         {
             try
             {
-                var json = JsonConvert.SerializeObject(Settings, Formatting.Indented);
+                var settings = Settings;
+
+                var json = JsonConvert.SerializeObject(settings, Formatting.Indented);
 
                 if (!Directory.Exists(SwtorCaster))
                 {
@@ -40,6 +44,8 @@ namespace SwtorCaster.Core.Services
                 }
 
                 File.WriteAllText(SettingsPath, json);
+
+                _eventAggregator.PublishOnUIThread(settings);
             }
             catch (Exception e)
             {

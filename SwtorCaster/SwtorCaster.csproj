@@ -33,7 +33,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>33</ApplicationRevision>
+    <ApplicationRevision>35</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -111,6 +111,10 @@
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="NAudio, Version=1.7.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.1.7.3\lib\net35\NAudio.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -169,28 +173,37 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Core\Controls\OutlinedText.cs" />
+    <Compile Include="Core\Domain\EventSetting.cs" />
+    <Compile Include="Custom\OutlinedText.cs" />
     <Compile Include="Core\Domain\AbilitySetting.cs" />
     <Compile Include="Core\Domain\EventDetailType.cs" />
     <Compile Include="Core\Domain\EventType.cs" />
     <Compile Include="Core\Domain\SourceTargetType.cs" />
     <Compile Include="Core\Extensions.cs" />
-    <Compile Include="Core\Services\FakeParserService.cs" />
-    <Compile Include="Core\Services\IImageService.cs" />
-    <Compile Include="Core\Services\ILoggerService.cs" />
-    <Compile Include="Core\Services\ILogLineEventArgFactory.cs" />
-    <Compile Include="Core\Services\ImageService.cs" />
-    <Compile Include="Core\Services\IParserService.cs" />
-    <Compile Include="Core\Services\ISettingsService.cs" />
-    <Compile Include="Core\Services\LoggerService.cs" />
-    <Compile Include="Core\Services\LogLineEventArgFactory.cs" />
-    <Compile Include="Core\Services\ParserService.cs" />
-    <Compile Include="Core\Services\SettingsService.cs" />
+    <Compile Include="Core\Services\Parsing\FakeParserService.cs" />
+    <Compile Include="Core\Services\Images\IImageService.cs" />
+    <Compile Include="Core\Services\Logging\ILoggerService.cs" />
+    <Compile Include="Core\Factories\ILogLineFactory.cs" />
+    <Compile Include="Core\Services\Images\ImageService.cs" />
+    <Compile Include="Core\Services\Parsing\IParserService.cs" />
+    <Compile Include="Core\Services\Settings\ISettingsService.cs" />
+    <Compile Include="Core\Services\Logging\LoggerService.cs" />
+    <Compile Include="Core\Factories\LogLineFactory.cs" />
+    <Compile Include="Core\Domain\ParserMessage.cs" />
+    <Compile Include="Core\Services\Parsing\ParserService.cs" />
+    <Compile Include="Core\Services\Settings\SettingsService.cs" />
+    <Compile Include="Custom\CloseBehavior.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="ViewModels\AbilityAliasViewModel.cs" />
     <Compile Include="ViewModels\AbilitySettingViewModel.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
+    <Compile Include="Core\Services\Audio\IAudioService.cs" />
+    <Compile Include="Core\Services\Audio\AudioService.cs" />
+    <Compile Include="ViewModels\EventSettingViewModel.cs" />
     <Compile Include="ViewModels\Screens\FocusableScreen.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\SoundItem.cs" />
+    <Compile Include="ViewModels\SplashViewModel.cs" />
     <Compile Include="Views\AboutView.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
     </Compile>
@@ -205,6 +218,9 @@
     </Compile>
     <Compile Include="ViewModels\AbilityViewModel.cs" />
     <Compile Include="ViewModels\LogViewModel.cs" />
+    <Compile Include="Views\SplashView.xaml.cs">
+      <DependentUpon>SplashView.xaml</DependentUpon>
+    </Compile>
     <Page Include="Resources\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -217,7 +233,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Core\Parser\LogLineEventArgs.cs" />
+    <Compile Include="Core\Domain\LogLine.cs" />
     <Compile Include="Views\AbilityView.cs">
       <DependentUpon>AbilityView.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -235,6 +251,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SplashView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -257,8 +277,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="SwtorCaster_TemporaryKey.pfx" />
-    <Resource Include="Resources\WindowsIcons-license.txt" />
-    <Resource Include="Resources\swtorcaster.png" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -268,8 +286,12 @@
     </Content>
     <None Include="app.config" />
     <None Include="Properties\app.manifest" />
-    <Resource Include="Resources\Entypo.ttf" />
-    <Resource Include="Resources\font.ttf" />
+    <Resource Include="Resources\Entypo.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\font.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -278,17 +300,36 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Entypo-license.txt" />
-    <Resource Include="Resources\swtorcaster-24x24.png" />
+    <Resource Include="Resources\Awakened Gamers.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="Resources\Sounds\2SAD4ME.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Sounds\2SED4AIRHORN.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Sounds\Darude - Dankstorm.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Sounds\NEVER DONE THAT.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Sounds\SKRILLEX Scary.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Sounds\SPOOKY.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Sounds\tactical nuke.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Sounds\wow-.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\swtorcaster.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Resources\about.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\splash.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6">

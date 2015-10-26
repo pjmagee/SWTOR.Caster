@@ -15,8 +15,6 @@
                       Margin="10">
             <TextBlock x:Name="LogText" />
         </ScrollViewer>
-        <Button Grid.Row="1" x:Name="ClearLog" DockPanel.Dock="Bottom" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5">
-            Clear log
-        </Button>
+        <Button Grid.Row="1" x:Name="ClearLog" DockPanel.Dock="Bottom" Content="Clear log" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5" />
     </Grid>
 </controls:MetroWindow>

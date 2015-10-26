@@ -1,4 +1,4 @@
-﻿namespace SwtorCaster.Core.Services
+﻿namespace SwtorCaster.Core.Services.Logging
 {
     public interface ILoggerService
     {

@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-
-namespace SwtorCaster.Core.Services
+namespace SwtorCaster.Core.Services.Images
 {
+    using System.Collections.Generic;
+
     public interface IImageService
     {
         void Initialize();
@@ -10,5 +9,7 @@ namespace SwtorCaster.Core.Services
         string GetImageById(string abilityId);
 
         IEnumerable<string> GetImages();
+
+        bool IsUnknown(string abilityId);
     }
 }

@@ -1,54 +1,33 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Windows.Media;
-using Caliburn.Micro;
-
 namespace SwtorCaster.Core.Domain
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using Newtonsoft.Json;
-
+    using System.Collections.Generic;
+    using Annotations;
 
     public class Settings : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [JsonIgnore]
         private string _version = string.Empty;
-
-        [JsonIgnore]
         private int _items = 5;
-
-        [JsonIgnore]
         private int _rotate = 5;
-
-        [JsonIgnore]
         private int _clearAfterInactivity = 10;
-
-        [JsonIgnore]
         private bool _enableAbilityText = true;
-
-        [JsonIgnore]
         private bool _enableClearInactivity = true;
-
-        [JsonIgnore]
         private bool _enableCombatClear = true;
-
-        [JsonIgnore]
         private bool _enableCompanionAbilities = true;
-
-        [JsonIgnore]
         private bool _enableLogging = true;
-
-        [JsonIgnore]
         private string _abilityLoggerBackgroundColor = "255,255,255";
+        private bool _ignoreUnknownAbilities = true;
+        private int _fontSize = 32;
+        private string _soundOnDeath;
+        private int _volume = 10;
 
-        [JsonIgnore]
         private IEnumerable<AbilitySetting> _abilitySettings = new List<AbilitySetting>();
-
+        private IEnumerable<EventSetting> _eventSettings = new List<EventSetting>();
+        private bool _enableSound;
 
         [JsonProperty("items")]
         public int Items
@@ -140,7 +119,9 @@ namespace SwtorCaster.Core.Domain
             get { return _version; }
             set
             {
+                if (value == _version) return;
                 _version = value;
+                OnPropertyChanged();
             }
         }
 
@@ -171,6 +152,66 @@ namespace SwtorCaster.Core.Domain
             }
         }
 
+       [JsonProperty("ignoreUnknownAbilities")]
+        public bool IgnoreUnknownAbilities
+        {
+            get { return _ignoreUnknownAbilities; }
+            set
+            {
+                if (_ignoreUnknownAbilities == value) return;
+                _ignoreUnknownAbilities = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonProperty("fontSize")]
+        public int FontSize
+        {
+            get { return _fontSize; }
+            set
+            {
+                if (_fontSize == value) return;
+                _fontSize = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonProperty("soundOnEnemyDeath")]
+        public string SoundOnDeath
+        {
+            get { return _soundOnDeath; }
+            set
+            {
+                if (value == _soundOnDeath) return;
+                _soundOnDeath = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonProperty("volume")]
+        public int Volume
+        {
+            get { return _volume; }
+            set
+            {
+                if (value.Equals(_volume)) return;
+                _volume = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonProperty("enableSound")]
+        public bool EnableSound
+        {
+            get { return _enableSound; }
+            set
+            {
+                if (value == _enableSound) return;
+                _enableSound = value;
+                OnPropertyChanged();
+            }
+        }
+
         [JsonProperty("abilitySettings")]
         public IEnumerable<AbilitySetting> AbilitySettings
         {
@@ -182,6 +223,19 @@ namespace SwtorCaster.Core.Domain
             }
         }
 
+        [JsonProperty("eventSettings")]
+        public IEnumerable<EventSetting> EventSettings
+        {
+            get { return _eventSettings; }
+            set
+            {
+                if (Equals(value, _eventSettings)) return;
+                _eventSettings = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

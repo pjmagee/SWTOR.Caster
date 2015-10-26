@@ -1,6 +1,4 @@
-using System.Threading.Tasks;
-
-namespace SwtorCaster.Core.Services
+namespace SwtorCaster.Core.Services.Parsing
 {
     using System;
     using System.Diagnostics;
@@ -9,32 +7,31 @@ namespace SwtorCaster.Core.Services
     using System.Threading;
     using System.Windows;
     using System.Windows.Threading;
-    using Parser;
-    using ThreadState = System.Threading.ThreadState;
+    using Caliburn.Micro;
+    using Domain;
+    using Factories;
+    using Logging;
+    using Settings;
 
     public class ParserService : IParserService
     {
         private Thread _thread;
-
-        private readonly object _syncLock = new object();
-
-        public event EventHandler Clear;
-        public event EventHandler<LogLineEventArgs> ItemAdded;
-
         private FileInfo _currentFile;
-        private static string SwtorCombatLogPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Star Wars - The Old Republic", "CombatLogs");
+        private bool _running;
+
+        private static string SwtorCombatLogPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), 
+            "Star Wars - The Old Republic", "CombatLogs");
 
         private readonly ILoggerService _loggerService;
         private readonly ISettingsService _settingsService;
-        private readonly ILogLineEventArgFactory _logLineEventArgFactory;
+        private readonly ILogLineFactory _logLineFactory;
+        private readonly IEventAggregator _eventAggregator;
         private readonly Stopwatch _clearStopwatch;
         private readonly DispatcherTimer _clearTimer;
         private readonly DispatcherTimer _fileWriteTimer;
         private readonly DirectoryInfo _logDirectory;
 
-        public static readonly Random Random = new Random();
-
-        public bool IsRunning => _thread != null && _thread.ThreadState == ThreadState.Running;
+        public bool IsRunning => _running;
 
         private ParserService()
         {
@@ -42,17 +39,27 @@ namespace SwtorCaster.Core.Services
             _clearStopwatch = new Stopwatch();
             _fileWriteTimer = new DispatcherTimer(DispatcherPriority.Normal) { Interval = TimeSpan.FromSeconds(10) };
             _logDirectory = new DirectoryInfo(SwtorCombatLogPath);
+
+            _clearTimer.Tick += ClearTimerOnTick;
+            _fileWriteTimer.Tick += FileWriteTimerOnTick;
         }
 
-        public ParserService(ILoggerService loggerService, ISettingsService settingsService, ILogLineEventArgFactory logLineEventArgFactory) : this()
+        public ParserService(
+            ILoggerService loggerService,
+            ISettingsService settingsService,
+            ILogLineFactory logLineFactory,
+            IEventAggregator eventAggregator) : this()
         {
             _loggerService = loggerService;
             _settingsService = settingsService;
-            _logLineEventArgFactory = logLineEventArgFactory;
+            _logLineFactory = logLineFactory;
+            _eventAggregator = eventAggregator;
         }
 
         public void Start()
         {
+            if (IsRunning) return;
+
             try
             {
                 _currentFile = GetLatestFile();
@@ -60,15 +67,10 @@ namespace SwtorCaster.Core.Services
                 if (_settingsService.Settings.EnableClearInactivity)
                 {
                     _clearTimer.Start();
-                    _clearTimer.Tick -= ClearTimerOnTick;
-                    _clearTimer.Tick += ClearTimerOnTick;
                     _clearStopwatch.Start();
                 }
 
                 ReadCurrentFile();
-
-                _fileWriteTimer.Tick -= FileWriteTimerOnTick;
-                _fileWriteTimer.Tick += FileWriteTimerOnTick;
                 _fileWriteTimer.Start();
 
                 _loggerService.Log($"Parser service started.");
@@ -81,6 +83,7 @@ namespace SwtorCaster.Core.Services
 
         public void Stop()
         {
+            _running = false;
             _thread?.Abort();
             _clearStopwatch?.Stop();
             _clearTimer?.Stop();
@@ -97,33 +100,25 @@ namespace SwtorCaster.Core.Services
 
         private void ClearTimerOnTick(object sender, EventArgs eventArgs)
         {
-            lock (_syncLock)
+            if (_clearStopwatch.Elapsed.TotalSeconds > _settingsService.Settings.ClearAfterInactivity)
             {
-                if (_clearStopwatch.Elapsed.TotalSeconds > _settingsService.Settings.ClearAfterInactivity)
+                Application.Current.Dispatcher.Invoke(() =>
                 {
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        Clear?.Invoke(this, EventArgs.Empty);
-                    });
-                }
+                    _eventAggregator.PublishOnUIThread(new ParserMessage() { ClearLog = true });
+                });
             }
         }
 
         private void FileWriteTimerOnTick(object sender, EventArgs eventArgs)
         {
-            lock (_syncLock)
-            {
-                var file = GetLatestFile();
+            var file = GetLatestFile();
+            if (file.FullName == _currentFile.FullName) return;
 
-                if (file.FullName != _currentFile.FullName)
-                {
-                    _loggerService.Log($"Detected new file {file.FullName}");
-                    _loggerService.Log($"Restarting parser service with new file");
+            _loggerService.Log($"Detected new file {file.FullName}");
+            _loggerService.Log($"Restarting parser service with new file");
 
-                    Stop();
-                    Start();
-                }
-            }
+            Stop();
+            Start();
         }
 
         private void ReadCurrentFile()
@@ -131,6 +126,7 @@ namespace SwtorCaster.Core.Services
             var file = GetLatestFile();
             _thread = new Thread(() => Read(file.FullName));
             _thread.Start();
+            _running = true;
         }
 
         public async void Read(string file)
@@ -141,15 +137,11 @@ namespace SwtorCaster.Core.Services
                 {
                     reader.ReadToEnd();
 
-                    while (true)
+                    while (_running)
                     {
                         var value = await reader.ReadLineAsync();
 
-                        if (value == null)
-                        {
-
-                        }
-                        else
+                        if (value != null)
                         {
                             TryRead(value);
 
@@ -171,14 +163,12 @@ namespace SwtorCaster.Core.Services
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    var eventArgs = _logLineEventArgFactory.Create(value);
+                    var logLine = _logLineFactory.Create(value);
 
-                    if (eventArgs != null)
+                    if (logLine != null)
                     {
-
-                        ItemAdded?.Invoke(this, eventArgs);
+                        _eventAggregator.PublishOnUIThread(logLine);
                     }
-
                 });
             }
             catch (Exception e)

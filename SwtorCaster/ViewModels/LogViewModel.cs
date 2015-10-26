@@ -1,7 +1,6 @@
 namespace SwtorCaster.ViewModels
 {
-    using Caliburn.Micro;
-    using Core.Services;
+    using Core.Services.Logging;
     using Screens;
 
     public class LogViewModel : FocusableScreen
@@ -20,7 +19,7 @@ namespace SwtorCaster.ViewModels
         public void ClearLog()
         {
             _loggerService.Clear();
-            Refresh();
+            TryClose();
         }
     }
 }

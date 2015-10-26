@@ -1,4 +1,4 @@
-namespace SwtorCaster.Core.Services
+namespace SwtorCaster.Core.Services.Parsing
 {
     using System;
     using System.IO;
@@ -6,25 +6,24 @@ namespace SwtorCaster.Core.Services
     using System.Threading;
     using System.Windows;
     using System.Windows.Media;
-    using SwtorCaster.Core.Domain;
-    using SwtorCaster.Core.Parser;
-
+    using Caliburn.Micro;
+    using Domain;
+    using Images;
+    using Settings;
 
     public class FakeParserService : IParserService
     {
         private readonly IImageService _imageService;
         private readonly ISettingsService _settingsService;
+        private readonly IEventAggregator _eventAggregator;
         public bool IsRunning => _parserThread != null && _parserThread.ThreadState == ThreadState.Running;
-
-        public event EventHandler Clear;
-        public event EventHandler<LogLineEventArgs> ItemAdded;
-
         private Thread _parserThread;
 
-        public FakeParserService(IImageService imageService, ISettingsService settingsService)
+        public FakeParserService(IImageService imageService, ISettingsService settingsService, IEventAggregator eventAggregator)
         {
             _imageService = imageService;
             _settingsService = settingsService;
+            _eventAggregator = eventAggregator;
         }
 
         public void Start()
@@ -39,27 +38,28 @@ namespace SwtorCaster.Core.Services
             var images = _imageService.GetImages().ToList();
             var random = new Random();
 
+            var types = new[]
+            {
+                EventDetailType.AbilityActivate, EventDetailType.Death, EventDetailType.ExitCombat,
+                EventDetailType.EnterCombat
+            };
+      
             while (true)
             {
                 var image = images[random.Next(0, images.Count)];
                 var id = Path.GetFileNameWithoutExtension(image);
                 var color = Color.FromRgb((byte)random.Next(0, 255), (byte)random.Next(0, 255), (byte)random.Next(0, 255));
                 var settings = _settingsService.Settings;
+                
+                var logline = new LogLine(id, SourceTargetType.Self, SourceTargetType.Other, EventType.Event,
+                    types[random.Next(0, types.Length)],
+                    "ACTION",
+                    _imageService.GetImageById(id),
+                    random.Next(-settings.Rotate, settings.Rotate),
+                    Visibility.Visible,
+                    color, false, true);
 
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    ItemAdded?.Invoke(this, new LogLineEventArgs(
-                        id,
-                        SourceTargetType.Self,
-                        SourceTargetType.Other,
-                        EventType.Event,
-                        EventDetailType.AbilityActivate,
-                        "ACTION",
-                        _imageService.GetImageById(id),
-                        random.Next(-settings.Rotate, settings.Rotate),
-                        Visibility.Visible,
-                        color));
-                });
+                _eventAggregator.PublishOnUIThread(logline);
 
                 Thread.Sleep(1000);
             }

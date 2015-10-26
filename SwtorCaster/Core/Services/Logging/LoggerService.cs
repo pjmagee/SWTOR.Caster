@@ -1,7 +1,8 @@
-﻿namespace SwtorCaster.Core.Services
+﻿namespace SwtorCaster.Core.Services.Logging
 {
     using System;
     using System.IO;
+    using System.Linq;
 
     public class LoggerService : ILoggerService
     {
@@ -31,6 +32,7 @@
             }
         }
 
-        public string Text => File.ReadAllText(_logPath);
+        // Take the last 100 log lines
+        public string Text => string.Join(Environment.NewLine, File.ReadAllLines(_logPath).Reverse().Take(100));
     }
 }

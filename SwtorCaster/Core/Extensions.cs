@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
-
-namespace SwtorCaster.Core
+﻿namespace SwtorCaster.Core
 {
+    using System.Windows.Media;
+
     public static class Extensions
     {
         public static Color ToColorFromRgb(this string value)
@@ -18,6 +13,7 @@ namespace SwtorCaster.Core
 
         public static string ToRgbFromColor(this Color color, string seperator = ",")
         {
+            if (color == Colors.Transparent) return string.Empty;
             return $"{color.R}{seperator}{color.G}{seperator}{color.B}";
         }
     }

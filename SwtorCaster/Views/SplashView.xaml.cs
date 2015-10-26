@@ -3,11 +3,11 @@
     using MahApps.Metro.Controls;
 
     /// <summary>
-    /// Interaction logic for AboutView.xaml
+    /// Interaction logic for SplashView.xaml
     /// </summary>
-    public partial class AboutView : MetroWindow
+    public partial class SplashView : MetroWindow
     {
-        public AboutView()
+        public SplashView()
         {
             InitializeComponent();
         }

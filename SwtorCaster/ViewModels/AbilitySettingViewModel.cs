@@ -1,10 +1,10 @@
 namespace SwtorCaster.ViewModels
 {
+    using System.Linq;
     using System.Windows.Media;
     using Core;
     using Core.Domain;
     using Caliburn.Micro;
-    using System.ComponentModel;
     using Microsoft.Win32;
 
     public class AbilitySettingViewModel : PropertyChangedBase
@@ -14,10 +14,25 @@ namespace SwtorCaster.ViewModels
 
         public AbilitySetting AbilitySetting => _abilitySetting;
 
+        public BindableCollection<AbilityAliasViewModel> Aliases { get; set; } = new BindableCollection<AbilityAliasViewModel>();
+
         public AbilitySettingViewModel(AbilitySetting abilitySetting, SettingsViewModel settingsViewModel)
         {
             _abilitySetting = abilitySetting;
             _settingsViewModel = settingsViewModel;
+            InitializeAliases();
+        }
+
+        private void InitializeAliases()
+        {
+            var aliases = _abilitySetting.Aliases.Where(x => !string.IsNullOrEmpty(x)).Select(x => new AbilityAliasViewModel(x));
+            Aliases.AddRange(aliases);
+            Aliases.CollectionChanged += (sender, args) => UpdateAliases();
+        }
+
+        private void UpdateAliases()
+        {
+            _abilitySetting.Aliases = Aliases.Where(x => !string.IsNullOrEmpty(x.Name)).Select(x => x.Name).ToList();
         }
 
         public string Id
@@ -25,8 +40,6 @@ namespace SwtorCaster.ViewModels
             get { return _abilitySetting.AbilityId; }
             set { _abilitySetting.AbilityId = value; }
         }
-
-        public string Aliases { get; set; }
 
         public string ImageUrl
         {
@@ -77,6 +90,11 @@ namespace SwtorCaster.ViewModels
         public void RemoveImage()
         {
             ImageUrl = string.Empty;
+        }
+
+        public void AddAlias()
+        {
+            Aliases.Add(new AbilityAliasViewModel());
         }
     }
 }

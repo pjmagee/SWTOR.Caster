@@ -4,40 +4,78 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-        xmlns:custom="clr-namespace:SwtorCaster.Core.Controls"
+        xmlns:cal="http://www.caliburnproject.org"
         mc:Ignorable="d" 
         Icon="../Resources/swtorcaster.ico"
-        Title="SWTOR Caster - AboutView" Height="400" Width="600" FontSize="50" ResizeMode="NoResize" 
-        FontStyle="Normal" FontWeight="Normal" FontFamily="../Resources/#SF Distant Galaxy">
-    <Window.Background>
-        <ImageBrush ImageSource="../Resources/about.jpg" Stretch="UniformToFill"/>
-    </Window.Background>
-    <DockPanel Margin="5">
-        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
-                <custom:OutlinedText HorizontalAlignment="Left" Text="Author:" FontFamily="../Resources/#SF Distant Galaxy" Stroke="Black" StrokeThickness="2" Fill="Yellow" />
-                <custom:OutlinedText HorizontalAlignment="Left" Text="Delegate" FontFamily="../Resources/#SF Distant Galaxy" Stroke="Black" StrokeThickness="2" Fill="Yellow" />
+        Height="242" 
+        SizeToContent="WidthAndHeight" ResizeMode="NoResize" Padding="10" Width="468">
+    <Window.Resources>
+        <Style x:Key="HyperlinkButton" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <ContentPresenter/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Vertical" Width="140" Height="Auto" VerticalAlignment="Center">
+            <Image Source="../Resources/Awakened Gamers.png" VerticalAlignment="Center" Height="196" Margin="0,0,10,0" />
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Width="Auto" Margin="0,0,10,0">
+            <TextBlock VerticalAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center" Padding="5">
+                    Delegate's SWTOR Caster
+            </TextBlock>
+            <StackPanel Orientation="Horizontal">
+                <Label FontWeight="Bold">Site:</Label>
+                <Button cal:Message.Attach="[Event Click] = [Action OpenSWTORCaster]" Style="{StaticResource HyperlinkButton}">
+                    <TextBlock VerticalAlignment="Center">
+                        <Hyperlink Focusable="False">http://pjmagee.github.io/swtor-caster/</Hyperlink>
+                    </TextBlock>
+                </Button>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <custom:OutlinedText HorizontalAlignment="Left" Text="The Red Eclipse" FontFamily="../Resources/#SF Distant Galaxy" Stroke="Black" StrokeThickness="2" Fill="Yellow" />
+            <StackPanel Orientation="Horizontal">
+                <Label FontWeight="Bold">Guild:</Label>
+                <Button cal:Message.Attach="[Event Click] = [Action OpenGuild]" Style="{StaticResource HyperlinkButton}">
+                    <TextBlock VerticalAlignment="Center">
+                        <Hyperlink Focusable="False">http://awakenedgamers.com</Hyperlink>
+                    </TextBlock>
+                </Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label FontWeight="Bold">Twitch:</Label>
+                <Button cal:Message.Attach="[Event Click] = [Action OpenTwitch]" Style="{StaticResource HyperlinkButton}">
+                    <TextBlock VerticalAlignment="Center">
+                        <Hyperlink Focusable="False">http://www.twitch.tv/sneakymaan</Hyperlink>
+                    </TextBlock>
+                </Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label FontWeight="Bold" Content="Contribute:" />
+                <Button cal:Message.Attach="[Event Click] = [Action OpenGithub]" Style="{StaticResource HyperlinkButton}">
+                    <TextBlock VerticalAlignment="Center">
+                        <Hyperlink Focusable="False">https://github.com/pjmagee/swtor-caster/</Hyperlink>
+                    </TextBlock>
+                </Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Referral link:" FontWeight="Bold" />
+                <Button cal:Message.Attach="[Event Click] = [Action OpenReferral]" Style="{StaticResource HyperlinkButton}">
+                    <TextBlock VerticalAlignment="Center">
+                        <Hyperlink Focusable="False">http://www.swtor.com/r/rpNrdB</Hyperlink>
+                    </TextBlock>
+                </Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Ability images from:" FontWeight="Bold" />
+                <Button cal:Message.Attach="[Event Click] = [Action OpenTorCommunity]" Style="{StaticResource HyperlinkButton}">
+                    <TextBlock VerticalAlignment="Center">
+                        <Hyperlink Focusable="False">http://www.torcommunity.com/</Hyperlink>
+                    </TextBlock>
+                </Button>
             </StackPanel>
         </StackPanel>
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <custom:OutlinedText HorizontalAlignment="Center" Text="Guild:" FontFamily="../Resources/#SF Distant Galaxy" Stroke="Black" StrokeThickness="2" Fill="Yellow" />
-                <TextBlock HorizontalAlignment="Center" Foreground="Yellow" VerticalAlignment="Center">
-                        <Hyperlink NavigateUri="http://www.awakenedgamers.com/" Click="Guild_OnClick">
-                            Awakened
-                        </Hyperlink>
-                </TextBlock>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock HorizontalAlignment="Center" Foreground="Yellow" FontSize="28" VerticalAlignment="Center">
-                        <Hyperlink NavigateUri="http://www.torcommunity.com/" Click="TorCommunity_OnClick">
-                           Special thanks to TorCommunity
-                        </Hyperlink>
-                </TextBlock>
-            </StackPanel>
-        </StackPanel>
-    </DockPanel>
+    </StackPanel>
 </controls:MetroWindow>

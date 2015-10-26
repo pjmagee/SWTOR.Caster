@@ -1,23 +1,18 @@
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using Newtonsoft.Json;
-using SwtorCaster.Annotations;
-
 namespace SwtorCaster.Core.Domain
 {
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+    using Annotations;
+    using Newtonsoft.Json;
+
     public class AbilitySetting : INotifyPropertyChanged
     {
-        private Settings _settings;
-
-        [JsonIgnore] private bool _enabled;
-
-        [JsonIgnore] private string _abilityId;
-
-        [JsonIgnore] private string _image;
-
-        [JsonIgnore] private string _abilityBorderColor;
-
-        [JsonIgnore] private string _aliases;
+        private bool _enabled = true;
+        private string _abilityId;
+        private string _image;
+        private string _abilityBorderColor;
+        private List<string> _aliases = new List<string>();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -57,13 +52,13 @@ namespace SwtorCaster.Core.Domain
             }
         }
 
-        [JsonProperty("aliases")]
-        public string Aliases
+        [JsonProperty("aliases", NullValueHandling = NullValueHandling.Ignore)]
+        public List<string> Aliases
         {
             get { return _aliases; }
             set
             {
-                if (value == _aliases) return;
+                if (Equals(value, _aliases)) return;
                 _aliases = value;
                 OnPropertyChanged();
             }

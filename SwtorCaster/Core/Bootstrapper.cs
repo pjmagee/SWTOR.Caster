@@ -2,9 +2,15 @@ namespace SwtorCaster.Core
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using System.Windows;
     using Caliburn.Micro;
-    using Services;
+    using Factories;
+    using Services.Audio;
+    using Services.Images;
+    using Services.Logging;
+    using Services.Parsing;
+    using Services.Settings;
     using ViewModels;
 
     public sealed class Bootstrapper : BootstrapperBase
@@ -22,7 +28,7 @@ namespace SwtorCaster.Core
             //    StartRuntime();
             //}
 
-            Initialize();
+            base.Initialize();
         }
 
         protected override IEnumerable<object> GetAllInstances(Type service)
@@ -50,20 +56,27 @@ namespace SwtorCaster.Core
             BindViewModels();
         }
         
-        protected override void OnStartup(object sender, StartupEventArgs e)
+        protected override async void OnStartup(object sender, StartupEventArgs e)
         {
+            await Initialize();
+            DisplayRootViewFor<MainViewModel>();
+        }
+
+        private async Task Initialize()
+        {
+            var splashViewModel = _container.GetInstance<SplashViewModel>();
             var imageService = _container.GetInstance<IImageService>();
 
-            var splash = new SplashScreen("Resources/splash.jpg");
-            splash.Show(false);
-            imageService.Initialize();
-            splash.Close(TimeSpan.FromSeconds(2));
+            splashViewModel.Start();
 
-            DisplayRootViewFor<MainViewModel>();
+            await Task.Run(() => imageService.Initialize());
+            
+            splashViewModel.TryClose();
         }
 
         private void BindViewModels()
         {
+            _container.Singleton<SplashViewModel>();
             _container.Singleton<MainViewModel>();
             _container.Singleton<AbilityViewModel>();
             _container.Singleton<LogViewModel>();
@@ -73,12 +86,14 @@ namespace SwtorCaster.Core
 
         private void BindServices()
         {
+            _container.Singleton<IEventAggregator, EventAggregator>();
+            _container.Singleton<IAudioService, AudioService>();
             _container.Singleton<IImageService, ImageService>();
             _container.Singleton<ISettingsService, SettingsService>();
             _container.Singleton<ILoggerService, LoggerService>();
             _container.Singleton<IParserService, ParserService>();
             _container.Singleton<IWindowManager, WindowManager>();
-            _container.Singleton<ILogLineEventArgFactory, LogLineEventArgFactory>();
+            _container.Singleton<ILogLineFactory, LogLineFactory>();
         }
 
         protected override void OnExit(object sender, EventArgs e)
