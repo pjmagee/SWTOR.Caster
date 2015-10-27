@@ -6,14 +6,9 @@ namespace SwtorCaster.ViewModels
     {
         private string _name;
 
-        public AbilityAliasViewModel(string name)
+        public AbilityAliasViewModel(string name = "")
         {
             _name = name;
-        }
-
-        public AbilityAliasViewModel() : this(string.Empty)
-        {
-            
         }
 
         public string Name

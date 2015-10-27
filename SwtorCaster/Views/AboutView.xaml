@@ -9,17 +9,6 @@
         Icon="../Resources/swtorcaster.ico"
         Height="242" 
         SizeToContent="WidthAndHeight" ResizeMode="NoResize" Padding="10" Width="468">
-    <Window.Resources>
-        <Style x:Key="HyperlinkButton" TargetType="Button">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <ContentPresenter/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Resources>
     <StackPanel Orientation="Horizontal">
         <StackPanel Orientation="Vertical" Width="140" Height="Auto" VerticalAlignment="Center">
             <Image Source="../Resources/Awakened Gamers.png" VerticalAlignment="Center" Height="196" Margin="0,0,10,0" />

@@ -6,8 +6,8 @@
         SizeToContent="WidthAndHeight" ResizeMode="CanResizeWithGrip"
         Title="SWTOR Caster">
     <Window.Resources>
-        <ToolTip x:Key="TooltipAbility" Content="Add this window as a window source to OBS" />
-        <ToolTip x:Key="TooltipSettings" Content="Configure how the LoggerService behaves" />
+        <ToolTip x:Key="TooltipAbility" Content="You should manually add this window as a window source to OBS" />
+        <ToolTip x:Key="TooltipSettings" Content="Configure SWTOR Caster" />
         <ToolTip x:Key="TooltipAbout" Content="Shows information about SWTOR Caster" />
     </Window.Resources>
     <Grid Margin="5">

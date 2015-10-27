@@ -1,4 +1,3 @@
-
 namespace SwtorCaster.ViewModels
 {
     using System.Collections.ObjectModel;
@@ -11,28 +10,27 @@ namespace SwtorCaster.ViewModels
     using Core.Services.Logging;
     using Core.Services.Parsing;
     using Core.Services.Settings;
+    using SwtorCaster.Core.Extensions;
 
-    public class AbilityViewModel : FocusableScreen, IHandle<Settings>, IHandle<ParserMessage>, IHandle<LogLine>
+    public class AbilityViewModel : FocusableScreen, IHandle<Settings>, IHandle<ParserMessage>, IHandle<LogLine>, IHandle<IParserService>
     {
-        private readonly IParserService _parserService;
+        private readonly IParserProvider _parserProvider;
         private readonly ILoggerService _loggerService;
         private readonly ISettingsService _settingsService;
 
         public override string DisplayName { get; set; } = "SWTOR Caster - Abilities";
 
-        public SolidColorBrush BackgroundColor => new SolidColorBrush(_settingsService.Settings.AbilityLoggerBackgroundColor.ToColorFromRgb());
-
-        // public double FontSize => _settingsService.Settings.FontSize;
+        public SolidColorBrush BackgroundColor => new SolidColorBrush(_settingsService.Settings.AbilityLoggerBackgroundColor.FromHexToColor());
 
         public ObservableCollection<LogLine> LogLines { get; } = new ObservableCollection<LogLine>();
 
         public AbilityViewModel(
-            IParserService parserService, 
+            IParserProvider parserProvider,
             ILoggerService loggerService,
-            ISettingsService settingsService, 
+            ISettingsService settingsService,
             IEventAggregator eventAggregator)
         {
-            _parserService = parserService;
+            _parserProvider = parserProvider;
             _loggerService = loggerService;
             _settingsService = settingsService;
             eventAggregator.Subscribe(this);
@@ -40,6 +38,7 @@ namespace SwtorCaster.ViewModels
 
         private void TryAddItem(LogLine item)
         {
+            if (LogLines.Count > _settingsService.Settings.Items) LogLines.Clear();
             if (LogLines.Count == _settingsService.Settings.Items) LogLines.RemoveAt(LogLines.Count - 1);
             LogLines.Insert(0, item);
         }
@@ -51,15 +50,16 @@ namespace SwtorCaster.ViewModels
 
         protected override void OnActivate()
         {
-            if (_parserService.IsRunning) return;
-            _parserService.Start();
-            _loggerService.Log($"Parser service started");
+            var parser = _parserProvider.GetParserService();
+            parser.Start();
         }
 
         protected override void OnDeactivate(bool close)
         {
-            _parserService.Stop();
-            _loggerService.Log($"Parser service stopped");
+            var parser = _parserProvider.GetParserService();
+            parser.Stop();
+
+            _loggerService.Log($"Parser service stopped.");
         }
 
         public void Handle(Settings message)
@@ -69,10 +69,7 @@ namespace SwtorCaster.ViewModels
 
         public void Handle(ParserMessage message)
         {
-            if (message.ClearLog)
-            {
-                LogLines.Clear();
-            }
+            if (message.ClearLog) LogLines.Clear();
         }
 
         public void Handle(LogLine message)
@@ -88,6 +85,11 @@ namespace SwtorCaster.ViewModels
             if (message.IsEmpty) _loggerService.Log($"{message.Id} was empty.");
 
             TryAddItem(message);
+        }
+
+        public void Handle(IParserService parser)
+        {
+            parser.Start();
         }
     }
 }

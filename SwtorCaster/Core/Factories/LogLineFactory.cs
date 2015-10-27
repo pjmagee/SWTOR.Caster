@@ -9,6 +9,7 @@ namespace SwtorCaster.Core.Factories
     using Domain;
     using Services.Images;
     using Services.Settings;
+    using SwtorCaster.Core.Extensions;
 
     public class LogLineFactory : ILogLineFactory
     {
@@ -59,7 +60,7 @@ namespace SwtorCaster.Core.Factories
                         imageUrl = abilitySetting.Image;
 
                     if (!string.IsNullOrEmpty(abilitySetting.BorderColor))
-                        border = abilitySetting.BorderColor.ToColorFromRgb();
+                        border = abilitySetting.BorderColor.FromHexToColor();
 
                     if (abilitySetting.Aliases.Any())
                         abilityName = abilitySetting.Aliases.Concat(new[] { abilityName }).ToList()[_random.Next(0, abilitySetting.Aliases.Count)];

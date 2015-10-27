@@ -1,41 +1,58 @@
 namespace SwtorCaster.Core.Services.Audio
 {
+    using System;
     using System.Threading;
     using System.Threading.Tasks;
     using NAudio.Wave;
+    using Logging;
 
     public class AudioService : IAudioService
     {
-        private CancellationTokenSource _tokenSource;
-        private ManualResetEventSlim _resetEventSlim;
+        private WaveOut _waveOut;
+        private ManualResetEvent _event;
 
+        private readonly ILoggerService _loggerService;
+
+        public AudioService(ILoggerService loggerService)
+        {
+            _loggerService = loggerService;
+        }
+        
         public async void Play(string audioFile, int volume)
         {
-            _tokenSource = new CancellationTokenSource();
-            _resetEventSlim = new ManualResetEventSlim();
+            _waveOut?.Stop();
 
             await Task.Run(() =>
             {
-                using (var reader = new AudioFileReader(audioFile))
+                try
                 {
-                    reader.Volume = volume * 0.01f;
-
-                    using (var soundOut = new DirectSoundOut())
+                    using (var audioFileReader = new AudioFileReader(audioFile))
                     {
-                        soundOut.Init(reader);
-                        soundOut.Play();
-                        soundOut.PlaybackStopped += (sender, args) => _resetEventSlim.Set();
-                        _resetEventSlim.Wait();
+                        audioFileReader.Volume = volume * 0.01f;
+
+                        using (_waveOut = new WaveOut())
+                        {
+                            _waveOut.Init(audioFileReader);
+
+                            using (_event = new ManualResetEvent(false))
+                            {
+                                _waveOut.Play();
+                                _waveOut.PlaybackStopped += (sender, args) => _event.Set();
+                                _event.WaitOne();
+                            }
+                        }
                     }
                 }
-
-            }, _tokenSource.Token);
+                catch (Exception e)
+                {
+                    
+                }
+            });
         }
 
         public void Stop()
         {
-            _resetEventSlim?.Set();
-            _tokenSource?.Cancel();
+            _waveOut?.Stop();
         }
     }
 }

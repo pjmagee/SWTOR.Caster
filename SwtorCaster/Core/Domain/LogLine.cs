@@ -5,6 +5,8 @@ namespace SwtorCaster.Core.Domain
 
     public class LogLine
     {
+        public bool IsForced { get; set; }
+
         public string Id { get; set; }
 
         public string Source { get; set; }
@@ -46,7 +48,9 @@ namespace SwtorCaster.Core.Domain
             int angle, 
             Visibility actionVisibility,
             Color borderColor,
-            bool unknown, bool isCurrentPlayer)
+            bool unknown, 
+            bool isCurrentPlayer,
+            bool isForced)
         {
             Id = id;
             SourceType = sourceType;
@@ -60,6 +64,7 @@ namespace SwtorCaster.Core.Domain
             ImageBorderColor = new SolidColorBrush(borderColor);
             IsUnknown = unknown;
             IsCurrentPlayer = isCurrentPlayer;
+            IsForced = isForced;
         }
 
         public LogLine()

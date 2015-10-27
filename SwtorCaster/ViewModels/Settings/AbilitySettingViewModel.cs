@@ -2,10 +2,13 @@ namespace SwtorCaster.ViewModels
 {
     using System.Linq;
     using System.Windows.Media;
+    using Caliburn.Micro;
+    using MahApps.Metro.Controls;
+    using MahApps.Metro.Controls.Dialogs;
+    using Microsoft.Win32;
     using Core;
     using Core.Domain;
-    using Caliburn.Micro;
-    using Microsoft.Win32;
+    using SwtorCaster.Core.Extensions;
 
     public class AbilitySettingViewModel : PropertyChangedBase
     {
@@ -53,8 +56,8 @@ namespace SwtorCaster.ViewModels
 
         public Color Border
         {
-            get { return _abilitySetting.BorderColor.ToColorFromRgb(); }
-            set { _abilitySetting.BorderColor = value.ToRgbFromColor(); }
+            get { return _abilitySetting.BorderColor.FromHexToColor(); }
+            set { _abilitySetting.BorderColor = value.ToHex(); }
         }
 
         public bool Enabled
@@ -63,9 +66,15 @@ namespace SwtorCaster.ViewModels
             set { _abilitySetting.Enabled = value; }
         }
 
-        public void Delete()
+        public async void Delete()
         {
-            _settingsViewModel.AbilitySettingViewModels.Remove(this);
+            var result = await (_settingsViewModel.GetView() as MetroWindow)
+                .ShowMessageAsync("Delete ability setting", "Are you sure?", MessageDialogStyle.AffirmativeAndNegative);
+
+            if (result == MessageDialogResult.Affirmative)
+            {
+                _settingsViewModel.AbilitySettingViewModels.Remove(this);
+            }
         }
 
         public void AddImage()
@@ -73,7 +82,7 @@ namespace SwtorCaster.ViewModels
             FileDialog fileDialog = new OpenFileDialog
             {
                 Multiselect = false,
-                DefaultExt = ".png",
+                Filter = "Images (*.png, *.jpg)|*.jpg;*.png",
                 Title = "Select custom ability image",
                 CheckPathExists = true,
                 CheckFileExists = true
@@ -95,6 +104,11 @@ namespace SwtorCaster.ViewModels
         public void AddAlias()
         {
             Aliases.Add(new AbilityAliasViewModel());
+        }
+
+        public void Activate()
+        {
+            // TODO: publish log line event
         }
     }
 }

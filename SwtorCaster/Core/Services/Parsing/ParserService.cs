@@ -12,12 +12,12 @@ namespace SwtorCaster.Core.Services.Parsing
     using Factories;
     using Logging;
     using Settings;
+    using Events;
 
     public class ParserService : IParserService
     {
         private Thread _thread;
         private FileInfo _currentFile;
-        private bool _running;
 
         private static string SwtorCombatLogPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), 
             "Star Wars - The Old Republic", "CombatLogs");
@@ -26,12 +26,13 @@ namespace SwtorCaster.Core.Services.Parsing
         private readonly ISettingsService _settingsService;
         private readonly ILogLineFactory _logLineFactory;
         private readonly IEventAggregator _eventAggregator;
+        private readonly IEventService _eventService;
         private readonly Stopwatch _clearStopwatch;
         private readonly DispatcherTimer _clearTimer;
         private readonly DispatcherTimer _fileWriteTimer;
         private readonly DirectoryInfo _logDirectory;
 
-        public bool IsRunning => _running;
+        public bool IsRunning { get; private set; }
 
         private ParserService()
         {
@@ -39,7 +40,6 @@ namespace SwtorCaster.Core.Services.Parsing
             _clearStopwatch = new Stopwatch();
             _fileWriteTimer = new DispatcherTimer(DispatcherPriority.Normal) { Interval = TimeSpan.FromSeconds(10) };
             _logDirectory = new DirectoryInfo(SwtorCombatLogPath);
-
             _clearTimer.Tick += ClearTimerOnTick;
             _fileWriteTimer.Tick += FileWriteTimerOnTick;
         }
@@ -48,12 +48,13 @@ namespace SwtorCaster.Core.Services.Parsing
             ILoggerService loggerService,
             ISettingsService settingsService,
             ILogLineFactory logLineFactory,
-            IEventAggregator eventAggregator) : this()
+            IEventAggregator eventAggregator, IEventService eventService) : this()
         {
             _loggerService = loggerService;
             _settingsService = settingsService;
             _logLineFactory = logLineFactory;
             _eventAggregator = eventAggregator;
+            _eventService = eventService;
         }
 
         public void Start()
@@ -83,7 +84,7 @@ namespace SwtorCaster.Core.Services.Parsing
 
         public void Stop()
         {
-            _running = false;
+            IsRunning = false;
             _thread?.Abort();
             _clearStopwatch?.Stop();
             _clearTimer?.Stop();
@@ -126,7 +127,7 @@ namespace SwtorCaster.Core.Services.Parsing
             var file = GetLatestFile();
             _thread = new Thread(() => Read(file.FullName));
             _thread.Start();
-            _running = true;
+            IsRunning = true;
         }
 
         public async void Read(string file)
@@ -137,7 +138,7 @@ namespace SwtorCaster.Core.Services.Parsing
                 {
                     reader.ReadToEnd();
 
-                    while (_running)
+                    while (IsRunning)
                     {
                         var value = await reader.ReadLineAsync();
 
@@ -168,6 +169,7 @@ namespace SwtorCaster.Core.Services.Parsing
                     if (logLine != null)
                     {
                         _eventAggregator.PublishOnUIThread(logLine);
+                        _eventService.Handle(logLine);
                     }
                 });
             }

@@ -33,6 +33,14 @@
         }
 
         // Take the last 100 log lines
-        public string Text => string.Join(Environment.NewLine, File.ReadAllLines(_logPath).Reverse().Take(100));
+        public string Text
+        {
+            get
+            {
+                var lines = File.ReadAllLines(_logPath);
+                var take = Math.Min(100, lines.Length);
+                return string.Join(Environment.NewLine, lines.Reverse().Take(take));
+            }
+        }
     }
 }

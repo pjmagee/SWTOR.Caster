@@ -1,17 +1,14 @@
 namespace SwtorCaster.ViewModels
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
     using System.Windows.Media;
     using Caliburn.Micro;
-    using Core;
     using Core.Domain;
     using Core.Services.Audio;
     using Core.Services.Settings;
     using Screens;
-    
+    using Core.Extensions;
+
     /// <summary>
     /// We hook into the Settings Property Changed event and any time a value changes, we serialize the settings instantly.
     /// So the user does not have to press Save changes. Changes are instant.
@@ -24,57 +21,28 @@ namespace SwtorCaster.ViewModels
         private readonly IAudioService _audioService;
 
         public BindableCollection<AbilitySettingViewModel> AbilitySettingViewModels { get; set; }
+
         public BindableCollection<EventSettingViewModel> EventSettingViewModels { get; set; }
 
-        public SettingsViewModel(ISettingsService settingsService, IAudioService audioService)
+        protected IWindowManager WindowManager { get; }
+
+        public SettingsViewModel(ISettingsService settingsService, IAudioService audioService, IWindowManager windowManager)
         {
             _settingsService = settingsService;
             _audioService = audioService;
+            WindowManager = windowManager;
+
             InitializeAbilityViewModels();
-            InitializeEventSettingViewModels();
-        }
-
-        private void InitializeEventSettingViewModels()
-        {
-            EventSettingViewModels = new BindableCollection<EventSettingViewModel>();
-
-            foreach (var item in _settingsService.Settings.EventSettings)
-            {
-                var eventViewModel = new EventSettingViewModel(item, this, _audioService);
-                eventViewModel.EventSetting.PropertyChanged += (o, args) => UpdateAbilities();
-                EventSettingViewModels.Add(eventViewModel);
-            }
-
-            EventSettingViewModels.CollectionChanged += (o, args) => UpdateAbilities();
-        }
-
-        private void InitializeAbilityViewModels()
-        {
-            AbilitySettingViewModels = new BindableCollection<AbilitySettingViewModel>();
-
-            foreach (var item in _settingsService.Settings.AbilitySettings)
-            {
-                var abilityViewModel = new AbilitySettingViewModel(item, this);
-                abilityViewModel.AbilitySetting.PropertyChanged += (o, args) => UpdateAbilities();
-                AbilitySettingViewModels.Add(abilityViewModel);
-            }
-
-            AbilitySettingViewModels.CollectionChanged += (o, args) => UpdateAbilities();
-        }
-
-        private void UpdateAbilities()
-        {
-            _settingsService.Settings.AbilitySettings = AbilitySettingViewModels.Select(x => x.AbilitySetting).ToList();
-            _settingsService.Save();
-        }
-
-        private void UpdateEvents()
-        {
-            _settingsService.Settings.EventSettings = EventSettingViewModels.Select(x => x.EventSetting).ToList();
-            _settingsService.Save();
+            InitializeEventViewModels();
         }
 
         #region Main Settings
+
+        public bool EnableDemoMode
+        {
+            get { return _settingsService.Settings.EnableDemoMode; }
+            set { _settingsService.Settings.EnableDemoMode = value; }
+        }
 
         public int Items
         {
@@ -110,6 +78,12 @@ namespace SwtorCaster.ViewModels
         {
             get { return _settingsService.Settings.Rotate; }
             set { _settingsService.Settings.Rotate = value; }
+        }
+
+        public bool EnableAbilitySettings
+        {
+            get { return _settingsService.Settings.EnableAbilitySettings; }
+            set { _settingsService.Settings.EnableAbilitySettings = value; }
         }
 
         public bool EnableExitCombatClear
@@ -156,23 +130,27 @@ namespace SwtorCaster.ViewModels
 
         public Color SelectedAbilityBackgroundColor
         {
-            get { return _settingsService.Settings.AbilityLoggerBackgroundColor.ToColorFromRgb(); }
-            set { _settingsService.Settings.AbilityLoggerBackgroundColor = value.ToRgbFromColor(); }
+            get { return _settingsService.Settings.AbilityLoggerBackgroundColor.FromHexToColor(); }
+            set { _settingsService.Settings.AbilityLoggerBackgroundColor = value.ToHex(); }
         }
 
         #endregion
 
-        public IEnumerable<SoundItem> Sounds => new List<SoundItem>()
+        #region Ability Settings
+
+        private void InitializeAbilityViewModels()
         {
-            new SoundItem("2SAD4ME", Path.Combine(Environment.CurrentDirectory, "Resources/Sounds", "2SAD4ME.mp3")),
-            new SoundItem("2SED4AIRHORN", Path.Combine(Environment.CurrentDirectory, "Resources/Sounds", "2SED4AIRHORN.mp3")),
-            new SoundItem("Darude DankStorm", Path.Combine(Environment.CurrentDirectory, "Resources/Sounds", "Darude - DarkStorm.mp3")),
-            new SoundItem("NEVER DONE THAT", Path.Combine(Environment.CurrentDirectory, "Resources/Sounds", "NEVER DONE THAT.mp3")),
-            new SoundItem("SKRILLEX Scary", Path.Combine(Environment.CurrentDirectory, "Resources/Sounds", "SKRILLEX Scary.mp3")),
-            new SoundItem("SPOOKY", Path.Combine(Environment.CurrentDirectory, "Resources/Sounds", "SPOOKY.mp3")),
-            new SoundItem("tactical nuke", Path.Combine(Environment.CurrentDirectory, "Resources/Sounds", "tactical nuke.mp3")),
-            new SoundItem("wow-", Path.Combine(Environment.CurrentDirectory, "Resources/Sounds", "wow-.mp3")),
-        };
+            AbilitySettingViewModels = new BindableCollection<AbilitySettingViewModel>();
+
+            foreach (var item in _settingsService.Settings.AbilitySettings)
+            {
+                var abilityViewModel = new AbilitySettingViewModel(item, this);
+                abilityViewModel.AbilitySetting.PropertyChanged += (o, args) => UpdateAbilities();
+                AbilitySettingViewModels.Add(abilityViewModel);
+            }
+
+            AbilitySettingViewModels.CollectionChanged += (o, args) => UpdateAbilities();
+        }
 
         public void AddAbility()
         {
@@ -182,6 +160,30 @@ namespace SwtorCaster.ViewModels
             AbilitySettingViewModels.Add(abilityViewModel);
         }
 
+        private void UpdateAbilities()
+        {
+            _settingsService.Settings.AbilitySettings = AbilitySettingViewModels.Select(x => x.AbilitySetting).ToList();
+            _settingsService.Save();
+        }
+
+        #endregion
+
+        #region Event Settings
+
+        private void InitializeEventViewModels()
+        {
+            EventSettingViewModels = new BindableCollection<EventSettingViewModel>();
+
+            foreach (var item in _settingsService.Settings.EventSettings)
+            {
+                var eventViewModel = new EventSettingViewModel(item, this, _audioService);
+                eventViewModel.EventSetting.PropertyChanged += (o, args) => UpdateEvents();
+                EventSettingViewModels.Add(eventViewModel);
+            }
+
+            EventSettingViewModels.CollectionChanged += (o, args) => UpdateEvents();
+        }
+
         public void AddEvent()
         {
             var eventSetting = new EventSetting();
@@ -189,5 +191,13 @@ namespace SwtorCaster.ViewModels
             eventSettingViewModel.EventSetting.PropertyChanged += (sender, args) => UpdateEvents();
             EventSettingViewModels.Add(eventSettingViewModel);
         }
+
+        private void UpdateEvents()
+        {
+            _settingsService.Settings.EventSettings = EventSettingViewModels.Select(x => x.EventSetting).ToList();
+            _settingsService.Save();
+        }
+
+        #endregion
     }
 }

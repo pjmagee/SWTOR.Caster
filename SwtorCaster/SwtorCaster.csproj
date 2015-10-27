@@ -62,7 +62,8 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\swtorcaster.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>SwtorCaster.App</StartupObject>
@@ -174,13 +175,19 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Core\Domain\EventSetting.cs" />
+    <Compile Include="Core\Extensions\EnumerableExtension.cs" />
+    <Compile Include="Core\Services\Events\EventService.cs" />
+    <Compile Include="Core\Extensions\SettingExtensions.cs" />
+    <Compile Include="Core\Services\Events\IEventService.cs" />
+    <Compile Include="Core\Services\Parsing\IParserProvider.cs" />
+    <Compile Include="Core\Services\Parsing\ParserProvider.cs" />
     <Compile Include="Custom\OutlinedText.cs" />
     <Compile Include="Core\Domain\AbilitySetting.cs" />
     <Compile Include="Core\Domain\EventDetailType.cs" />
     <Compile Include="Core\Domain\EventType.cs" />
     <Compile Include="Core\Domain\SourceTargetType.cs" />
-    <Compile Include="Core\Extensions.cs" />
-    <Compile Include="Core\Services\Parsing\FakeParserService.cs" />
+    <Compile Include="Core\Extensions\ColorExtensions.cs" />
+    <Compile Include="Core\Services\Parsing\DemoParserService.cs" />
     <Compile Include="Core\Services\Images\IImageService.cs" />
     <Compile Include="Core\Services\Logging\ILoggerService.cs" />
     <Compile Include="Core\Factories\ILogLineFactory.cs" />
@@ -194,25 +201,33 @@
     <Compile Include="Core\Services\Settings\SettingsService.cs" />
     <Compile Include="Custom\CloseBehavior.cs" />
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="ViewModels\AbilityAliasViewModel.cs" />
-    <Compile Include="ViewModels\AbilitySettingViewModel.cs" />
+    <Compile Include="ViewModels\Settings\AbilityAliasViewModel.cs" />
+    <Compile Include="ViewModels\Settings\AbilitySettingViewModel.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="Core\Services\Audio\IAudioService.cs" />
     <Compile Include="Core\Services\Audio\AudioService.cs" />
-    <Compile Include="ViewModels\EventSettingViewModel.cs" />
+    <Compile Include="ViewModels\Settings\EventSettingViewModel.cs" />
     <Compile Include="ViewModels\Screens\FocusableScreen.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\SoundItem.cs" />
     <Compile Include="ViewModels\SplashViewModel.cs" />
     <Compile Include="Views\AboutView.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Controls\AbilitySettingsView.xaml.cs">
+      <DependentUpon>AbilitySettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Controls\MainSettingsView.xaml.cs">
+      <DependentUpon>MainSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Controls\EventSettingsView.xaml.cs">
+      <DependentUpon>EventSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LogView.cs">
       <DependentUpon>LogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\Bootstrapper.cs" />
     <Compile Include="Core\Domain\Settings.cs" />
-    <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\Settings\SettingsViewModel.cs" />
     <Compile Include="Views\SettingsView.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
@@ -222,8 +237,8 @@
       <DependentUpon>SplashView.xaml</DependentUpon>
     </Compile>
     <Page Include="Resources\Icons.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AbilityView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -239,6 +254,18 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\AboutView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controls\AbilitySettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controls\MainSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controls\EventSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -276,6 +303,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Resources\swtorcaster.ico" />
     <None Include="SwtorCaster_TemporaryKey.pfx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -286,50 +314,12 @@
     </Content>
     <None Include="app.config" />
     <None Include="Properties\app.manifest" />
-    <Resource Include="Resources\Entypo.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\font.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Awakened Gamers.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Content Include="Resources\Sounds\2SAD4ME.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Sounds\2SED4AIRHORN.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Sounds\Darude - Dankstorm.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Sounds\NEVER DONE THAT.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Sounds\SKRILLEX Scary.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Sounds\SPOOKY.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Sounds\tactical nuke.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Sounds\wow-.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\swtorcaster.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6">
@@ -342,6 +332,11 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Awakened Gamers.png" />
+    <Resource Include="Resources\Entypo.ttf" />
+    <Resource Include="Resources\font.ttf" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

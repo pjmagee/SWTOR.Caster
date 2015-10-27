@@ -67,7 +67,7 @@ namespace SwtorCaster.Core.Services.Settings
                 {
                     Settings = new Settings();
                     _loggerService.Log(e.Message);
-                    MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Error reading saved settings, loading default settings.", "Settings", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             else

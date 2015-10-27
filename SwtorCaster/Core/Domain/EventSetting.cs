@@ -26,8 +26,8 @@ namespace SwtorCaster.Core.Domain
             }
         }
 
-        [JsonProperty("eventType")]
-        public EventDetailType EventType
+        [JsonProperty("eventDetailType")]
+        public EventDetailType EventDetailType
         {
             get { return _eventType; }
             set

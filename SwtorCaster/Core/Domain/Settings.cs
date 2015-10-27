@@ -4,13 +4,15 @@ namespace SwtorCaster.Core.Domain
     using System.Runtime.CompilerServices;
     using Newtonsoft.Json;
     using System.Collections.Generic;
+    using System.Windows.Media;
     using Annotations;
+    using SwtorCaster.Core.Extensions;
 
     public class Settings : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private string _version = string.Empty;
+        private string _version;
         private int _items = 5;
         private int _rotate = 5;
         private int _clearAfterInactivity = 10;
@@ -19,16 +21,18 @@ namespace SwtorCaster.Core.Domain
         private bool _enableCombatClear = true;
         private bool _enableCompanionAbilities = true;
         private bool _enableLogging = true;
-        private string _abilityLoggerBackgroundColor = "255,255,255";
+        private string _abilityLoggerBackgroundColor = Colors.Transparent.ToHex();
         private bool _ignoreUnknownAbilities = true;
         private int _fontSize = 32;
         private string _soundOnDeath;
         private int _volume = 10;
+        private bool _enableDemoMode;
+        private bool _enableSound;
+        private bool _enableAbilitySettings;
 
         private IEnumerable<AbilitySetting> _abilitySettings = new List<AbilitySetting>();
         private IEnumerable<EventSetting> _eventSettings = new List<EventSetting>();
-        private bool _enableSound;
-
+        
         [JsonProperty("items")]
         public int Items
         {
@@ -140,10 +144,7 @@ namespace SwtorCaster.Core.Domain
         [JsonProperty("abilityLoggerBackgroundColour")]
         public string AbilityLoggerBackgroundColor
         {
-            get
-            {
-                return _abilityLoggerBackgroundColor;
-            }
+            get { return _abilityLoggerBackgroundColor; }
             set
             {
                 if (value == _abilityLoggerBackgroundColor) return;
@@ -212,12 +213,25 @@ namespace SwtorCaster.Core.Domain
             }
         }
 
+        [JsonProperty("enableAbilitySettings")]
+        public bool EnableAbilitySettings
+        {
+            get { return _enableAbilitySettings; }
+            set
+            {
+                if (value == _enableAbilitySettings) return;
+                _enableAbilitySettings = value;
+                OnPropertyChanged();
+            }
+        }
+
         [JsonProperty("abilitySettings")]
         public IEnumerable<AbilitySetting> AbilitySettings
         {
             get { return _abilitySettings; }
             set
             {
+                if (Equals(value, _abilitySettings)) return;
                 _abilitySettings = value;
                 OnPropertyChanged();
             }
@@ -231,6 +245,18 @@ namespace SwtorCaster.Core.Domain
             {
                 if (Equals(value, _eventSettings)) return;
                 _eventSettings = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonProperty("enableDemoMode")]
+        public bool EnableDemoMode
+        {
+            get { return _enableDemoMode; }
+            set
+            {
+                if (value == _enableDemoMode) return;
+                _enableDemoMode = value;
                 OnPropertyChanged();
             }
         }

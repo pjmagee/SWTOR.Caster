@@ -19,7 +19,7 @@
                 <StackPanel cal:Message.Attach="[Event MouseLeftButtonUp] = [Action CopyToClipBoard($dataContext)]" x:Name="Item" Orientation="Horizontal" ToolTip="{Binding Id}">
                     <Border BorderBrush="{Binding ImageBorderColor}" 
                             BorderThickness="2"  Margin="0,0,10,0"
-                            CornerRadius="8,8,8,8" 
+                            CornerRadius="8,8,8,8" RenderTransformOrigin=".5,.5"
                             Background="{Binding ImageBorderColor}">
                         <Border.RenderTransform>
                             <RotateTransform Angle="{Binding Angle}" />
@@ -51,7 +51,7 @@
                             <BeginStoryboard>
                                 <Storyboard>
                                     <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.10" />
-                                    <DoubleAnimation Storyboard.TargetProperty="LayoutTransform.ScaleY" From="0" Duration="0:0:0.05"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="LayoutTransform.ScaleY" From="0" Duration="0:0:0.1"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger.Actions>
