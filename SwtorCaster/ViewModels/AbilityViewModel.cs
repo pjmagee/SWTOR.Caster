@@ -7,14 +7,16 @@ namespace SwtorCaster.ViewModels
     using Core.Domain;
     using Screens;
     using Core;
+    using Core.Services.Combat;
     using Core.Services.Logging;
     using Core.Services.Parsing;
+    using Core.Services.Providers;
     using Core.Services.Settings;
     using SwtorCaster.Core.Extensions;
 
-    public class AbilityViewModel : FocusableScreen, IHandle<Settings>, IHandle<ParserMessage>, IHandle<LogLine>, IHandle<IParserService>
+    public class AbilityViewModel : FocusableScreen, IHandle<Settings>, IHandle<ParserMessage>, IHandle<LogLine>, IHandle<ICombatLogService>
     {
-        private readonly IParserProvider _parserProvider;
+        private readonly ICombatLogProvider _combatLogProvider;
         private readonly ILoggerService _loggerService;
         private readonly ISettingsService _settingsService;
 
@@ -25,12 +27,12 @@ namespace SwtorCaster.ViewModels
         public ObservableCollection<LogLine> LogLines { get; } = new ObservableCollection<LogLine>();
 
         public AbilityViewModel(
-            IParserProvider parserProvider,
+            ICombatLogProvider combatLogProvider,
             ILoggerService loggerService,
             ISettingsService settingsService,
             IEventAggregator eventAggregator)
         {
-            _parserProvider = parserProvider;
+            _combatLogProvider = combatLogProvider;
             _loggerService = loggerService;
             _settingsService = settingsService;
             eventAggregator.Subscribe(this);
@@ -50,13 +52,13 @@ namespace SwtorCaster.ViewModels
 
         protected override void OnActivate()
         {
-            var parser = _parserProvider.GetParserService();
+            var parser = _combatLogProvider.GetCombatLogService();
             parser.Start();
         }
 
         protected override void OnDeactivate(bool close)
         {
-            var parser = _parserProvider.GetParserService();
+            var parser = _combatLogProvider.GetCombatLogService();
             parser.Stop();
 
             _loggerService.Log($"Parser service stopped.");
@@ -87,9 +89,9 @@ namespace SwtorCaster.ViewModels
             TryAddItem(message);
         }
 
-        public void Handle(IParserService parser)
+        public void Handle(ICombatLogService combatLog)
         {
-            parser.Start();
+            combatLog.Start();
         }
     }
 }

@@ -108,10 +108,6 @@
       <HintPath>..\packages\MahApps.Metro.1.1.2.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="NAudio, Version=1.7.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NAudio.1.7.3\lib\net35\NAudio.dll</HintPath>
       <Private>True</Private>
@@ -144,26 +140,6 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Xceed.Wpf.AvalonDock, Version=2.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=2.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=2.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=2.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Xceed.Wpf.DataGrid, Version=2.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Xceed.Wpf.Toolkit, Version=2.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <HintPath>..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
       <Private>True</Private>
@@ -179,25 +155,25 @@
     <Compile Include="Core\Services\Events\EventService.cs" />
     <Compile Include="Core\Extensions\SettingExtensions.cs" />
     <Compile Include="Core\Services\Events\IEventService.cs" />
-    <Compile Include="Core\Services\Parsing\IParserProvider.cs" />
-    <Compile Include="Core\Services\Parsing\ParserProvider.cs" />
+    <Compile Include="Core\Services\Providers\ICombatLogProvider.cs" />
+    <Compile Include="Core\Services\Providers\CombatLogProvider.cs" />
     <Compile Include="Custom\OutlinedText.cs" />
     <Compile Include="Core\Domain\AbilitySetting.cs" />
     <Compile Include="Core\Domain\EventDetailType.cs" />
     <Compile Include="Core\Domain\EventType.cs" />
     <Compile Include="Core\Domain\SourceTargetType.cs" />
     <Compile Include="Core\Extensions\ColorExtensions.cs" />
-    <Compile Include="Core\Services\Parsing\DemoParserService.cs" />
+    <Compile Include="Core\Services\Combat\DemoCombatLogService.cs" />
     <Compile Include="Core\Services\Images\IImageService.cs" />
     <Compile Include="Core\Services\Logging\ILoggerService.cs" />
-    <Compile Include="Core\Factories\ILogLineFactory.cs" />
+    <Compile Include="Core\Services\Parsing\ILogLineParser.cs" />
     <Compile Include="Core\Services\Images\ImageService.cs" />
-    <Compile Include="Core\Services\Parsing\IParserService.cs" />
+    <Compile Include="Core\Services\Combat\ICombatLogService.cs" />
     <Compile Include="Core\Services\Settings\ISettingsService.cs" />
     <Compile Include="Core\Services\Logging\LoggerService.cs" />
-    <Compile Include="Core\Factories\LogLineFactory.cs" />
+    <Compile Include="Core\Services\Parsing\LogLineParser.cs" />
     <Compile Include="Core\Domain\ParserMessage.cs" />
-    <Compile Include="Core\Services\Parsing\ParserService.cs" />
+    <Compile Include="Core\Services\Combat\CombatLogService.cs" />
     <Compile Include="Core\Services\Settings\SettingsService.cs" />
     <Compile Include="Custom\CloseBehavior.cs" />
     <Compile Include="Properties\Annotations.cs" />

@@ -17,40 +17,42 @@ namespace SwtorCaster.Core.Extensions
         public static bool IsAbilityActivate(this EventSetting setting, LogLine line)
         {
             return setting.EventDetailType == EventDetailType.AbilityActivate && 
-                      line.EventDetailType == EventDetailType.AbilityActivate;
+                      line.EventDetailType == EventDetailType.AbilityActivate &&
+                         setting.AbilityId == line.Id;
         }
 
         public static bool IsEnterCombat(this EventSetting setting, LogLine line)
         {
-            return setting.EventDetailType == EventDetailType.EnterCombat && 
-                      line.EventDetailType == EventDetailType.EnterCombat;
+            return setting.EventDetailType == EventDetailType.EnterCombat &&
+                   line.EventDetailType == EventDetailType.EnterCombat;
         }
 
         public static bool IsExitCombat(this EventSetting setting, LogLine line)
         {
-            return setting.EventDetailType == EventDetailType.ExitCombat && 
-                      line.EventDetailType == EventDetailType.ExitCombat;
+            return setting.EventDetailType == EventDetailType.ExitCombat &&
+                   line.EventDetailType == EventDetailType.ExitCombat;
         }
 
         public static bool IsPlayerDeath(this EventSetting setting, LogLine line)
         {
             return setting.EventDetailType == EventDetailType.Death &&
-                      line.EventDetailType == EventDetailType.Death && 
-                      line.IsCurrentPlayer;
+                   line.EventDetailType == EventDetailType.Death &&
+                   line.IsCurrentPlayer;
         }
 
         public static bool IsPlayerKill(this EventSetting setting, LogLine line)
         {
-            return setting.EventDetailType == EventDetailType.Death && 
-                      line.EventDetailType == EventDetailType.Death && 
-                     !line.IsCurrentPlayer;
+            return setting.EventDetailType == EventDetailType.Death &&
+                   line.EventDetailType == EventDetailType.Death &&
+                   !line.IsCurrentPlayer;
         }
 
         public static bool IsAbilityCancel(this EventSetting setting, LogLine line)
         {
             return setting.EventDetailType == EventDetailType.AbilityCancel &&
-                      line.EventDetailType == EventDetailType.AbilityCancel && 
-                      line.IsCurrentPlayer;
+                   line.EventDetailType == EventDetailType.AbilityCancel &&
+                   line.IsCurrentPlayer &&
+                   setting.AbilityId == line.Id;
         }
     }
 }

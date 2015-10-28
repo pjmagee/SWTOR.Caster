@@ -1,4 +1,4 @@
-﻿namespace SwtorCaster.Views.Controls
+﻿namespace SwtorCaster.Views
 {
     using System.Windows.Controls;
 

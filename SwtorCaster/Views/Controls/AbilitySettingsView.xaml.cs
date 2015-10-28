@@ -1,7 +1,7 @@
-﻿using System.Windows.Controls;
-
-namespace SwtorCaster.Views.Controls
+﻿namespace SwtorCaster.Views
 {
+    using System.Windows.Controls;
+
     /// <summary>
     /// Interaction logic for AbilitySettingsView.xaml
     /// </summary>

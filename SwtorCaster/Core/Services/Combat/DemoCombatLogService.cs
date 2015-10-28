@@ -1,4 +1,4 @@
-namespace SwtorCaster.Core.Services.Parsing
+namespace SwtorCaster.Core.Services.Combat
 {
     using System;
     using System.IO;
@@ -8,12 +8,12 @@ namespace SwtorCaster.Core.Services.Parsing
     using System.Windows.Media;
     using Caliburn.Micro;
     using Domain;
+    using Events;
+    using Extensions;
     using Images;
     using Settings;
-    using SwtorCaster.Core.Extensions;
-    using SwtorCaster.Core.Services.Events;
 
-    public class DemoParserService : IParserService
+    public class DemoCombatLogService : ICombatLogService
     {
         private readonly IImageService _imageService;
         private readonly ISettingsService _settingsService;
@@ -23,7 +23,7 @@ namespace SwtorCaster.Core.Services.Parsing
         public bool IsRunning { get; private set; }
         private Thread _parserThread;
 
-        public DemoParserService(
+        public DemoCombatLogService(
             IImageService imageService,
             ISettingsService settingsService, 
             IEventAggregator eventAggregator, 

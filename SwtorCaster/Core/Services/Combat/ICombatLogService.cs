@@ -1,6 +1,6 @@
-namespace SwtorCaster.Core.Services.Parsing
+namespace SwtorCaster.Core.Services.Combat
 {
-    public interface IParserService
+    public interface ICombatLogService
     {
         bool IsRunning { get; }
         void Start();

@@ -1,4 +1,4 @@
-namespace SwtorCaster.Core.Services.Parsing
+namespace SwtorCaster.Core.Services.Combat
 {
     using System;
     using System.Diagnostics;
@@ -9,12 +9,12 @@ namespace SwtorCaster.Core.Services.Parsing
     using System.Windows.Threading;
     using Caliburn.Micro;
     using Domain;
-    using Factories;
-    using Logging;
-    using Settings;
     using Events;
+    using Logging;
+    using Parsing;
+    using Settings;
 
-    public class ParserService : IParserService
+    public class CombatLogService : ICombatLogService
     {
         private Thread _thread;
         private FileInfo _currentFile;
@@ -24,7 +24,7 @@ namespace SwtorCaster.Core.Services.Parsing
 
         private readonly ILoggerService _loggerService;
         private readonly ISettingsService _settingsService;
-        private readonly ILogLineFactory _logLineFactory;
+        private readonly ILogLineParser _logLineParser;
         private readonly IEventAggregator _eventAggregator;
         private readonly IEventService _eventService;
         private readonly Stopwatch _clearStopwatch;
@@ -34,7 +34,7 @@ namespace SwtorCaster.Core.Services.Parsing
 
         public bool IsRunning { get; private set; }
 
-        private ParserService()
+        private CombatLogService()
         {
             _clearTimer = new DispatcherTimer(DispatcherPriority.Normal) { Interval = TimeSpan.FromSeconds(1), IsEnabled = true };
             _clearStopwatch = new Stopwatch();
@@ -44,15 +44,15 @@ namespace SwtorCaster.Core.Services.Parsing
             _fileWriteTimer.Tick += FileWriteTimerOnTick;
         }
 
-        public ParserService(
+        public CombatLogService(
             ILoggerService loggerService,
             ISettingsService settingsService,
-            ILogLineFactory logLineFactory,
+            ILogLineParser logLineParser,
             IEventAggregator eventAggregator, IEventService eventService) : this()
         {
             _loggerService = loggerService;
             _settingsService = settingsService;
-            _logLineFactory = logLineFactory;
+            _logLineParser = logLineParser;
             _eventAggregator = eventAggregator;
             _eventService = eventService;
         }
@@ -164,7 +164,7 @@ namespace SwtorCaster.Core.Services.Parsing
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    var logLine = _logLineFactory.Create(value);
+                    var logLine = _logLineParser.Parse(value);
 
                     if (logLine != null)
                     {

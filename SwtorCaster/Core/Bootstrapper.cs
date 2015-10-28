@@ -6,14 +6,14 @@ namespace SwtorCaster.Core
     using System.Windows;
     using System.Windows.Media.Animation;
     using Caliburn.Micro;
-    using Factories;
     using Services.Audio;
+    using Services.Combat;
     using Services.Images;
     using Services.Logging;
     using Services.Parsing;
     using Services.Settings;
-    using Services;
     using Services.Events;
+    using Services.Providers;
     using ViewModels;
 
     public sealed class Bootstrapper : BootstrapperBase
@@ -91,9 +91,9 @@ namespace SwtorCaster.Core
 
         private void BindServices()
         {
-            _container.Singleton<IParserProvider, ParserProvider>();
-            _container.Singleton<IParserService, ParserService>("CombatLogParser");
-            _container.Singleton<IParserService, DemoParserService>("DemoParser");
+            _container.Singleton<ICombatLogProvider, CombatLogProvider>();
+            _container.Singleton<ICombatLogService, CombatLogService>("CombatLogParser");
+            _container.Singleton<ICombatLogService, DemoCombatLogService>("DemoParser");
 
             _container.Singleton<IEventAggregator, EventAggregator>();
             _container.Singleton<IAudioService, AudioService>();
@@ -101,13 +101,13 @@ namespace SwtorCaster.Core
             _container.Singleton<ISettingsService, SettingsService>();
             _container.Singleton<ILoggerService, LoggerService>();
             _container.Singleton<IWindowManager, WindowManager>();
-            _container.Singleton<ILogLineFactory, LogLineFactory>();
+            _container.Singleton<ILogLineParser, LogLineParser>();
             _container.Singleton<IEventService, EventService>();
         }
 
         protected override void OnExit(object sender, EventArgs e)
         {
-            var parser = _container.GetInstance<IParserService>();
+            var parser = _container.GetInstance<ICombatLogService>();
             parser?.Stop();
         }
     }

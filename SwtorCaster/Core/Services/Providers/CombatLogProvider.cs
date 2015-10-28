@@ -1,15 +1,16 @@
-namespace SwtorCaster.Core.Services.Parsing
+namespace SwtorCaster.Core.Services.Providers
 {
     using Caliburn.Micro;
-    using Settings;
+    using Combat;
     using Domain;
+    using Settings;
 
-    public class ParserProvider : IParserProvider, IHandle<Settings>
+    public class CombatLogProvider : ICombatLogProvider, IHandle<Settings>
     {
         private readonly ISettingsService _settingsService;
         private readonly IEventAggregator _eventAggregator;
 
-        public ParserProvider(ISettingsService settingsService, IEventAggregator eventAggregator)
+        public CombatLogProvider(ISettingsService settingsService, IEventAggregator eventAggregator)
         {
             _settingsService = settingsService;
             _eventAggregator = eventAggregator;
@@ -20,20 +21,20 @@ namespace SwtorCaster.Core.Services.Parsing
         {
             if (!message.EnableDemoMode)
             {
-                var demoService = IoC.Get<IParserService>("DemoParser");
+                var demoService = IoC.Get<ICombatLogService>("DemoParser");
                 demoService.Stop();
             }
 
             _eventAggregator.PublishOnCurrentThread(message.EnableDemoMode
-                ? IoC.Get<IParserService>("DemoParser")
-                : IoC.Get<IParserService>("CombatLogParser"));
+                ? IoC.Get<ICombatLogService>("DemoParser")
+                : IoC.Get<ICombatLogService>("CombatLogParser"));
         }
 
-        public IParserService GetParserService()
+        public ICombatLogService GetCombatLogService()
         {
             return _settingsService.Settings.EnableDemoMode
-                ? IoC.Get<IParserService>("DemoParser")
-                : IoC.Get<IParserService>("CombatLogParser");
+                ? IoC.Get<ICombatLogService>("DemoParser")
+                : IoC.Get<ICombatLogService>("CombatLogParser");
         }
     }
 }
