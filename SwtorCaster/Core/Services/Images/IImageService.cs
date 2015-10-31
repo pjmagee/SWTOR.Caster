@@ -5,11 +5,8 @@ namespace SwtorCaster.Core.Services.Images
     public interface IImageService
     {
         void Initialize();
-
-        string GetImageById(string abilityId);
-
+        string GetImageById(long abilityId);
         IEnumerable<string> GetImages();
-
-        bool IsUnknown(string abilityId);
+        bool IsUnknown(long abilityId);
     }
 }

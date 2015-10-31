@@ -21,11 +21,11 @@ namespace SwtorCaster.Core.Services.Images
             _loggerService = loggerService;
         }
 
-        public string GetImageById(string abilityId)
+        public string GetImageById(long abilityId)
         {
             try
             {
-                return _files[abilityId];
+                return _files[abilityId.ToString()];
             }
             catch (Exception e)
             {
@@ -40,9 +40,9 @@ namespace SwtorCaster.Core.Services.Images
             return Directory.EnumerateFiles(_imagesFolder, "*.png", SearchOption.AllDirectories);
         }
 
-        public bool IsUnknown(string abilityId)
+        public bool IsUnknown(long abilityId)
         {
-            return !_files.ContainsKey(abilityId);
+            return !_files.ContainsKey(abilityId.ToString());
         }
 
         public void Initialize()

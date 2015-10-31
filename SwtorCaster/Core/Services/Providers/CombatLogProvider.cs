@@ -2,7 +2,7 @@ namespace SwtorCaster.Core.Services.Providers
 {
     using Caliburn.Micro;
     using Combat;
-    using Domain;
+    using Domain.Settings;
     using Settings;
 
     public class CombatLogProvider : ICombatLogProvider, IHandle<Settings>

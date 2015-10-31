@@ -4,7 +4,8 @@ namespace SwtorCaster.ViewModels
     using System.Collections.Generic;
     using System.IO;
     using Caliburn.Micro;
-    using Core.Domain;
+    using Core.Domain.Log;
+    using Core.Domain.Settings;
     using Core.Services.Audio;
     using MahApps.Metro.Controls;
     using MahApps.Metro.Controls.Dialogs;
@@ -18,22 +19,20 @@ namespace SwtorCaster.ViewModels
 
         public EventSetting EventSetting => _eventSetting;
 
-        public IEnumerable<EventDetailType> EventDetailTypes => new[]
+        public IEnumerable<SoundEvent> EffectNames => new[]
         {
-            EventDetailType.EnterCombat,
-            EventDetailType.ExitCombat,
-            EventDetailType.AbilityActivate,
-            EventDetailType.AbilityCancel,
-            EventDetailType.Death,
-            EventDetailType.Kill,
+            SoundEvent.EnterCombat,
+            SoundEvent.ExitCombat,
+            SoundEvent.AbilityActivate,
+            SoundEvent.AbilityCancel,
+            SoundEvent.Kill, 
+            SoundEvent.Death,
+            SoundEvent.Revived
         };
 
         private MetroWindow Window => _settingsViewModel.GetView() as MetroWindow;
 
-        public EventSettingViewModel(
-            EventSetting eventSetting,
-            SettingsViewModel settingsViewModel,
-            IAudioService audioService)
+        public EventSettingViewModel(EventSetting eventSetting, SettingsViewModel settingsViewModel, IAudioService audioService)
         {
             _eventSetting = eventSetting;
             _settingsViewModel = settingsViewModel;
@@ -46,6 +45,18 @@ namespace SwtorCaster.ViewModels
             set { _eventSetting.AbilityId = value; }
         }
 
+        public bool Enabled
+        {
+            get { return _eventSetting.Enabled; }
+            set { _eventSetting.Enabled = value; }
+        }
+
+        public SoundEvent SelectedEffectName
+        {
+            get { return _eventSetting.EffectName; }
+            set { _eventSetting.EffectName = value; }
+        }
+
         public string Sound
         {
             get { return Path.GetFileNameWithoutExtension(_eventSetting.Sound); }
@@ -54,18 +65,6 @@ namespace SwtorCaster.ViewModels
                 _eventSetting.Sound = value;
                 NotifyOfPropertyChange(() => Sound);
             }
-        }
-
-        public bool Enabled
-        {
-            get { return _eventSetting.Enabled; }
-            set { _eventSetting.Enabled = value; }
-        }
-
-        public EventDetailType SelectedEventDetailType
-        {
-            get { return _eventSetting.EventDetailType; }
-            set { _eventSetting.EventDetailType = value; }
         }
 
         public void AddAudio()

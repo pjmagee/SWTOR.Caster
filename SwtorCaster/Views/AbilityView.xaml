@@ -16,23 +16,23 @@
               ScrollViewer.VerticalScrollBarVisibility="Disabled">
         <ListView.ItemTemplate>
             <DataTemplate>
-                <StackPanel cal:Message.Attach="[Event MouseLeftButtonUp] = [Action CopyToClipBoard($dataContext)]" x:Name="Item" Orientation="Horizontal" ToolTip="{Binding Id}">
+                <StackPanel cal:Message.Attach="[Event MouseLeftButtonUp] = [Action CopyToClipBoard($dataContext)]" x:Name="Item" Orientation="Horizontal" ToolTip="{Binding TooltipText}">
                     <Border BorderBrush="{Binding ImageBorderColor}" 
                             BorderThickness="2"  Margin="0,0,10,0"
                             CornerRadius="8,8,8,8" RenderTransformOrigin=".5,.5"
                             Background="{Binding ImageBorderColor}">
                         <Border.RenderTransform>
-                            <RotateTransform Angle="{Binding Angle}" />
+                            <RotateTransform Angle="{Binding ImageAngle}" />
                         </Border.RenderTransform>
                         <Image x:Name="AbilityIcon" Source="{Binding ImageUrl}" Width="52" Height="52" 
                                RenderTransformOrigin=".5,.5">
                             <Image.RenderTransform>
-                                <RotateTransform Angle="{Binding Angle}" />
+                                <RotateTransform Angle="{Binding ImageAngle}" />
                             </Image.RenderTransform>
                         </Image>
                     </Border>
                     <custom:OutlinedText
-                        VerticalAlignment="Center" Text="{Binding Action}" Visibility="{Binding ActionVisibility}" FontSize="{Binding FontSize, FallbackValue=32}">
+                        VerticalAlignment="Center" Text="{Binding Text}" Visibility="{Binding TextVisibility}" FontSize="{Binding FontSize, FallbackValue=32}">
                     </custom:OutlinedText>
                 </StackPanel>
             </DataTemplate>

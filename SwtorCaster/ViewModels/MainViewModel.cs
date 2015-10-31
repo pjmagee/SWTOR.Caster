@@ -2,7 +2,7 @@ namespace SwtorCaster.ViewModels
 {
     using Caliburn.Micro;
     using Screens;
-    using Core.Domain;
+    using Core.Domain.Settings;
 
     public class MainViewModel : Screen, IHandle<Settings>
     {

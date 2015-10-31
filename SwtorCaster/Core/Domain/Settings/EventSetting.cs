@@ -1,14 +1,16 @@
-namespace SwtorCaster.Core.Domain
+namespace SwtorCaster.Core.Domain.Settings
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using Annotations;
+    using Log;
     using Newtonsoft.Json;
+    using Properties;
 
     public class EventSetting : INotifyPropertyChanged
     {
         private bool _enabled;
-        private EventDetailType _eventType;
+        private SoundEvent _effectName = SoundEvent.AbilityActivate;
         private string _abilityId;
         private string _sound;
 
@@ -26,14 +28,14 @@ namespace SwtorCaster.Core.Domain
             }
         }
 
-        [JsonProperty("eventDetailType")]
-        public EventDetailType EventDetailType
+        [JsonProperty("effectName")]
+        public SoundEvent EffectName
         {
-            get { return _eventType; }
+            get { return _effectName; }
             set
             {
-                if (value == _eventType) return;
-                _eventType = value;
+                if (value == _effectName) return;
+                _effectName = value;
                 OnPropertyChanged();
             }
         }

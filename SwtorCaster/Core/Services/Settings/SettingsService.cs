@@ -5,7 +5,7 @@ namespace SwtorCaster.Core.Services.Settings
     using System.IO;
     using System.Windows;
     using Caliburn.Micro;
-    using Domain;
+    using Domain.Settings;
     using Logging;
     using Newtonsoft.Json;
 

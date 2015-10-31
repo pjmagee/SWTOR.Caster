@@ -5,16 +5,15 @@ namespace SwtorCaster.ViewModels
     using System.Windows.Media;
     using Caliburn.Micro;
     using Core.Domain;
+    using Core.Domain.Settings;
     using Screens;
-    using Core;
     using Core.Services.Combat;
     using Core.Services.Logging;
-    using Core.Services.Parsing;
     using Core.Services.Providers;
     using Core.Services.Settings;
-    using SwtorCaster.Core.Extensions;
+    using Core.Extensions;
 
-    public class AbilityViewModel : FocusableScreen, IHandle<Settings>, IHandle<ParserMessage>, IHandle<LogLine>, IHandle<ICombatLogService>
+    public class AbilityViewModel : FocusableScreen, IHandle<Settings>, IHandle<ParserMessage>, IHandle<CombatLogViewModel>, IHandle<ICombatLogService>
     {
         private readonly ICombatLogProvider _combatLogProvider;
         private readonly ILoggerService _loggerService;
@@ -24,7 +23,7 @@ namespace SwtorCaster.ViewModels
 
         public SolidColorBrush BackgroundColor => new SolidColorBrush(_settingsService.Settings.AbilityLoggerBackgroundColor.FromHexToColor());
 
-        public ObservableCollection<LogLine> LogLines { get; } = new ObservableCollection<LogLine>();
+        public ObservableCollection<CombatLogViewModel> LogLines { get; } = new ObservableCollection<CombatLogViewModel>();
 
         public AbilityViewModel(
             ICombatLogProvider combatLogProvider,
@@ -38,16 +37,16 @@ namespace SwtorCaster.ViewModels
             eventAggregator.Subscribe(this);
         }
 
-        private void TryAddItem(LogLine item)
+        private void TryAddItem(CombatLogViewModel item)
         {
             if (LogLines.Count > _settingsService.Settings.Items) LogLines.Clear();
             if (LogLines.Count == _settingsService.Settings.Items) LogLines.RemoveAt(LogLines.Count - 1);
             LogLines.Insert(0, item);
         }
 
-        public void CopyToClipBoard(LogLine e)
+        public void CopyToClipBoard(CombatLogViewModel viewModel)
         {
-            Clipboard.SetText(e.Id, TextDataFormat.Text);
+            Clipboard.SetText(viewModel.CombatLogEvent.Ability.EntityId.ToString(), TextDataFormat.Text);
         }
 
         protected override void OnActivate()
@@ -74,24 +73,23 @@ namespace SwtorCaster.ViewModels
             if (message.ClearLog) LogLines.Clear();
         }
 
-        public void Handle(LogLine message)
+        public void Handle(CombatLogViewModel message)
         {
             if (message == null) return;
 
             var settings = _settingsService.Settings;
-
-            if (settings.EnableCombatClear && message.EventDetailType == EventDetailType.ExitCombat) LogLines.Clear();
-            if (!settings.EnableCompanionAbilities && message.SourceType == SourceTargetType.Companion) return;
-            if (settings.IgnoreUnknownAbilities && message.IsUnknown) return;
-            if (message.EventDetailType != EventDetailType.AbilityActivate || message.EventType != EventType.Event) return;
-            if (message.IsEmpty) _loggerService.Log($"{message.Id} was empty.");
+            
+            if (settings.EnableCombatClear && message.CombatLogEvent.IsExitCombat()) LogLines.Clear();
+            if (!settings.EnableCompanionAbilities && message.CombatLogEvent.IsThisPlayerCompanion()) return;
+            if (settings.IgnoreUnknownAbilities && message.CombatLogEvent.IsUnknown()) return;
+            if (!message.CombatLogEvent.IsAbilityActivate() || !message.CombatLogEvent.IsEvent()) return;
 
             TryAddItem(message);
         }
 
-        public void Handle(ICombatLogService combatLog)
+        public void Handle(ICombatLogService combatLogService)
         {
-            combatLog.Start();
+            combatLogService.Start();
         }
     }
 }

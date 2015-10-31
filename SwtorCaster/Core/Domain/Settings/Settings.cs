@@ -1,12 +1,13 @@
-namespace SwtorCaster.Core.Domain
+namespace SwtorCaster.Core.Domain.Settings
 {
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
-    using Newtonsoft.Json;
-    using System.Collections.Generic;
     using System.Windows.Media;
     using Annotations;
-    using SwtorCaster.Core.Extensions;
+    using Extensions;
+    using Newtonsoft.Json;
+    using Properties;
 
     public class Settings : INotifyPropertyChanged
     {
@@ -16,6 +17,8 @@ namespace SwtorCaster.Core.Domain
         private int _items = 5;
         private int _rotate = 5;
         private int _clearAfterInactivity = 10;
+        private int _fontSize = 32;
+        private int _volume = 10;
         private bool _enableAbilityText = true;
         private bool _enableClearInactivity = true;
         private bool _enableCombatClear = true;
@@ -23,16 +26,16 @@ namespace SwtorCaster.Core.Domain
         private bool _enableLogging = true;
         private string _abilityLoggerBackgroundColor = Colors.Transparent.ToHex();
         private bool _ignoreUnknownAbilities = true;
-        private int _fontSize = 32;
         private string _soundOnDeath;
-        private int _volume = 10;
         private bool _enableDemoMode;
         private bool _enableSound;
         private bool _enableAbilitySettings;
 
         private IEnumerable<AbilitySetting> _abilitySettings = new List<AbilitySetting>();
         private IEnumerable<EventSetting> _eventSettings = new List<EventSetting>();
-        
+        private string _combatLogFile;
+        private string _companionAbilityBorderColor = Colors.Purple.ToHex();
+
         [JsonProperty("items")]
         public int Items
         {
@@ -53,6 +56,17 @@ namespace SwtorCaster.Core.Domain
             {
                 if (value == _enableCompanionAbilities) return;
                 _enableCompanionAbilities = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonProperty("companionAbilityBorderColor")]
+        public string CompanionAbilityBorderColor
+        {
+            get { return _companionAbilityBorderColor; }
+            set
+            {
+                _companionAbilityBorderColor = value;
                 OnPropertyChanged();
             }
         }
@@ -153,7 +167,7 @@ namespace SwtorCaster.Core.Domain
             }
         }
 
-       [JsonProperty("ignoreUnknownAbilities")]
+        [JsonProperty("ignoreUnknownAbilities")]
         public bool IgnoreUnknownAbilities
         {
             get { return _ignoreUnknownAbilities; }
@@ -257,6 +271,18 @@ namespace SwtorCaster.Core.Domain
             {
                 if (value == _enableDemoMode) return;
                 _enableDemoMode = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonProperty("demoModeCombatLogFile")]
+        public string CombatLogFile
+        {
+            get { return _combatLogFile; }
+            set
+            {
+                if (value == _combatLogFile) return;
+                _combatLogFile = value;
                 OnPropertyChanged();
             }
         }

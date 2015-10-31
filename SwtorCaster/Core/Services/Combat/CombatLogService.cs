@@ -9,24 +9,28 @@ namespace SwtorCaster.Core.Services.Combat
     using System.Windows.Threading;
     using Caliburn.Micro;
     using Domain;
+    using Domain.Log;
     using Events;
+    using Factory;
     using Logging;
     using Parsing;
     using Settings;
+    using static System.Environment;
 
     public class CombatLogService : ICombatLogService
     {
         private Thread _thread;
         private FileInfo _currentFile;
 
-        private static string SwtorCombatLogPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), 
+        private static string SwtorCombatLogPath => Path.Combine(GetFolderPath(SpecialFolder.MyDocuments),
             "Star Wars - The Old Republic", "CombatLogs");
 
         private readonly ILoggerService _loggerService;
         private readonly ISettingsService _settingsService;
-        private readonly ILogLineParser _logLineParser;
         private readonly IEventAggregator _eventAggregator;
         private readonly IEventService _eventService;
+        private readonly ICombatLogParser _parser;
+        private readonly ICombatLogViewModelFactory _logViewModelFactory;
         private readonly Stopwatch _clearStopwatch;
         private readonly DispatcherTimer _clearTimer;
         private readonly DispatcherTimer _fileWriteTimer;
@@ -47,14 +51,17 @@ namespace SwtorCaster.Core.Services.Combat
         public CombatLogService(
             ILoggerService loggerService,
             ISettingsService settingsService,
-            ILogLineParser logLineParser,
-            IEventAggregator eventAggregator, IEventService eventService) : this()
+            IEventAggregator eventAggregator,
+            IEventService eventService,
+            ICombatLogParser parser,
+            ICombatLogViewModelFactory logViewModelFactory) : this()
         {
             _loggerService = loggerService;
             _settingsService = settingsService;
-            _logLineParser = logLineParser;
             _eventAggregator = eventAggregator;
             _eventService = eventService;
+            _parser = parser;
+            _logViewModelFactory = logViewModelFactory;
         }
 
         public void Start()
@@ -130,7 +137,7 @@ namespace SwtorCaster.Core.Services.Combat
             IsRunning = true;
         }
 
-        public async void Read(string file)
+        public void Read(string file)
         {
             using (var fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete))
             {
@@ -140,11 +147,11 @@ namespace SwtorCaster.Core.Services.Combat
 
                     while (IsRunning)
                     {
-                        var value = await reader.ReadLineAsync();
+                        var value = reader.ReadLine();
 
                         if (value != null)
                         {
-                            TryRead(value);
+                            Handle(value);
 
                             if (_clearStopwatch.IsRunning)
                             {
@@ -158,25 +165,24 @@ namespace SwtorCaster.Core.Services.Combat
             }
         }
 
-        private void TryRead(string value)
+        private void Handle(string value)
         {
             try
             {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    var logLine = _logLineParser.Parse(value);
-
-                    if (logLine != null)
-                    {
-                        _eventAggregator.PublishOnUIThread(logLine);
-                        _eventService.Handle(logLine);
-                    }
-                });
+                var logLine = _parser.Parse(value);
+                _eventService.Handle(logLine);
+                Application.Current.Dispatcher.Invoke(() => Render(logLine));
             }
             catch (Exception e)
             {
                 _loggerService.Log($"Error adding item: {e.Message}");
             }
+        }
+
+        private void Render(CombatLogEvent logLine)
+        {
+            var viewModel = _logViewModelFactory.Create(logLine);
+            _eventAggregator.PublishOnUIThread(viewModel);
         }
     }
 }

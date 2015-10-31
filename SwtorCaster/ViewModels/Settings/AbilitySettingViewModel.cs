@@ -1,14 +1,14 @@
 namespace SwtorCaster.ViewModels
 {
+    using System;
     using System.Linq;
     using System.Windows.Media;
     using Caliburn.Micro;
     using MahApps.Metro.Controls;
     using MahApps.Metro.Controls.Dialogs;
     using Microsoft.Win32;
-    using Core;
-    using Core.Domain;
-    using SwtorCaster.Core.Extensions;
+    using Core.Domain.Settings;
+    using Core.Extensions;
 
     public class AbilitySettingViewModel : PropertyChangedBase
     {
@@ -38,7 +38,7 @@ namespace SwtorCaster.ViewModels
             _abilitySetting.Aliases = Aliases.Where(x => !string.IsNullOrEmpty(x.Name)).Select(x => x.Name).ToList();
         }
 
-        public string Id
+        public string AbilityId
         {
             get { return _abilitySetting.AbilityId; }
             set { _abilitySetting.AbilityId = value; }
@@ -104,11 +104,6 @@ namespace SwtorCaster.ViewModels
         public void AddAlias()
         {
             Aliases.Add(new AbilityAliasViewModel());
-        }
-
-        public void Activate()
-        {
-            // TODO: publish log line event
         }
     }
 }

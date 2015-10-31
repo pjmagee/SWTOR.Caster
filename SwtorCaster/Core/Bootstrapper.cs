@@ -13,6 +13,7 @@ namespace SwtorCaster.Core
     using Services.Parsing;
     using Services.Settings;
     using Services.Events;
+    using Services.Factory;
     using Services.Providers;
     using ViewModels;
 
@@ -63,7 +64,7 @@ namespace SwtorCaster.Core
         {
             Timeline.DesiredFrameRateProperty.OverrideMetadata(
                 typeof (Timeline),
-                new FrameworkPropertyMetadata { DefaultValue = 20 });
+                new FrameworkPropertyMetadata { DefaultValue = 30 });
             
             await InitializeImages();
             DisplayRootViewFor<MainViewModel>();
@@ -101,8 +102,10 @@ namespace SwtorCaster.Core
             _container.Singleton<ISettingsService, SettingsService>();
             _container.Singleton<ILoggerService, LoggerService>();
             _container.Singleton<IWindowManager, WindowManager>();
-            _container.Singleton<ILogLineParser, LogLineParser>();
+            _container.Singleton<ICombatLogParser, CombatLogParser>();
             _container.Singleton<IEventService, EventService>();
+
+            _container.Singleton<ICombatLogViewModelFactory, CombatLogViewModelFactory>();
         }
 
         protected override void OnExit(object sender, EventArgs e)

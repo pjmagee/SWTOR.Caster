@@ -1,13 +1,16 @@
 namespace SwtorCaster.ViewModels
 {
+    using System.IO;
     using System.Linq;
     using System.Windows.Media;
     using Caliburn.Micro;
     using Core.Domain;
+    using Core.Domain.Settings;
     using Core.Services.Audio;
     using Core.Services.Settings;
     using Screens;
     using Core.Extensions;
+    using Microsoft.Win32;
 
     /// <summary>
     /// We hook into the Settings Property Changed event and any time a value changes, we serialize the settings instantly.
@@ -122,6 +125,29 @@ namespace SwtorCaster.ViewModels
             set { _settingsService.Settings.IgnoreUnknownAbilities = value; }
         }
 
+        public string CombatLogFile
+        {
+            get { return _settingsService.Settings.CombatLogFile; }
+            set { _settingsService.Settings.CombatLogFile = value; }
+        }
+
+        public string SelectedCombatLogFile
+        {
+            get
+            {
+                try
+                {
+                    return Path.GetFileNameWithoutExtension(_settingsService.Settings.CombatLogFile);
+                }
+                catch
+                {
+
+                }
+
+                return "No file selected.";
+            }
+        }
+
         public int FontSize
         {
             get { return _settingsService.Settings.FontSize; }
@@ -132,6 +158,37 @@ namespace SwtorCaster.ViewModels
         {
             get { return _settingsService.Settings.AbilityLoggerBackgroundColor.FromHexToColor(); }
             set { _settingsService.Settings.AbilityLoggerBackgroundColor = value.ToHex(); }
+        }
+
+        public Color SelectedCompanionAbilityBorderColor
+        {
+            get { return _settingsService.Settings.CompanionAbilityBorderColor.FromHexToColor(); }
+            set { _settingsService.Settings.CompanionAbilityBorderColor = value.ToHex(); }
+        }
+
+        public void PickFile()
+        {
+            FileDialog fileDialog = new OpenFileDialog
+            {
+                Multiselect = false,
+                Filter = "Combat log (*.txt)|*.txt;",
+                Title = "Select combat log file",
+                CheckPathExists = true,
+                CheckFileExists = true
+            };
+
+            var result = fileDialog.ShowDialog();
+
+            if (result.GetValueOrDefault())
+            {
+                CombatLogFile = fileDialog.FileName;
+            }
+        }
+
+        public void ClearFile()
+        {
+            CombatLogFile = string.Empty;
+            NotifyOfPropertyChange(() => CombatLogFile);
         }
 
         #endregion

@@ -7,15 +7,18 @@ namespace SwtorCaster.Core.Services.Combat
     using System.Windows;
     using System.Windows.Media;
     using Caliburn.Micro;
-    using Domain;
+    using Domain.Log;
     using Events;
     using Extensions;
+    using Factory;
     using Images;
+    using Parsing;
     using Settings;
 
     public class DemoCombatLogService : ICombatLogService
     {
-        private readonly IImageService _imageService;
+        private readonly ICombatLogViewModelFactory _logViewModelFactory;
+        private readonly ICombatLogParser _logParser;
         private readonly ISettingsService _settingsService;
         private readonly IEventAggregator _eventAggregator;
         private readonly IEventService _eventService;
@@ -24,15 +27,17 @@ namespace SwtorCaster.Core.Services.Combat
         private Thread _parserThread;
 
         public DemoCombatLogService(
-            IImageService imageService,
-            ISettingsService settingsService, 
-            IEventAggregator eventAggregator, 
-            IEventService eventService)
+            ISettingsService settingsService,
+            IEventAggregator eventAggregator,
+            IEventService eventService,
+            ICombatLogViewModelFactory logViewModelFactory,
+            ICombatLogParser logParser)
         {
-            _imageService = imageService;
             _settingsService = settingsService;
             _eventAggregator = eventAggregator;
             _eventService = eventService;
+            _logViewModelFactory = logViewModelFactory;
+            _logParser = logParser;
         }
 
         public void Start()
@@ -44,36 +49,46 @@ namespace SwtorCaster.Core.Services.Combat
 
         private void Run()
         {
-            IsRunning = true;
-            var images = _imageService.GetImages().ToList();
-            var random = new Random();
-            var gcd = 1000;
+            IsRunning = File.Exists(_settingsService.Settings.CombatLogFile);
 
-            while (IsRunning)
+            using (var fs = new FileStream(_settingsService.Settings.CombatLogFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete))
             {
-                var randomImage = images[random.Next(0, images.Count)];
-                var id = Path.GetFileNameWithoutExtension(randomImage);
-                var image = _imageService.GetImageById(id);
-                var isColor = random.Next(0, 2) > 1;
-                var color = isColor ? Enum.GetValues(typeof (Colors)).Cast<Color>().PickRandom() : Colors.Transparent;
-                var settings = _settingsService.Settings;
-                var isPlayer = random.Next(0, 2) > 1;
-                var rotate = random.Next(-settings.Rotate, settings.Rotate);
-                var type = random.Next(0, 100) < 25 ? EventDetailType.Death : EventDetailType.AbilityActivate;
-                var source = SourceTargetType.Self;
-                var target = SourceTargetType.Other;
-                var eventType = EventType.Event;
-                var isForced = false;
-
-                Application.Current.Dispatcher.Invoke(() =>
+                using (var reader = new StreamReader(fs))
                 {
-                    var logline = new LogLine(id, source, target, eventType, type, id, image, rotate, Visibility.Visible, color, false, isPlayer, isForced);
-                    _eventAggregator.PublishOnUIThread(logline);
-                    _eventService.Handle(logline);
-                });
+                    while (IsRunning)
+                    {
+                        var value = reader.ReadLine();
+                        TryRead(value);
 
-                Thread.Sleep(1000);
+                        if (reader.EndOfStream)
+                        {
+                            reader.BaseStream.Seek(0, SeekOrigin.Begin);
+                        }
+
+                        Thread.Sleep(1000);
+                    }
+                }
             }
+        }
+
+        private void TryRead(string value)
+        {
+            try
+            {
+                var combatLogEvent = _logParser.Parse(value);
+                _eventService.Handle(combatLogEvent);
+                Application.Current.Dispatcher.Invoke(() => Render(combatLogEvent));
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
+
+        private void Render(CombatLogEvent combatLogEvent)
+        {
+            var logLine = _logViewModelFactory.Create(combatLogEvent);
+            _eventAggregator.PublishOnUIThread(logLine);
         }
 
         public void Stop()

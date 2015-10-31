@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:cal="http://www.caliburnproject.org"
-        xmlns:custom="clr-namespace:SwtorCaster.Views.Controls"
         xmlns:views="clr-namespace:SwtorCaster.Views"
         Icon="../Resources/swtorcaster.ico"
         Width="700" Height="550" ResizeMode="CanResizeWithGrip"
@@ -14,13 +13,13 @@
     <Grid HorizontalAlignment="Stretch" Margin="10" VerticalAlignment="Stretch">
         <TabControl>
             <TabItem Header="Main Settings">
-                <custom:MainSettingsView cal:Bind.Model="{Binding}" />
+                <views:MainSettingsView cal:Bind.Model="{Binding}" />
             </TabItem>
             <TabItem Header="Sound Settings">
                 <views:EventSettingsView cal:Bind.Model="{Binding}" />
             </TabItem>
             <TabItem Header="Abilities Settings">
-                <custom:AbilitySettingsView cal:Bind.Model="{Binding}" />
+                <views:AbilitySettingsView cal:Bind.Model="{Binding}" />
             </TabItem>
         </TabControl>
     </Grid>

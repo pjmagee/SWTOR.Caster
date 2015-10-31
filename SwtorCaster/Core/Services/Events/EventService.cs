@@ -4,9 +4,12 @@
     using System.Linq;
     using Domain;
     using Audio;
+    using Domain.Log;
+    using Domain.Settings;
     using Logging;
     using Settings;
     using Extensions;
+    using Parsing;
 
     public class EventService : IEventService
     {
@@ -21,7 +24,7 @@
             _loggerService = loggerService;
         }
 
-        public void Handle(LogLine line)
+        public void Handle(CombatLogEvent line)
         {
             if (!_settingsService.Settings.EnableSound) return;
 
@@ -31,13 +34,18 @@
             }
         }
 
-        private void HandleEventLine(LogLine line, EventSetting setting)
+        private void HandleEventLine(CombatLogEvent line, EventSetting setting)
         {
             try
             {
                 if (setting.CanPlay(line) && !string.IsNullOrEmpty(setting.Sound))
                 {
                     _audioService.Play(setting.Sound);
+                }
+
+                if (setting.CanPlay(line) && string.IsNullOrEmpty(setting.Sound))
+                {
+                    _audioService.Stop();
                 }
             }
             catch (Exception e)

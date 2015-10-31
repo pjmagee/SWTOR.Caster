@@ -150,33 +150,43 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Core\Domain\EventSetting.cs" />
+    <Compile Include="Core\Domain\Log\CombatLogEntity.cs" />
+    <Compile Include="Core\Domain\Log\CombatLogEvent.cs" />
+    <Compile Include="Core\Domain\Log\CombatLogEventArgs.cs" />
+    <Compile Include="Core\Domain\Log\CombatLogParticipant.cs" />
+    <Compile Include="Core\Domain\Log\EffectName.cs" />
+    <Compile Include="Core\Domain\Log\EffectType.cs" />
+    <Compile Include="Core\Domain\Log\SoundEvents.cs" />
+    <Compile Include="Core\Domain\Settings\EventSetting.cs" />
+    <Compile Include="Core\Extensions\CombatLogExtensions.cs" />
     <Compile Include="Core\Extensions\EnumerableExtension.cs" />
+    <Compile Include="Core\ParseException.cs" />
     <Compile Include="Core\Services\Events\EventService.cs" />
     <Compile Include="Core\Extensions\SettingExtensions.cs" />
     <Compile Include="Core\Services\Events\IEventService.cs" />
+    <Compile Include="Core\Services\Parsing\CombatLogParser.cs" />
+    <Compile Include="Custom\SoundEventValueConverter.cs" />
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="ViewModels\CombatLogViewModel.cs" />
+    <Compile Include="Core\Services\Factory\CombatLogViewModelFactory.cs" />
+    <Compile Include="Core\Services\Parsing\ICombatLogParser.cs" />
+    <Compile Include="Core\Services\Factory\ICombatLogViewModelFactory.cs" />
     <Compile Include="Core\Services\Providers\ICombatLogProvider.cs" />
     <Compile Include="Core\Services\Providers\CombatLogProvider.cs" />
     <Compile Include="Custom\OutlinedText.cs" />
-    <Compile Include="Core\Domain\AbilitySetting.cs" />
-    <Compile Include="Core\Domain\EventDetailType.cs" />
-    <Compile Include="Core\Domain\EventType.cs" />
-    <Compile Include="Core\Domain\SourceTargetType.cs" />
+    <Compile Include="Core\Domain\Settings\AbilitySetting.cs" />
     <Compile Include="Core\Extensions\ColorExtensions.cs" />
     <Compile Include="Core\Services\Combat\DemoCombatLogService.cs" />
     <Compile Include="Core\Services\Images\IImageService.cs" />
     <Compile Include="Core\Services\Logging\ILoggerService.cs" />
-    <Compile Include="Core\Services\Parsing\ILogLineParser.cs" />
     <Compile Include="Core\Services\Images\ImageService.cs" />
     <Compile Include="Core\Services\Combat\ICombatLogService.cs" />
     <Compile Include="Core\Services\Settings\ISettingsService.cs" />
     <Compile Include="Core\Services\Logging\LoggerService.cs" />
-    <Compile Include="Core\Services\Parsing\LogLineParser.cs" />
     <Compile Include="Core\Domain\ParserMessage.cs" />
     <Compile Include="Core\Services\Combat\CombatLogService.cs" />
     <Compile Include="Core\Services\Settings\SettingsService.cs" />
     <Compile Include="Custom\CloseBehavior.cs" />
-    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModels\Settings\AbilityAliasViewModel.cs" />
     <Compile Include="ViewModels\Settings\AbilitySettingViewModel.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
@@ -189,27 +199,27 @@
     <Compile Include="Views\AboutView.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Controls\AbilitySettingsView.xaml.cs">
+    <Compile Include="Views\Controls\AbilitySettingsView.cs">
       <DependentUpon>AbilitySettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Controls\MainSettingsView.xaml.cs">
+    <Compile Include="Views\Controls\MainSettingsView.cs">
       <DependentUpon>MainSettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Controls\EventSettingsView.xaml.cs">
+    <Compile Include="Views\Controls\EventSettingsView.cs">
       <DependentUpon>EventSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LogView.cs">
       <DependentUpon>LogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\Bootstrapper.cs" />
-    <Compile Include="Core\Domain\Settings.cs" />
+    <Compile Include="Core\Domain\Settings\Settings.cs" />
     <Compile Include="ViewModels\Settings\SettingsViewModel.cs" />
     <Compile Include="Views\SettingsView.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\AbilityViewModel.cs" />
     <Compile Include="ViewModels\LogViewModel.cs" />
-    <Compile Include="Views\SplashView.xaml.cs">
+    <Compile Include="Views\SplashView.cs">
       <DependentUpon>SplashView.xaml</DependentUpon>
     </Compile>
     <Page Include="Resources\Icons.xaml">
@@ -224,7 +234,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Core\Domain\LogLine.cs" />
     <Compile Include="Views\AbilityView.cs">
       <DependentUpon>AbilityView.xaml</DependentUpon>
       <SubType>Code</SubType>

@@ -5,11 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:cal="http://www.caliburnproject.org"
+             xmlns:custom="clr-namespace:SwtorCaster.Custom"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Background="White">
     <UserControl.Resources>
         <ToolTip x:Key="TooltipEnableEvents" Content="Play sounds when configured events occur." />
         <ToolTip x:Key="TooltipAddAudio" Content="Select an audio file to play when the event occurs." />
+        <custom:SoundEventValueConverter x:Key="SoundEventValueConverter" />
     </UserControl.Resources>
     <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
         <StackPanel Orientation="Horizontal" Margin="5">
@@ -18,12 +20,6 @@
             <Label Content="Volume:" />
             <Slider x:Name="Volume" Minimum="1" Maximum="100" Width="150" VerticalAlignment="Center" TickFrequency="5" AutoToolTipPlacement="TopLeft" />
             <Label Content="{Binding ElementName=Volume, Path=Value}" />
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <Label Content="MLG soundboard:" ToolTip="Example mp3 files to use." />
-            <Button Style="{StaticResource HyperlinkButton}" VerticalAlignment="Center" ToolTip="Example mp3 files to use.">
-                <Hyperlink>http://soundboard.panictank.net/</Hyperlink>
-            </Button>
         </StackPanel>
         <DataGrid Name="Events" 
                   ItemsSource="{Binding EventSettingViewModels}" 
@@ -43,7 +39,10 @@
                 <DataGridTemplateColumn Header="Event">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <controls:SplitButton ItemsSource="{Binding Path=EventDetailTypes}" SelectedItem="{Binding Path=SelectedEventDetailType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <controls:SplitButton 
+                                ItemsSource="{Binding Path=EffectNames}"
+                                SelectedItem="{Binding Path=SelectedEffectName, Converter={StaticResource SoundEventValueConverter},
+                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

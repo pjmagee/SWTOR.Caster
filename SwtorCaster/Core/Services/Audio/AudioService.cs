@@ -4,20 +4,12 @@ namespace SwtorCaster.Core.Services.Audio
     using System.Threading;
     using System.Threading.Tasks;
     using NAudio.Wave;
-    using Logging;
 
     public class AudioService : IAudioService
     {
         private WaveOut _waveOut;
         private ManualResetEvent _event;
 
-        private readonly ILoggerService _loggerService;
-
-        public AudioService(ILoggerService loggerService)
-        {
-            _loggerService = loggerService;
-        }
-        
         public async void Play(string audioFile, int volume)
         {
             _waveOut?.Stop();

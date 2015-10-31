@@ -1,9 +1,10 @@
 ﻿namespace SwtorCaster.Core.Services.Events
 {
-    using SwtorCaster.Core.Domain;
+    using Domain.Log;
+    using Parsing;
 
     public interface IEventService
     {
-        void Handle(LogLine line);
+        void Handle(CombatLogEvent line);
     }
 }

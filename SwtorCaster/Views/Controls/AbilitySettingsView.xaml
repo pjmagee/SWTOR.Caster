@@ -40,7 +40,7 @@
                 <DataGridTemplateColumn Header="Ability ID">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBox Text="{Binding Path=Id, UpdateSourceTrigger=PropertyChanged}" ToolTip="{StaticResource TooltipCopyPaste}" />
+                            <TextBox Text="{Binding Path=AbilityId, UpdateSourceTrigger=PropertyChanged}" ToolTip="{StaticResource TooltipCopyPaste}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
