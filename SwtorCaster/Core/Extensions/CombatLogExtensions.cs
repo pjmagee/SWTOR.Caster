@@ -1,9 +1,6 @@
 namespace SwtorCaster.Core.Extensions
 {
-    using Domain;
     using Domain.Log;
-    using Services.Combat;
-    using Services.Parsing;
 
     public static class CombatLogExtensions
     {
@@ -25,6 +22,11 @@ namespace SwtorCaster.Core.Extensions
         public static bool IsPlayerKill(this CombatLogEvent @event)
         {
             return @event.IsThisPlayer() && @event.IsDeath() && @event.IsTargetAnotherPlayer();
+        }
+
+        public static bool IsNpcKill(this CombatLogEvent @event)
+        {
+            return @event.IsThisPlayer() && @event.IsNpcDeath();
         }
 
         private static bool IsTargetAnotherPlayer(this CombatLogEvent @event)
@@ -59,9 +61,9 @@ namespace SwtorCaster.Core.Extensions
             return @event.Ability == null || @event.Ability.IsUnknown;
         }
 
-        public static bool IsThisPlayerCompanion(this CombatLogEvent @event)
+        public static bool IsPlayerCompanion(this CombatLogEvent @event)
         {
-            return @event.Source.IsPlayerCompanion && @event.Source.CompanionOwner == CombatLogParser.CurrentPlayer;
+            return @event.Source.IsPlayerCompanion;
         }
 
         public static bool IsPlayerDeath(this CombatLogEvent @event)

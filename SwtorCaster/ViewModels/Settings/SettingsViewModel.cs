@@ -4,7 +4,6 @@ namespace SwtorCaster.ViewModels
     using System.Linq;
     using System.Windows.Media;
     using Caliburn.Micro;
-    using Core.Domain;
     using Core.Domain.Settings;
     using Core.Services.Audio;
     using Core.Services.Settings;
@@ -182,13 +181,14 @@ namespace SwtorCaster.ViewModels
             if (result.GetValueOrDefault())
             {
                 CombatLogFile = fileDialog.FileName;
+                NotifyOfPropertyChange(() => SelectedCombatLogFile);
             }
         }
 
         public void ClearFile()
         {
             CombatLogFile = string.Empty;
-            NotifyOfPropertyChange(() => CombatLogFile);
+            NotifyOfPropertyChange(() => SelectedCombatLogFile);
         }
 
         #endregion

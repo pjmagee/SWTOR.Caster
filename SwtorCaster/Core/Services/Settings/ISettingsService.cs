@@ -1,6 +1,5 @@
 ﻿namespace SwtorCaster.Core.Services.Settings
 {
-    using Domain;
     using Domain.Settings;
 
     public interface ISettingsService

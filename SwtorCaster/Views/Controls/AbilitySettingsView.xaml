@@ -6,7 +6,7 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" Background="White">
+             d:DesignHeight="200" d:DesignWidth="500" Background="White">
     <UserControl.Resources>
         <ToolTip x:Key="TooltipAddImage" Content="Add a custom image to use for this Ability. (Replaces Original)" />
         <ToolTip x:Key="TooltipClear" Content="Clear the custom image and use the default. (Use Original)" />
@@ -44,7 +44,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Border">
+                <DataGridTemplateColumn Header="Border" Width="70">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <xctk:ColorPicker SelectedColor="{Binding Path=Border, UpdateSourceTrigger=PropertyChanged}" ColorMode="ColorPalette" DisplayColorAndName="False" />

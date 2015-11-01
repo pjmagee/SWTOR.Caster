@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="300" Background="White">
+             d:DesignHeight="400" d:DesignWidth="400" Background="White">
     <UserControl.Resources>
         <ToolTip x:Key="TooltipMaxItems" Content="The maximum number of logged abilitys to display in the ability LoggerService window (recommend between 5 and 7)" />
         <ToolTip x:Key="TooltipRotate" Content="The rotation angle in degrees (recommend between -5 and 5). Set to 0 for both for no image rotation." />
@@ -16,17 +16,17 @@
         <ToolTip x:Key="TooltipCompanions" Content="Hide or show the companions abilities" />
         <ToolTip x:Key="TooltipCompanionBorder" Content="Set a border for companion abilities to help distinguish them from your own" />
         <ToolTip x:Key="TooltipColorKey" Content="This should also be set as the Color key in OBS" />
-        <ToolTip x:Key="TooltipDemo" Content="Demo mode shows fake abilities being triggered in the logger window to help customize your window" />
+        <ToolTip x:Key="TooltipDemo" Content="Demo mode shows abilities from an existing combat log file being triggered in the logger window to help customize your window" />
         <ToolTip x:Key="TooltipDemoFile" Content="Pick an existing combat log file to use" />
     </UserControl.Resources>
     <StackPanel Orientation="Vertical">
-        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
-            <Label Content="Number of abilities to display:" ToolTip="{StaticResource TooltipMaxItems}" />
+        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipMaxItems}">
+            <Label Content="Number of abilities to display:" />
             <Slider x:Name="Items" Minimum="1" Maximum="20" Width="200" IsSnapToTickEnabled="True" VerticalAlignment="Center" AutoToolTipPlacement="TopLeft" />
             <Label Content="{Binding ElementName=Items, Path=Value}" />
         </StackPanel>
-        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
-            <Label Content="Image rotate in degrees:" ToolTip="{StaticResource TooltipRotate}" />
+        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipRotate}">
+            <Label Content="Image rotate in degrees:" />
             <Slider x:Name="Rotate" Minimum="0" Maximum="45" Width="150" IsSnapToTickEnabled="True" VerticalAlignment="Center" AutoToolTipPlacement="TopLeft" />
             <Label Content="{Binding ElementName=Rotate, Path=Value}" />
         </StackPanel>
@@ -38,8 +38,8 @@
             <Label Content="Inactvity clears the ability window:" />
             <CheckBox x:Name="EnableInactivityClear" VerticalAlignment="Center" />
         </StackPanel>
-        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
-            <Label Content="Clear abilities after seconds of inactivity:" ToolTip="{StaticResource TooltipClearInactivity}"  />
+        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipClearInactivity}">
+            <Label Content="Clear abilities after seconds of inactivity:" />
             <Slider x:Name="ClearAfterInactivity" Minimum="5" Maximum="30" Width="150" IsSnapToTickEnabled="True" VerticalAlignment="Center" AutoToolTipPlacement="TopLeft" />
             <Label Content="{Binding ElementName=ClearAfterInactivity, Path=Value}" />
         </StackPanel>
@@ -47,9 +47,10 @@
             <Label Content="Enable ability text:" />
             <CheckBox Name="EnableAbilityText" VerticalAlignment="Center" />
         </StackPanel>
-        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
-            <Label Content="Ability text font size:" ToolTip="{StaticResource TooltipEnableText}"  />
-            <Slider x:Name="FontSize" Minimum="10" Maximum="50" Width="150" IsSnapToTickEnabled="True" VerticalAlignment="Center" AutoToolTipPlacement="TopLeft" />
+        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipEnableText}" >
+            <Label Content="Ability text font size:" />
+            <Slider x:Name="FontSize" Minimum="20" Maximum="50" Width="150" IsSnapToTickEnabled="True" VerticalAlignment="Center" AutoToolTipPlacement="TopLeft" />
+            <Label Content="{Binding ElementName=FontSize, Path=Value}" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipHideUnknown}">
             <Label Content="Ignore unknown abilities:" />
@@ -60,27 +61,35 @@
             <CheckBox Name="EnableCompanionAbilities" VerticalAlignment="Center" />
         </StackPanel>
 
-        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipCompanionBorder}">
+        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipCompanionBorder}" Margin="0,0,0,5">
             <Label Content="Companion ability border color:" />
             <xctk:ColorPicker ColorMode="ColorPalette" Width="Auto" DisplayColorAndName="False" SelectedColor="{Binding SelectedCompanionAbilityBorderColor}" />
         </StackPanel>
 
-        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
-            <Label Content="Ability logger background:" ToolTip="{StaticResource TooltipColorKey}" />
+        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipColorKey}">
+            <Label Content="Ability logger background:" />
             <xctk:ColorPicker ColorMode="ColorPalette" Width="Auto" DisplayColorAndName="False" SelectedColor="{Binding SelectedAbilityBackgroundColor}" />
-            <Label Content="(For OBS Window Source Color Key)" />
+            <Label Content="(For OBS Window Source Color Key)" FontWeight="DemiBold" />
         </StackPanel>
 
-        <Separator Margin="0,10,0,10" Width="200" />
+        <Separator Margin="20" Width="Auto" />
 
         <!--<StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
             <Label Content="Enable debug logging:" ToolTip="Enable logging to file for debugging." />
             <CheckBox Name="EnableLogging" VerticalAlignment="Center" />
         </StackPanel>-->
-
+        
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
-            <Label Content="Combat log file:" ToolTip="{StaticResource TooltipDemo}" VerticalAlignment="Center" />
-            <TextBlock Text="{Binding SelectedCombatLogFile, FallbackValue=No file selected}" VerticalAlignment="Center" />
+            <TextBlock Margin="5"
+                TextAlignment="Center" 
+                HorizontalAlignment="Center" 
+                Text="Demo mode reads an existing combat log file and outputs the result into the ability window." 
+                TextWrapping="Wrap" />
+        </StackPanel>
+
+        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipDemo}">
+            <Label Content="Combat log file:" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding SelectedCombatLogFile}" VerticalAlignment="Center" Margin="5,0,5,0" />
             <Button x:Name="PickFile" ToolTip="{StaticResource TooltipDemoFile}" Content="Pick file" Style="{StaticResource ActionButton}" />
             <Button x:Name="ClearFile" Content="Clear file" Style="{StaticResource ActionButton}" />
         </StackPanel>
@@ -88,6 +97,7 @@
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
             <Label Content="Enable demo mode:" ToolTip="{StaticResource TooltipDemo}" />
             <CheckBox x:Name="EnableDemoMode" VerticalAlignment="Center" />
+            <Label Content="(Disables the real time logging)" FontWeight="DemiBold" />
         </StackPanel>
 
     </StackPanel>

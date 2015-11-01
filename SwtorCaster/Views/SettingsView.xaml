@@ -4,7 +4,7 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:cal="http://www.caliburnproject.org"
         xmlns:views="clr-namespace:SwtorCaster.Views"
-        Icon="../Resources/swtorcaster.ico"
+        Icon="../Resources/swtorcaster.ico" WindowStartupLocation="CenterOwner"
         Width="700" Height="550" ResizeMode="CanResizeWithGrip"
         SizeToContent="Width">
     <Window.Resources>

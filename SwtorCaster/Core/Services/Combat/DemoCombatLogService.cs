@@ -51,21 +51,24 @@ namespace SwtorCaster.Core.Services.Combat
         {
             IsRunning = File.Exists(_settingsService.Settings.CombatLogFile);
 
-            using (var fs = new FileStream(_settingsService.Settings.CombatLogFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete))
+            if (IsRunning)
             {
-                using (var reader = new StreamReader(fs))
+                using (var fs = new FileStream(_settingsService.Settings.CombatLogFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete))
                 {
-                    while (IsRunning)
+                    using (var reader = new StreamReader(fs))
                     {
-                        var value = reader.ReadLine();
-                        TryRead(value);
-
-                        if (reader.EndOfStream)
+                        while (IsRunning)
                         {
-                            reader.BaseStream.Seek(0, SeekOrigin.Begin);
-                        }
+                            var value = reader.ReadLine();
+                            TryRead(value);
 
-                        Thread.Sleep(1000);
+                            if (reader.EndOfStream)
+                            {
+                                reader.BaseStream.Seek(0, SeekOrigin.Begin);
+                            }
+
+                            Thread.Sleep(500);
+                        }
                     }
                 }
             }

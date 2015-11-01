@@ -5,6 +5,6 @@ namespace SwtorCaster.Core.Services.Factory
 
     public interface ICombatLogViewModelFactory
     {
-        CombatLogViewModel Create(CombatLogEvent combatLogEvent);
+        CombatLogViewModel Create(CombatLogEvent @event);
     }
 }

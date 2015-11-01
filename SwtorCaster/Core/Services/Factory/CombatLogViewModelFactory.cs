@@ -6,6 +6,7 @@ namespace SwtorCaster.Core.Services.Factory
     using System.Windows;
     using System.Windows.Media;
     using Domain.Log;
+    using Domain.Settings;
     using Extensions;
     using Images;
     using Settings;
@@ -23,38 +24,47 @@ namespace SwtorCaster.Core.Services.Factory
             _imageService = imageService;
         }
 
-        public CombatLogViewModel Create(CombatLogEvent combatLogEvent)
+        public CombatLogViewModel Create(CombatLogEvent @event)
         {
-            var viewModel = new CombatLogViewModel(combatLogEvent);
-
+            var viewModel = new CombatLogViewModel(@event);
             var settings = _settingsService.Settings;
 
-            if (combatLogEvent.IsAbilityActivate())
+            if (@event.IsAbilityActivate())
             {
-                var abilitySetting = settings.AbilitySettings.FirstOrDefault(s => s.AbilityId == combatLogEvent.Ability.EntityId.ToString() && s.Enabled);
-
-                viewModel.ImageUrl = _imageService.GetImageById(combatLogEvent.Ability.EntityId);
-                viewModel.ImageBorderColor = new SolidColorBrush(Colors.Transparent);
-                viewModel.ImageAngle = _random.Next(-settings.Rotate, settings.Rotate);
-
-                viewModel.Text = combatLogEvent.Ability.DisplayName;
-                viewModel.TextVisibility = settings.EnableAbilityText ? Visibility.Visible : Visibility.Hidden;
-                viewModel.FontSize = settings.FontSize;
-                viewModel.TooltipText = $"{combatLogEvent.Value}";
-
-                ApplyAbilitySettings(viewModel, abilitySetting);
+                ApplyLoggerSettings(@event, viewModel, settings);
+                ApplyAbilitySettings(@event, viewModel, settings);
             }
 
-            if (combatLogEvent.IsThisPlayerCompanion() && settings.EnableCompanionAbilities)
+            if (@event.IsPlayerCompanion() && settings.EnableCompanionAbilities)
             {
                 viewModel.ImageBorderColor = new SolidColorBrush(settings.CompanionAbilityBorderColor.FromHexToColor());
+            }
+
+            if (@event.IsCrit)
+            {
+                viewModel.ImageBorderColor = new SolidColorBrush(Colors.Yellow);
+                viewModel.IsCrit = true;
             }
 
             return viewModel;
         }
 
-        private static void ApplyAbilitySettings(CombatLogViewModel viewModel, Domain.Settings.AbilitySetting abilitySetting)
+        private void ApplyLoggerSettings(CombatLogEvent combatLogEvent, CombatLogViewModel viewModel, Settings settings)
         {
+            viewModel.ImageUrl = _imageService.GetImageById(combatLogEvent.Ability.EntityId);
+            viewModel.ImageBorderColor = new SolidColorBrush(Colors.Transparent);
+            viewModel.ImageAngle = _random.Next(-settings.Rotate, settings.Rotate);
+            viewModel.Text = combatLogEvent.Ability.DisplayName;
+            viewModel.TextVisibility = settings.EnableAbilityText ? Visibility.Visible : Visibility.Hidden;
+            viewModel.FontSize = settings.FontSize;
+            viewModel.TooltipText = $"{combatLogEvent.Ability.EntityId} (Click to copy ability id to clipboard)";
+        }
+
+        private static void ApplyAbilitySettings(CombatLogEvent @event, CombatLogViewModel viewModel, Settings settings)
+        {
+            var abilitySetting = settings.AbilitySettings
+                              .FirstOrDefault(s => s.AbilityId == @event.Ability.EntityId.ToString() && s.Enabled);
+
             if (abilitySetting != null)
             {
                 if (abilitySetting.Image != null && File.Exists(abilitySetting.Image))

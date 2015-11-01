@@ -2,11 +2,14 @@ namespace SwtorCaster.ViewModels
 {
     using System.Windows;
     using System.Windows.Media;
+    using System.Windows.Media.Animation;
+    using Caliburn.Micro;
     using Core.Domain.Log;
 
-    public class CombatLogViewModel
+    public class CombatLogViewModel : PropertyChangedBase
     {
         private string _text;
+
         public CombatLogEvent CombatLogEvent { get; }
 
         public CombatLogViewModel(CombatLogEvent combatLogEvent)
@@ -21,6 +24,10 @@ namespace SwtorCaster.ViewModels
         public SolidColorBrush ImageBorderColor { get; set; }
 
         public int ImageAngle { get; set; }
+
+        public BeginStoryboard CritialHitAnimation { get; set; }
+
+        public bool IsCrit { get; set; }
 
         #endregion
 

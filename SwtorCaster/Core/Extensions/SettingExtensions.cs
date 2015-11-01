@@ -38,7 +38,7 @@ namespace SwtorCaster.Core.Extensions
 
         public static bool IsPlayerKill(this EventSetting setting, CombatLogEvent line)
         {
-            return setting.EffectName == SoundEvent.Kill && line.IsPlayerKill();
+            return setting.EffectName == SoundEvent.Kill && (line.IsPlayerKill() || line.IsNpcKill());
         }
 
         public static bool IsAbilityCancel(this EventSetting setting, CombatLogEvent line)

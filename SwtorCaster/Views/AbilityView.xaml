@@ -2,10 +2,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:cal="http://www.caliburnproject.org"
         xmlns:custom="clr-namespace:SwtorCaster.Custom"
-        Height="400" Width="500" Icon="../Resources/swtorcaster.ico"
+        Height="400" Width="600" Icon="../Resources/swtorcaster.ico"
         Background="{Binding BackgroundColor}" ResizeMode="CanResize" 
         WindowStartupLocation="CenterOwner"
         x:Class="SwtorCaster.Views.AbilityView">
+    <Window.Resources>
+        <!--<Storyboard x:Key="CritAnimation">
+            <ColorAnimation Storyboard.TargetProperty="BorderBrush.Color" 
+                            AutoReverse="True" To="White" Duration="0:0:2" />
+        </Storyboard>-->
+    </Window.Resources>
     <ListView Name="AbilityList" 
               ItemsSource="{Binding LogLines}" 
               Background="{Binding BackgroundColor}" 
@@ -17,10 +23,39 @@
         <ListView.ItemTemplate>
             <DataTemplate>
                 <StackPanel cal:Message.Attach="[Event MouseLeftButtonUp] = [Action CopyToClipBoard($dataContext)]" x:Name="Item" Orientation="Horizontal" ToolTip="{Binding TooltipText}">
-                    <Border BorderBrush="{Binding ImageBorderColor}" 
+                    <Border BorderBrush="{Binding ImageBorderColor}" Name="AbilityBorder"
                             BorderThickness="2"  Margin="0,0,10,0"
                             CornerRadius="8,8,8,8" RenderTransformOrigin=".5,.5"
                             Background="{Binding ImageBorderColor}">
+                        <!--<Border.Triggers>
+                            <EventTrigger RoutedEvent="Border.GotFocus">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard Name="flash" Storyboard="{StaticResource CritAnimation}" />
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                        </Border.Triggers>-->
+                        <!--<Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Style.Resources>
+                                    <Storyboard x:Key="CritAnimation" >
+                                        <ColorAnimation Storyboard.TargetProperty="BorderBrush.Color"
+                                                        To="White" 
+                                                        AutoReverse="True" Duration="0:0:0.5" RepeatBehavior="Forever"
+                                                        FillBehavior="HoldEnd" />
+                                    </Storyboard>
+                                </Style.Resources>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsCrit}" Value="True">
+                                        <DataTrigger.EnterActions>
+                                            <BeginStoryboard Name="flash" Storyboard="{StaticResource CritAnimation}" />
+                                        </DataTrigger.EnterActions>
+                                        <DataTrigger.ExitActions>
+                                            <StopStoryboard BeginStoryboardName="flash" />
+                                        </DataTrigger.ExitActions>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>-->
                         <Border.RenderTransform>
                             <RotateTransform Angle="{Binding ImageAngle}" />
                         </Border.RenderTransform>

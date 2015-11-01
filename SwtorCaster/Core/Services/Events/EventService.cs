@@ -2,14 +2,12 @@
 {
     using System;
     using System.Linq;
-    using Domain;
     using Audio;
     using Domain.Log;
     using Domain.Settings;
     using Logging;
     using Settings;
     using Extensions;
-    using Parsing;
 
     public class EventService : IEventService
     {

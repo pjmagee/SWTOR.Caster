@@ -80,7 +80,7 @@ namespace SwtorCaster.ViewModels
             var settings = _settingsService.Settings;
             
             if (settings.EnableCombatClear && message.CombatLogEvent.IsExitCombat()) LogLines.Clear();
-            if (!settings.EnableCompanionAbilities && message.CombatLogEvent.IsThisPlayerCompanion()) return;
+            if (!settings.EnableCompanionAbilities && message.CombatLogEvent.IsPlayerCompanion()) return;
             if (settings.IgnoreUnknownAbilities && message.CombatLogEvent.IsUnknown()) return;
             if (!message.CombatLogEvent.IsAbilityActivate() || !message.CombatLogEvent.IsEvent()) return;
 
