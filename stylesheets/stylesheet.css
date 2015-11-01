@@ -2,21 +2,27 @@
   box-sizing: border-box; }
 
 @font-face {
-    font-family: swtorCaster;
+    font-family: swtorCaster;    
     src: url(../fonts/font.ttf);
 }
 
 h1 {
   font-family: swtorCaster;
   color: yellow;
-  font-size: 1.5rem;
+  font-size: 3.5rem;
   letter-spacing: 2px;
+  font-weight: normal;
 }
 
-h2, a {
+h2, .page-header a {
   font-family: swtorCaster;
-  color: yellow;
-  font-size: 1.25rem;
+  color: yellow;letter-spacing: 2px;
+  font-size: 1.35rem;
+  font-weight: normal;
+}
+
+.hint {
+ font-weight: 600;
 }
 
 body {
@@ -125,7 +131,12 @@ a {
 .main-content :first-child {
   margin-top: 0; }
 .main-content img {
-  max-width: 100%; }
+  max-width: 100%;
+  display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid black;
+   }
 .main-content h1, .main-content h2, .main-content h3, .main-content h4, .main-content h5, .main-content h6 {
   margin-top: 2rem;
   margin-bottom: 1rem;
