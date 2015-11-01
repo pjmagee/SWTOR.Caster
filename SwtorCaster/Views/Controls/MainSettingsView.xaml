@@ -32,7 +32,7 @@
         </StackPanel>
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipClearExitCombat}">
             <Label Content="Exiting combat clears the ability window:" />
-            <CheckBox x:Name="ExitCombatClear" VerticalAlignment="Center" />
+            <CheckBox x:Name="EnableCombatClear" VerticalAlignment="Center" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipClearInactivity}">
             <Label Content="Inactvity clears the ability window:" />

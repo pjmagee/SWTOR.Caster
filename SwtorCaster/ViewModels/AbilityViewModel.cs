@@ -70,7 +70,10 @@ namespace SwtorCaster.ViewModels
 
         public void Handle(ParserMessage message)
         {
-            if (message.ClearLog) LogLines.Clear();
+            if (message.ClearLog)
+            {
+                LogLines.Clear();
+            }
         }
 
         public void Handle(CombatLogViewModel message)

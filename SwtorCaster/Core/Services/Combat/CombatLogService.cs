@@ -42,7 +42,7 @@ namespace SwtorCaster.Core.Services.Combat
         {
             _clearTimer = new DispatcherTimer(DispatcherPriority.Normal) { Interval = TimeSpan.FromSeconds(1), IsEnabled = true };
             _clearStopwatch = new Stopwatch();
-            _fileWriteTimer = new DispatcherTimer(DispatcherPriority.Normal) { Interval = TimeSpan.FromSeconds(10) };
+            _fileWriteTimer = new DispatcherTimer(DispatcherPriority.Normal) { Interval = TimeSpan.FromSeconds(10), IsEnabled = true };
             _logDirectory = new DirectoryInfo(SwtorCombatLogPath);
             _clearTimer.Tick += ClearTimerOnTick;
             _fileWriteTimer.Tick += FileWriteTimerOnTick;
@@ -71,12 +71,8 @@ namespace SwtorCaster.Core.Services.Combat
             try
             {
                 _currentFile = GetLatestFile();
-
-                if (_settingsService.Settings.EnableClearInactivity)
-                {
-                    _clearTimer.Start();
-                    _clearStopwatch.Start();
-                }
+                _clearTimer.Start();
+                _clearStopwatch.Start();
 
                 ReadCurrentFile();
                 _fileWriteTimer.Start();
@@ -108,13 +104,13 @@ namespace SwtorCaster.Core.Services.Combat
 
         private void ClearTimerOnTick(object sender, EventArgs eventArgs)
         {
-            if (_clearStopwatch.Elapsed.TotalSeconds > _settingsService.Settings.ClearAfterInactivity)
+            if (!_settingsService.Settings.EnableClearInactivity) return;
+            if (_clearStopwatch.Elapsed.Seconds < _settingsService.Settings.ClearAfterInactivity) return;
+
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    _eventAggregator.PublishOnUIThread(new ParserMessage() { ClearLog = true });
-                });
-            }
+                _eventAggregator.PublishOnUIThread(new ParserMessage() { ClearLog = true });
+            });
         }
 
         private void FileWriteTimerOnTick(object sender, EventArgs eventArgs)

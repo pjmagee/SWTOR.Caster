@@ -88,7 +88,7 @@ namespace SwtorCaster.ViewModels
             set { _settingsService.Settings.EnableAbilitySettings = value; }
         }
 
-        public bool EnableExitCombatClear
+        public bool EnableCombatClear
         {
             get { return _settingsService.Settings.EnableCombatClear; }
             set { _settingsService.Settings.EnableCombatClear = value; }
