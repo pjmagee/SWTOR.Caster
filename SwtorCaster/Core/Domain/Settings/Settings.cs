@@ -7,34 +7,37 @@ namespace SwtorCaster.Core.Domain.Settings
     using Annotations;
     using Extensions;
     using Newtonsoft.Json;
-    using Properties;
 
     public class Settings : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private IEnumerable<AbilitySetting> _abilitySettings = new List<AbilitySetting>();
+        private IEnumerable<EventSetting> _eventSettings = new List<EventSetting>();
+
+        private string _abilityLoggerBackgroundColor = Colors.Transparent.ToHex();
+        private string _companionAbilityBorderColor = Colors.Purple.ToHex();
+
         private string _version;
-        private int _items = 5;
-        private int _rotate = 5;
-        private int _clearAfterInactivity = 10;
-        private int _fontSize = 32;
-        private int _volume = 10;
+        private string _combatLogFile;
+
+        private int _items = 5; // 5 items in the ability logger window
+        private int _rotate = 5; // +/- 5 degree angle rotation on image
+        private int _clearAfterInactivity = 10; // 10 seconds
+        private int _fontSize = 32; // default text ability font size
+        private int _volume = 10; // the default volume of 100%
+
         private bool _enableAbilityText = true;
         private bool _enableClearInactivity = true;
         private bool _enableCombatClear = true;
         private bool _enableCompanionAbilities = true;
         private bool _enableLogging = true;
-        private string _abilityLoggerBackgroundColor = Colors.Transparent.ToHex();
         private bool _ignoreUnknownAbilities = true;
-        private string _soundOnDeath;
-        private bool _enableDemoMode;
+
         private bool _enableSound;
         private bool _enableAbilitySettings;
-
-        private IEnumerable<AbilitySetting> _abilitySettings = new List<AbilitySetting>();
-        private IEnumerable<EventSetting> _eventSettings = new List<EventSetting>();
-        private string _combatLogFile;
-        private string _companionAbilityBorderColor = Colors.Purple.ToHex();
+        private bool _enableShowCrits;
+        private bool _enableDemoMode;
 
         [JsonProperty("items")]
         public int Items
@@ -44,6 +47,18 @@ namespace SwtorCaster.Core.Domain.Settings
             {
                 if (value == _items) return;
                 _items = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonProperty("enableShowCriticalHits")]
+        public bool EnableShowCriticalHits
+        {
+            get { return _enableShowCrits; }
+            set
+            {
+                if (value == _enableShowCrits) return;
+                _enableShowCrits = value;
                 OnPropertyChanged();
             }
         }
@@ -187,18 +202,6 @@ namespace SwtorCaster.Core.Domain.Settings
             {
                 if (_fontSize == value) return;
                 _fontSize = value;
-                OnPropertyChanged();
-            }
-        }
-
-        [JsonProperty("soundOnEnemyDeath")]
-        public string SoundOnDeath
-        {
-            get { return _soundOnDeath; }
-            set
-            {
-                if (value == _soundOnDeath) return;
-                _soundOnDeath = value;
                 OnPropertyChanged();
             }
         }

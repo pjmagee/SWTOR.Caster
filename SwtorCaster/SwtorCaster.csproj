@@ -165,6 +165,7 @@
     <Compile Include="Core\Extensions\SettingExtensions.cs" />
     <Compile Include="Core\Services\Events\IEventService.cs" />
     <Compile Include="Core\Services\Parsing\CombatLogParser.cs" />
+    <Compile Include="Custom\AbilityItemTemplateSelector.cs" />
     <Compile Include="Custom\SoundEventValueConverter.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModels\CombatLogViewModel.cs" />

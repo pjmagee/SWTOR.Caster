@@ -41,8 +41,46 @@ namespace SwtorCaster.ViewModels
         {
             if (LogLines.Count > _settingsService.Settings.Items) LogLines.Clear();
             if (LogLines.Count == _settingsService.Settings.Items) LogLines.RemoveAt(LogLines.Count - 1);
-            LogLines.Insert(0, item);
+
+            if (_settingsService.Settings.EnableShowCriticalHits && item.CombatLogEvent.IsApplyEffect() && item.IsCrit)
+            {
+                // Replacement handled
+                if (!IsCriticalHitHandled(item)) 
+                {
+                    // Replacement failed, insert new item
+                    LogLines.Insert(0, item);
+                }
+            }
+            else
+            {
+                LogLines.Insert(0, item);
+            }
         }
+
+        private bool IsCriticalHitHandled(CombatLogViewModel newItem)
+        {
+            for (int index = 0; index < LogLines.Count; index++)
+            {
+                var existingItem = LogLines[index];
+                
+                // Try to replace AbilityActivate with Applied Effect Critical hit
+                if (existingItem.CombatLogEvent.Ability.EntityId == newItem.CombatLogEvent.Ability.EntityId)
+                {
+                    if (existingItem.CombatLogEvent.IsAbilityActivate())
+                    {
+                        newItem.ImageAngle = existingItem.ImageAngle;
+                        LogLines[index] = newItem;
+                        return true;
+                    }
+
+                    // then an affect has happend after a previous ability activate, we dont want to replace an OLD one which never did crit
+                    return false; 
+                }
+            }
+
+            return false;
+        }
+
 
         public void CopyToClipBoard(CombatLogViewModel viewModel)
         {
@@ -81,13 +119,21 @@ namespace SwtorCaster.ViewModels
             if (message == null) return;
 
             var settings = _settingsService.Settings;
-            
+
             if (settings.EnableCombatClear && message.CombatLogEvent.IsExitCombat()) LogLines.Clear();
             if (!settings.EnableCompanionAbilities && message.CombatLogEvent.IsPlayerCompanion()) return;
             if (settings.IgnoreUnknownAbilities && message.CombatLogEvent.IsUnknown()) return;
-            if (!message.CombatLogEvent.IsAbilityActivate() || !message.CombatLogEvent.IsEvent()) return;
-
-            TryAddItem(message);
+            
+            // ActivateAbility can only happen from this player. (We dont see other players ability activate in our own log)
+            if (message.CombatLogEvent.IsAbilityActivate())
+            {
+                TryAddItem(message);
+            }
+            else if (message.CombatLogEvent.IsApplyEffect() && settings.EnableShowCriticalHits && 
+                message.CombatLogEvent.IsCrit && message.CombatLogEvent.IsThisPlayer())
+            {
+                TryAddItem(message);
+            }
         }
 
         public void Handle(ICombatLogService combatLogService)

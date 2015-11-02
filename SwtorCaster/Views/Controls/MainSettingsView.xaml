@@ -52,10 +52,18 @@
             <Slider x:Name="FontSize" Minimum="20" Maximum="50" Width="150" IsSnapToTickEnabled="True" VerticalAlignment="Center" AutoToolTipPlacement="TopLeft" />
             <Label Content="{Binding ElementName=FontSize, Path=Value}" />
         </StackPanel>
+
+        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipHideUnknown}">
+            <Label Content="Flash on critical hits:" />
+            <CheckBox Name="EnableShowCriticalHits" VerticalAlignment="Center" />
+            <Label Content="(Includes applied effects)" FontWeight="DemiBold" />
+        </StackPanel>
+
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipHideUnknown}">
             <Label Content="Ignore unknown abilities:" />
             <CheckBox Name="IgnoreUnknownAbilities" VerticalAlignment="Center" />
         </StackPanel>
+        
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipCompanions}" >
             <Label Content="Enable companion abilities:" />
             <CheckBox Name="EnableCompanionAbilities" VerticalAlignment="Center" />

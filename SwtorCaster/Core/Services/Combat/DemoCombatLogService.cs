@@ -67,7 +67,7 @@ namespace SwtorCaster.Core.Services.Combat
                                 reader.BaseStream.Seek(0, SeekOrigin.Begin);
                             }
 
-                            Thread.Sleep(500);
+                            Thread.Sleep(250);
                         }
                     }
                 }

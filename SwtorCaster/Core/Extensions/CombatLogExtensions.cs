@@ -63,6 +63,7 @@ namespace SwtorCaster.Core.Extensions
 
         public static bool IsPlayerCompanion(this CombatLogEvent @event)
         {
+            if (@event.Source == null) return false;
             return @event.Source.IsPlayerCompanion;
         }
 

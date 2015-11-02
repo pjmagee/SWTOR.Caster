@@ -29,7 +29,7 @@ namespace SwtorCaster.Core.Services.Factory
             var viewModel = new CombatLogViewModel(@event);
             var settings = _settingsService.Settings;
 
-            if (@event.IsAbilityActivate())
+            if (@event.IsAbilityActivate() || @event.IsApplyEffect())
             {
                 ApplyLoggerSettings(@event, viewModel, settings);
                 ApplyAbilitySettings(@event, viewModel, settings);
@@ -37,12 +37,12 @@ namespace SwtorCaster.Core.Services.Factory
 
             if (@event.IsPlayerCompanion() && settings.EnableCompanionAbilities)
             {
-                viewModel.ImageBorderColor = new SolidColorBrush(settings.CompanionAbilityBorderColor.FromHexToColor());
+                viewModel.ImageBorderColor = settings.CompanionAbilityBorderColor.FromHexToColor();
             }
 
-            if (@event.IsCrit)
+            if (@event.IsCrit && settings.EnableShowCriticalHits)
             {
-                viewModel.ImageBorderColor = new SolidColorBrush(Colors.Yellow);
+                viewModel.ImageBorderColor = Colors.Yellow;
                 viewModel.IsCrit = true;
             }
 
@@ -52,7 +52,7 @@ namespace SwtorCaster.Core.Services.Factory
         private void ApplyLoggerSettings(CombatLogEvent combatLogEvent, CombatLogViewModel viewModel, Settings settings)
         {
             viewModel.ImageUrl = _imageService.GetImageById(combatLogEvent.Ability.EntityId);
-            viewModel.ImageBorderColor = new SolidColorBrush(Colors.Transparent);
+            viewModel.ImageBorderColor = Colors.Transparent;
             viewModel.ImageAngle = _random.Next(-settings.Rotate, settings.Rotate);
             viewModel.Text = combatLogEvent.Ability.DisplayName;
             viewModel.TextVisibility = settings.EnableAbilityText ? Visibility.Visible : Visibility.Hidden;
@@ -62,6 +62,8 @@ namespace SwtorCaster.Core.Services.Factory
 
         private static void ApplyAbilitySettings(CombatLogEvent @event, CombatLogViewModel viewModel, Settings settings)
         {
+            if (!settings.EnableAbilitySettings) return;
+
             var abilitySetting = settings.AbilitySettings
                               .FirstOrDefault(s => s.AbilityId == @event.Ability.EntityId.ToString() && s.Enabled);
 
@@ -74,7 +76,7 @@ namespace SwtorCaster.Core.Services.Factory
 
                 if (!string.IsNullOrEmpty(abilitySetting.BorderColor))
                 {
-                    viewModel.ImageBorderColor = new SolidColorBrush(abilitySetting.BorderColor.FromHexToColor());
+                    viewModel.ImageBorderColor = abilitySetting.BorderColor.FromHexToColor();
                 }
 
                 if (abilitySetting.Aliases.Any())

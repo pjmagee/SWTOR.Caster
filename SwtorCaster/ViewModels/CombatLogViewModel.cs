@@ -21,7 +21,7 @@ namespace SwtorCaster.ViewModels
 
         public string ImageUrl { get; set; }
 
-        public SolidColorBrush ImageBorderColor { get; set; }
+        public Color ImageBorderColor { get; set; }
 
         public int ImageAngle { get; set; }
 

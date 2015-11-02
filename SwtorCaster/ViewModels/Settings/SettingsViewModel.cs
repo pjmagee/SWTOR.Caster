@@ -46,6 +46,12 @@ namespace SwtorCaster.ViewModels
             set { _settingsService.Settings.EnableDemoMode = value; }
         }
 
+        public bool EnableShowCriticalHits
+        {
+            get { return _settingsService.Settings.EnableShowCriticalHits; }
+            set { _settingsService.Settings.EnableShowCriticalHits = value; }
+        }
+
         public int Items
         {
             get { return _settingsService.Settings.Items; }
@@ -56,12 +62,6 @@ namespace SwtorCaster.ViewModels
         {
             get { return _settingsService.Settings.EnableCompanionAbilities; }
             set { _settingsService.Settings.EnableCompanionAbilities = value; }
-        }
-
-        public string SoundOnDeath
-        {
-            get { return _settingsService.Settings.SoundOnDeath; }
-            set { _settingsService.Settings.SoundOnDeath = value; }
         }
 
         public bool EnableSound

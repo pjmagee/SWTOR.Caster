@@ -5,7 +5,6 @@ namespace SwtorCaster.Core.Domain.Settings
     using System.Runtime.CompilerServices;
     using Annotations;
     using Newtonsoft.Json;
-    using Properties;
 
     public class AbilitySetting : INotifyPropertyChanged
     {

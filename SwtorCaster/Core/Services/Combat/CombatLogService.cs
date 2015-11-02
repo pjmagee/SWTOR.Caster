@@ -98,6 +98,10 @@ namespace SwtorCaster.Core.Services.Combat
 
         private FileInfo GetLatestFile()
         {
+            if (!Directory.Exists(_logDirectory.FullName))
+                Directory.CreateDirectory(_logDirectory.FullName);
+            
+
             var fileInfos = _logDirectory.EnumerateFiles("*.txt", SearchOption.TopDirectoryOnly);
             return fileInfos.OrderByDescending(x => x.LastWriteTime).FirstOrDefault();
         }
@@ -116,9 +120,9 @@ namespace SwtorCaster.Core.Services.Combat
         private void FileWriteTimerOnTick(object sender, EventArgs eventArgs)
         {
             var file = GetLatestFile();
-            if (file.FullName == _currentFile.FullName) return;
+            if (file?.FullName == _currentFile.FullName) return;
 
-            _loggerService.Log($"Detected new file {file.FullName}");
+            _loggerService.Log($"Detected new file {file?.FullName}");
             _loggerService.Log($"Restarting parser service with new file");
 
             Stop();
@@ -128,7 +132,7 @@ namespace SwtorCaster.Core.Services.Combat
         private void ReadCurrentFile()
         {
             var file = GetLatestFile();
-            _thread = new Thread(() => Read(file.FullName));
+            _thread = new Thread(() => Read(file?.FullName));
             _thread.Start();
             IsRunning = true;
         }

@@ -7,11 +7,8 @@
         WindowStartupLocation="CenterOwner"
         x:Class="SwtorCaster.Views.AbilityView">
     <Window.Resources>
-        <!--<Storyboard x:Key="CritAnimation">
-            <ColorAnimation Storyboard.TargetProperty="BorderBrush.Color" 
-                            AutoReverse="True" To="White" Duration="0:0:2" />
-        </Storyboard>-->
     </Window.Resources>
+
     <ListView Name="AbilityList" 
               ItemsSource="{Binding LogLines}" 
               Background="{Binding BackgroundColor}" 
@@ -20,42 +17,64 @@
               IsTextSearchEnabled="False" 
               ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
               ScrollViewer.VerticalScrollBarVisibility="Disabled">
-        <ListView.ItemTemplate>
-            <DataTemplate>
+        <ListView.Resources>
+            <DataTemplate x:Key="CriticalTemplate">
                 <StackPanel cal:Message.Attach="[Event MouseLeftButtonUp] = [Action CopyToClipBoard($dataContext)]" x:Name="Item" Orientation="Horizontal" ToolTip="{Binding TooltipText}">
-                    <Border BorderBrush="{Binding ImageBorderColor}" Name="AbilityBorder"
-                            BorderThickness="2"  Margin="0,0,10,0"
-                            CornerRadius="8,8,8,8" RenderTransformOrigin=".5,.5"
-                            Background="{Binding ImageBorderColor}">
-                        <!--<Border.Triggers>
-                            <EventTrigger RoutedEvent="Border.GotFocus">
-                                <EventTrigger.Actions>
-                                    <BeginStoryboard Name="flash" Storyboard="{StaticResource CritAnimation}" />
-                                </EventTrigger.Actions>
-                            </EventTrigger>
-                        </Border.Triggers>-->
-                        <!--<Border.Style>
+                    <Border BorderThickness="2"  Margin="0,0,10,0"
+                            CornerRadius="5,5,5,5" RenderTransformOrigin=".5,.5">
+                        <Border.BorderBrush>
+                            <SolidColorBrush Color="{Binding ImageBorderColor}" />
+                        </Border.BorderBrush>
+                        <Border.Background>
+                            <SolidColorBrush Color="{Binding ImageBorderColor}" />
+                        </Border.Background>
+                        <Border.Style>
                             <Style TargetType="{x:Type Border}">
-                                <Style.Resources>
-                                    <Storyboard x:Key="CritAnimation" >
-                                        <ColorAnimation Storyboard.TargetProperty="BorderBrush.Color"
-                                                        To="White" 
-                                                        AutoReverse="True" Duration="0:0:0.5" RepeatBehavior="Forever"
-                                                        FillBehavior="HoldEnd" />
-                                    </Storyboard>
-                                </Style.Resources>
+                                <Setter Property="Background">
+                                   <Setter.Value>
+                                       <SolidColorBrush Color="{Binding ImageBorderColor}" />
+                                   </Setter.Value>
+                                </Setter>
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsCrit}" Value="True">
-                                        <DataTrigger.EnterActions>
-                                            <BeginStoryboard Name="flash" Storyboard="{StaticResource CritAnimation}" />
-                                        </DataTrigger.EnterActions>
-                                        <DataTrigger.ExitActions>
-                                            <StopStoryboard BeginStoryboardName="flash" />
-                                        </DataTrigger.ExitActions>
-                                    </DataTrigger>
+                                    <EventTrigger RoutedEvent="Border.Loaded">
+                                        <EventTrigger.Actions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <ColorAnimation 
+                                                        Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
+                                                        From="Red" To="AliceBlue" 
+                                                        Duration="00:00:0.500" AutoReverse="True" 
+                                                        RepeatBehavior="Forever" />
+                                                    <ColorAnimation 
+                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                        From="Red" To="AliceBlue" 
+                                                        Duration="00:00:0.500" AutoReverse="True" 
+                                                        RepeatBehavior="Forever" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger.Actions>
+                                    </EventTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </Border.Style>-->
+                        </Border.Style>
+                        <Border.Triggers>
+                            <EventTrigger RoutedEvent="Border.Loaded">
+                                <EventTrigger.EnterActions>
+                                    <BeginStoryboard Name="Flash">
+                                        <Storyboard>
+                                            <ColorAnimation 
+                                                Storyboard.TargetProperty="BorderBrush.Color" 
+                                                Storyboard.TargetName="Border"
+                                                From="Red" To="AliceBlue" Duration="0:0:1.5" AutoReverse="True" 
+                                                RepeatBehavior="Forever" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.EnterActions>
+                                <EventTrigger.ExitActions>
+                                    <StopStoryboard BeginStoryboardName="Flash" />
+                                </EventTrigger.ExitActions>
+                            </EventTrigger>
+                        </Border.Triggers>
                         <Border.RenderTransform>
                             <RotateTransform Angle="{Binding ImageAngle}" />
                         </Border.RenderTransform>
@@ -71,8 +90,81 @@
                     </custom:OutlinedText>
                 </StackPanel>
             </DataTemplate>
-        </ListView.ItemTemplate>
-        <ListBox.ItemContainerStyle>
+            <DataTemplate x:Key="NormalTemplate">
+                <StackPanel cal:Message.Attach="[Event MouseLeftButtonUp] = [Action CopyToClipBoard($dataContext)]" x:Name="Item" Orientation="Horizontal" ToolTip="{Binding TooltipText}">
+                    <Border x:Name="AbilityBorder"
+                            BorderThickness="2"  Margin="0,0,10,0"
+                            CornerRadius="8,8,8,8" RenderTransformOrigin=".5,.5">
+                        <Image x:Name="AbilityIcon" Source="{Binding ImageUrl}" Width="52" Height="52" 
+                               RenderTransformOrigin=".5,.5">
+                            <Image.RenderTransform>
+                                <RotateTransform Angle="{Binding ImageAngle}" />
+                            </Image.RenderTransform>
+                        </Image>
+                        <Border.BorderBrush>
+                            <SolidColorBrush Color="{Binding ImageBorderColor}" />
+                        </Border.BorderBrush>
+                        <Border.Background>
+                            <SolidColorBrush Color="{Binding ImageBorderColor}" />
+                        </Border.Background>
+                        <Border.RenderTransform>
+                            <RotateTransform Angle="{Binding ImageAngle}" />
+                        </Border.RenderTransform>
+                    </Border>
+                    <custom:OutlinedText
+                        VerticalAlignment="Center" Text="{Binding Text}" Visibility="{Binding TextVisibility}" FontSize="{Binding FontSize, FallbackValue=32}">
+                    </custom:OutlinedText>
+                </StackPanel>
+            </DataTemplate>
+        </ListView.Resources>
+        <!--<ListView.ItemTemplate>
+            <DataTemplate>
+                <StackPanel cal:Message.Attach="[Event MouseLeftButtonUp] = [Action CopyToClipBoard($dataContext)]" x:Name="Item" Orientation="Horizontal" ToolTip="{Binding TooltipText}">
+                    <Border Name="AbilityBorder"
+                            BorderThickness="2"  Margin="0,0,10,0"
+                            CornerRadius="8,8,8,8" RenderTransformOrigin=".5,.5">
+                        <Border.BorderBrush>
+                            <SolidColorBrush Color="{Binding ImageBorderColor}" />
+                        </Border.BorderBrush>
+                        <Border.Background>
+                            <SolidColorBrush Color="{Binding ImageBorderColor}" />
+                        </Border.Background>
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Style.Triggers>
+                                    <EventTrigger RoutedEvent="Border.Loaded">
+                                        <EventTrigger.Actions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <ColorAnimation 
+                                                        Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
+                                                        From="Red" To="AliceBlue" 
+                                                        Duration="00:00:0.500" AutoReverse="True" 
+                                                        RepeatBehavior="Forever" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger.Actions>
+                                    </EventTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <Border.RenderTransform>
+                            <RotateTransform Angle="{Binding ImageAngle}" />
+                        </Border.RenderTransform>
+                        <Image x:Name="AbilityIcon" Source="{Binding ImageUrl}" Width="52" Height="52" 
+                               RenderTransformOrigin=".5,.5">
+                            <Image.RenderTransform>
+                                <RotateTransform Angle="{Binding ImageAngle}" />
+                            </Image.RenderTransform>
+                        </Image>
+                    </Border>
+                    <custom:OutlinedText
+                        VerticalAlignment="Center" Text="{Binding Text}" Visibility="{Binding TextVisibility}" FontSize="{Binding FontSize, FallbackValue=32}">
+                    </custom:OutlinedText>
+                </StackPanel>
+            </DataTemplate>
+        </ListView.ItemTemplate-->
+        <ListView.ItemContainerStyle>
             <Style TargetType="{x:Type ListViewItem}">
                 <Setter Property="Focusable" Value="false" />
                 <Setter Property="LayoutTransform">
@@ -93,6 +185,11 @@
                     </EventTrigger>
                 </Style.Triggers>
             </Style>
-        </ListBox.ItemContainerStyle>
+        </ListView.ItemContainerStyle>
+        <ListView.ItemTemplateSelector>
+            <custom:AbilityItemTemplateSelector 
+                Normal="{StaticResource NormalTemplate}" 
+                Critical="{StaticResource CriticalTemplate}" />
+        </ListView.ItemTemplateSelector>
     </ListView>
 </Window>
