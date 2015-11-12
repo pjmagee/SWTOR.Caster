@@ -26,7 +26,7 @@ namespace SwtorCaster.Core.Domain.Settings
         private int _clearAfterInactivity = 10; // 10 seconds
         private int _fontSize = 32; // default text ability font size
         private int _volume = 10; // the default volume of 100%
-        private double _opacity; // the top window opacity over the game.
+        private double _opacity = 0.15; // the top window opacity over the game.
 
         private bool _enableAbilityText = true;
         private bool _enableClearInactivity = true;
