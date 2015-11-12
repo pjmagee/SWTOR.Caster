@@ -168,7 +168,8 @@
     <Compile Include="Custom\AbilityItemTemplateSelector.cs" />
     <Compile Include="Custom\SoundEventValueConverter.cs" />
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="ViewModels\OnTopViewModel.cs" />
+    <Compile Include="ViewModels\ObsViewModel.cs" />
+    <Compile Include="ViewModels\OverlayViewModel.cs" />
     <Compile Include="ViewModels\CombatLogViewModel.cs" />
     <Compile Include="Core\Services\Factory\CombatLogViewModelFactory.cs" />
     <Compile Include="Core\Services\Parsing\ICombatLogParser.cs" />
@@ -189,45 +190,35 @@
     <Compile Include="Core\Services\Combat\CombatLogService.cs" />
     <Compile Include="Core\Services\Settings\SettingsService.cs" />
     <Compile Include="Custom\CloseBehavior.cs" />
-    <Compile Include="ViewModels\Settings\AbilityAliasViewModel.cs" />
-    <Compile Include="ViewModels\Settings\AbilitySettingViewModel.cs" />
+    <Compile Include="ViewModels\Settings\AbilityAliasItem.cs" />
+    <Compile Include="ViewModels\Settings\AbilitySettingsViewModel.cs" />
+    <Compile Include="ViewModels\Settings\AbilitySettingItem.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="Core\Services\Audio\IAudioService.cs" />
     <Compile Include="Core\Services\Audio\AudioService.cs" />
-    <Compile Include="ViewModels\Settings\EventSettingViewModel.cs" />
+    <Compile Include="ViewModels\Settings\EventSettingsViewModel.cs" />
+    <Compile Include="ViewModels\Settings\EventSettingItem.cs" />
     <Compile Include="ViewModels\Screens\FocusableScreen.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\Settings\MainSettingsViewModel.cs" />
     <Compile Include="ViewModels\SplashViewModel.cs" />
-    <Compile Include="Views\Controls\AbilitySettingsView.cs">
-      <DependentUpon>AbilitySettingsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Controls\MainSettingsView.cs">
-      <DependentUpon>MainSettingsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Controls\EventSettingsView.cs">
-      <DependentUpon>EventSettingsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LogView.cs">
-      <DependentUpon>LogView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Core\Bootstrapper.cs" />
     <Compile Include="Core\Domain\Settings\Settings.cs" />
-    <Compile Include="ViewModels\Settings\SettingsViewModel.cs" />
-    <Compile Include="ViewModels\AbilityViewModel.cs" />
-    <Compile Include="ViewModels\LogViewModel.cs" />
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\AbilityListViewModel.cs" />
     <Page Include="Resources\Icons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AbilityView.xaml">
+    <Page Include="Views\ObsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="App.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="Views\OnTopView.xaml">
+    <Page Include="Views\AbilityListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OverlayView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -235,19 +226,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Controls\AbilitySettingsView.xaml">
+    <Page Include="Views\Settings\AbilitySettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Controls\MainSettingsView.xaml">
+    <Page Include="Views\Settings\MainSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Controls\EventSettingsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\LogView.xaml">
+    <Page Include="Views\Settings\EventSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -120,7 +120,7 @@ namespace SwtorCaster.Core.Services.Combat
         private void FileWriteTimerOnTick(object sender, EventArgs eventArgs)
         {
             var file = GetLatestFile();
-            if (file?.FullName == _currentFile.FullName) return;
+            if (file?.FullName == _currentFile?.FullName) return;
 
             _loggerService.Log($"Detected new file {file?.FullName}");
             _loggerService.Log($"Restarting parser service with new file");
@@ -132,9 +132,13 @@ namespace SwtorCaster.Core.Services.Combat
         private void ReadCurrentFile()
         {
             var file = GetLatestFile();
-            _thread = new Thread(() => Read(file?.FullName));
-            _thread.Start();
-            IsRunning = true;
+
+            if (file != null)
+            {
+                _thread = new Thread(() => Read(file.FullName));
+                _thread.Start();
+                IsRunning = true;
+            }
         }
 
         public void Read(string file)
@@ -145,7 +149,7 @@ namespace SwtorCaster.Core.Services.Combat
                 {
                     reader.ReadToEnd();
 
-                    while (IsRunning)
+                    while (true)
                     {
                         var value = reader.ReadLine();
 

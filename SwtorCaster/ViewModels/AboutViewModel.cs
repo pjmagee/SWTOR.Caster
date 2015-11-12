@@ -1,8 +1,6 @@
 namespace SwtorCaster.ViewModels
 {
     using System.Diagnostics;
-    using System.Windows;
-    using MahApps.Metro;
     using Screens;
 
     public class AboutViewModel : FocusableScreen

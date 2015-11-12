@@ -82,13 +82,24 @@ namespace SwtorCaster.Core
 
         private void BindViewModels()
         {
+            // Start up
             _container.Singleton<SplashViewModel>();
             _container.Singleton<MainViewModel>();
-            _container.Singleton<OnTopViewModel>();
-            _container.Singleton<AbilityViewModel>();
-            _container.Singleton<LogViewModel>();
-            _container.Singleton<AboutViewModel>();
+
+            // Ability logger
+            _container.PerRequest<AbilityListViewModel>();
+            _container.Singleton<OverlayViewModel>();
+            _container.Singleton<ObsViewModel>();
+
+            // Settings
+            _container.Singleton<MainSettingsViewModel>();
+            _container.Singleton<AbilitySettingsViewModel>();
+            _container.Singleton<EventSettingsViewModel>();
             _container.Singleton<SettingsViewModel>();
+
+            // About
+            _container.Singleton<AboutViewModel>();
+
         }
 
         private void BindServices()

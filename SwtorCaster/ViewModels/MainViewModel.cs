@@ -8,31 +8,31 @@ namespace SwtorCaster.ViewModels
 
     public class MainViewModel : Screen, IHandle<Settings>, IHandle<ICombatLogService>
     {
-        private readonly IWindowManager _windowManager;
-        private readonly SettingsViewModel _settingsViewModel;
-        private readonly AbilityViewModel _abilityViewModel;
-        private readonly OnTopViewModel _onTopViewModel;
-        private readonly LogViewModel _logViewModel;
-        private readonly AboutViewModel _aboutViewModel;
         private readonly ICombatLogProvider _combatLogProvider;
+        private readonly IWindowManager _windowManager;
+
+        private readonly SettingsViewModel _settingsViewModel;
+        private readonly AboutViewModel _aboutViewModel;
+
+        // Ability Logger Views
+        private readonly OverlayViewModel _overlayViewModel;
+        private readonly ObsViewModel _obsViewModel;
 
         public MainViewModel(
             IWindowManager windowManager,
-            SettingsViewModel settingsViewModel, 
-            AbilityViewModel abilityViewModel, 
-            OnTopViewModel onTopViewModel,
-            LogViewModel logViewModel, 
-            AboutViewModel aboutViewModel, 
             IEventAggregator eventAggregator, 
+            ObsViewModel obsViewModel,
+            SettingsViewModel settingsViewModel, 
+            OverlayViewModel overlayViewModel,
+            AboutViewModel aboutViewModel, 
             ICombatLogProvider combatLogProvider)
         {
             _windowManager = windowManager;
             _settingsViewModel = settingsViewModel;
-            _abilityViewModel = abilityViewModel;
-            _onTopViewModel = onTopViewModel;
-            _logViewModel = logViewModel;
+            _overlayViewModel = overlayViewModel;
             _aboutViewModel = aboutViewModel;
             _combatLogProvider = combatLogProvider;
+            _obsViewModel = obsViewModel;
 
             eventAggregator.Subscribe(this);
             Initialized();
@@ -51,19 +51,14 @@ namespace SwtorCaster.ViewModels
             OpenOrReactivate(_settingsViewModel);
         }
 
-        public void OpenAbilityTransparentView()
+        public void OpenOverlayView()
         {
-            OpenOrReactivate(_onTopViewModel);
+            OpenOrReactivate(_overlayViewModel);
         }
 
-        public void OpenAbilityView()
+        public void OpenObsView()
         {
-            OpenOrReactivate(_abilityViewModel);
-        }
-
-        public void OpenLogView()
-        {
-            OpenOrReactivate(_logViewModel);
+            OpenOrReactivate(_obsViewModel);
         }
 
         public void OpenAboutView()

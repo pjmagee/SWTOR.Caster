@@ -9,7 +9,7 @@
     <UserControl.Resources>
         <ToolTip x:Key="TooltipMaxItems" Content="The maximum number of logged abilitys to display in the ability LoggerService window (recommend between 5 and 7)" />
         <ToolTip x:Key="TooltipRotate" Content="The rotation angle in degrees (recommend between -5 and 5). Set to 0 for both for no image rotation." />
-        <ToolTip x:Key="TooltipClearExitCombat" Content="When you exit combat, clear the ability LoggerService window (Good for Ops/Ranked PVP)" />
+        <ToolTip x:Key="TooltipClearExitCombat" Content="When you exit combat, clear the logged abilities from the view (Good for Ops/Ranked PVP)" />
         <ToolTip x:Key="TooltipClearInactivity" Content="After a defined amount of seconds, clear the ability window" />
         <ToolTip x:Key="TooltipEnableText" Content="Display the ability name next to the icon in the ability window" />
         <ToolTip x:Key="TooltipHideUnknown" Content="Do not display abilities without known images" />
@@ -75,17 +75,24 @@
         </StackPanel>
 
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipColorKey}">
-            <Label Content="Ability logger background:" />
+            <Label Content="OBS logger background:" />
             <xctk:ColorPicker ColorMode="ColorPalette" Width="Auto" DisplayColorAndName="False" SelectedColor="{Binding SelectedAbilityBackgroundColor}" />
             <Label Content="(For OBS Window Source Color Key)" FontWeight="DemiBold" />
         </StackPanel>
 
+        <!--<StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipColorKey}">
+            <Label Content="Overlay logger background:" />
+            <xctk:ColorPicker ColorMode="ColorPalette" Width="Auto" DisplayColorAndName="False" SelectedColor="{Binding SelectedAbilityBackgroundColor}" />
+            <Label Content="(Window on top)" FontWeight="DemiBold" />
+        </StackPanel>-->
+
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipColorKey}">
-            <Label Content="Top window opacity:" />
+            <Label Content="Overlay opacity:" />
             <Slider x:Name="TopWindowOpacity" Minimum="0" Maximum="1" Width="150"
                     IsSnapToTickEnabled="True" TickFrequency="0.025"
                     VerticalAlignment="Center" AutoToolTipPrecision="2" AutoToolTipPlacement="TopLeft" />
             <Label Content="{Binding ElementName=TopWindowOpacity, Path=Value}" />
+            <Label Content="(Window on top)" FontWeight="DemiBold" />
         </StackPanel>
         
         <Separator Margin="20" Width="Auto" />

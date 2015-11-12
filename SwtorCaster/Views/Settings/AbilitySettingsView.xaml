@@ -14,7 +14,6 @@
         <ToolTip x:Key="TooltipDeleteImage" Content="Delete this item from the table." />
         <ToolTip x:Key="TooltipEnableAbilitySettings" Content="Enable the ability configurations. (Individual disabled settings are ignored)" />
         <ToolTip x:Key="TooltipAddAlias" Content="A random alias will be picked on the logger window. (Includes offical ability name)" />
-        <ToolTip x:Key="TooltipActivate" Content="Force this ability to activate in the logger." />
         <ToolTip x:Key="TooltipDeleteAlias" Content="Click the alias and press the [DEL] key to remove it." />
     </UserControl.Resources>
     <StackPanel Orientation="Vertical">

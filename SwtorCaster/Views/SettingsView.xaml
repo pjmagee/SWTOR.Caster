@@ -2,24 +2,19 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-        xmlns:cal="http://www.caliburnproject.org"
-        xmlns:views="clr-namespace:SwtorCaster.Views"
         Icon="../Resources/swtorcaster.ico" WindowStartupLocation="CenterOwner"
-        Width="700" Height="550" ResizeMode="CanResizeWithGrip"
+        Width="700" Height="600" ResizeMode="CanResizeWithGrip"
         SizeToContent="Width">
-    <Window.Resources>
-     
-    </Window.Resources>
     <Grid HorizontalAlignment="Stretch" Margin="10" VerticalAlignment="Stretch">
         <TabControl>
             <TabItem Header="Main Settings">
-                <views:MainSettingsView cal:Bind.Model="{Binding}" />
+                <ContentControl x:Name="MainSettingsViewModel" />
             </TabItem>
             <TabItem Header="Sound Settings">
-                <views:EventSettingsView cal:Bind.Model="{Binding}" />
+                <ContentControl x:Name="EventSettingsViewModel" />
             </TabItem>
             <TabItem Header="Abilities Settings">
-                <views:AbilitySettingsView cal:Bind.Model="{Binding}" />
+                <ContentControl x:Name="AbilitySettingsViewModel" />
             </TabItem>
         </TabControl>
     </Grid>

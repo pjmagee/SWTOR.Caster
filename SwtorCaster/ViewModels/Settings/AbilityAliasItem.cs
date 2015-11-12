@@ -2,11 +2,11 @@ namespace SwtorCaster.ViewModels
 {
     using Caliburn.Micro;
 
-    public class AbilityAliasViewModel : PropertyChangedBase
+    public class AbilityAliasItem : PropertyChangedBase
     {
         private string _name;
 
-        public AbilityAliasViewModel(string name = "")
+        public AbilityAliasItem(string name = "")
         {
             _name = name;
         }

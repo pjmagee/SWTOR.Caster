@@ -3,31 +3,30 @@ namespace SwtorCaster.ViewModels
     using System.Linq;
     using System.Windows.Media;
     using Caliburn.Micro;
-    using MahApps.Metro.Controls;
     using MahApps.Metro.Controls.Dialogs;
     using Microsoft.Win32;
     using Core.Domain.Settings;
     using Core.Extensions;
 
-    public class AbilitySettingViewModel : PropertyChangedBase
+    public class AbilitySettingItem : PropertyChangedBase
     {
         private readonly AbilitySetting _abilitySetting;
-        private readonly SettingsViewModel _settingsViewModel;
+        private readonly AbilitySettingsViewModel _abilitySettingsViewModel;
 
         public AbilitySetting AbilitySetting => _abilitySetting;
 
-        public BindableCollection<AbilityAliasViewModel> Aliases { get; set; } = new BindableCollection<AbilityAliasViewModel>();
+        public BindableCollection<AbilityAliasItem> Aliases { get; set; } = new BindableCollection<AbilityAliasItem>();
 
-        public AbilitySettingViewModel(AbilitySetting abilitySetting, SettingsViewModel settingsViewModel)
+        public AbilitySettingItem(AbilitySettingsViewModel abilitySettingsViewModel, AbilitySetting abilitySetting)
         {
             _abilitySetting = abilitySetting;
-            _settingsViewModel = settingsViewModel;
+            _abilitySettingsViewModel = abilitySettingsViewModel;
             InitializeAliases();
         }
 
         private void InitializeAliases()
         {
-            var aliases = _abilitySetting.Aliases.Where(x => !string.IsNullOrEmpty(x)).Select(x => new AbilityAliasViewModel(x));
+            var aliases = _abilitySetting.Aliases.Where(x => !string.IsNullOrEmpty(x)).Select(x => new AbilityAliasItem(x));
             Aliases.AddRange(aliases);
             Aliases.CollectionChanged += (sender, args) => UpdateAliases();
         }
@@ -67,12 +66,11 @@ namespace SwtorCaster.ViewModels
 
         public async void Delete()
         {
-            var result = await (_settingsViewModel.GetView() as MetroWindow)
-                .ShowMessageAsync("Delete ability setting", "Are you sure?", MessageDialogStyle.AffirmativeAndNegative);
+            var result = await _abilitySettingsViewModel.Window.ShowMessageAsync("Delete ability setting", "Are you sure?", MessageDialogStyle.AffirmativeAndNegative);
 
             if (result == MessageDialogResult.Affirmative)
             {
-                _settingsViewModel.AbilitySettingViewModels.Remove(this);
+                _abilitySettingsViewModel.AbilitySettingViewModels.Remove(this);
             }
         }
 
@@ -102,7 +100,7 @@ namespace SwtorCaster.ViewModels
 
         public void AddAlias()
         {
-            Aliases.Add(new AbilityAliasViewModel());
+            Aliases.Add(new AbilityAliasItem());
         }
     }
 }

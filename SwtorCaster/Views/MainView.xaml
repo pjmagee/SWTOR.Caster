@@ -8,13 +8,13 @@
     <Window.Resources>
         <ToolTip x:Key="TooltipAbility" Content="You should manually add this window as a window source to OBS" />
         <ToolTip x:Key="TooltipSettings" Content="Configure SWTOR Caster" />
-        <ToolTip x:Key="TooltipAbilityOntop" Content="Use this if you're capturing your monitor. Good for recording tutorials/guide" />
+        <ToolTip x:Key="TooltipAbilityOntop" Content="Use this if you're capturing your monitor. Good for recording tutorials or making a guide" />
         <ToolTip x:Key="TooltipAbout" Content="Shows information about SWTOR Caster" />
     </Window.Resources>
     <Grid Margin="5">
         <StackPanel Orientation="Vertical">
-            <Button x:Name="OpenAbilityView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipAbility}" Content="Ability Logger (OBS)" />
-            <Button x:Name="OpenAbilityTransparentView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipAbilityOntop}" Content="Ability Logger on top" />
+            <Button x:Name="OpenObsView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipAbility}" Content="Ability Logger windowed" />
+            <Button x:Name="OpenOverlayView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipAbilityOntop}" Content="Ability Logger overlay" />
             <Button x:Name="OpenSettingsView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipSettings}" Content="Settings" />
             <Button x:Name="OpenAboutView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipAbout}" Content="About"  />
         </StackPanel>

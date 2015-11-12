@@ -18,7 +18,7 @@
             <Label Content="Enable sound settings:" ToolTip="{StaticResource TooltipEnableEvents}" />
             <CheckBox x:Name="SoundsEnabled" IsChecked="{Binding EnableSound}" />
             <Label Content="Volume:" />
-            <Slider x:Name="Volume" Minimum="1" Maximum="100" Width="150" VerticalAlignment="Center" TickFrequency="5" AutoToolTipPlacement="TopLeft" />
+            <Slider x:Name="Volume" Minimum="1" Maximum="100" Width="150" VerticalAlignment="Center" AutoToolTipPrecision="2" TickFrequency="5" AutoToolTipPlacement="TopLeft" />
             <Label Content="{Binding ElementName=Volume, Path=Value}" />
         </StackPanel>
         <DataGrid Name="Events" 

@@ -2,54 +2,26 @@ namespace SwtorCaster.ViewModels
 {
     using System;
     using System.IO;
-    using System.Linq;
     using System.Windows.Media;
     using Caliburn.Micro;
-    using Core.Domain.Settings;
-    using Core.Services.Audio;
-    using Core.Services.Settings;
-    using Screens;
-    using Core.Extensions;
     using Microsoft.Win32;
+    using Core.Extensions;
+    using Core.Services.Settings;
 
-    /// <summary>
-    /// We hook into the Settings Property Changed event and any time a value changes, we serialize the settings instantly.
-    /// So the user does not have to press Save changes. Changes are instant.
-    /// </summary>
-    public class SettingsViewModel : FocusableScreen
+    public class MainSettingsViewModel : PropertyChangedBase
     {
-        public override string DisplayName { get; set; } = "SWTOR Caster - Settings";
-
         private readonly ISettingsService _settingsService;
-        private readonly IAudioService _audioService;
 
-        public BindableCollection<AbilitySettingViewModel> AbilitySettingViewModels { get; set; }
-
-        public BindableCollection<EventSettingViewModel> EventSettingViewModels { get; set; }
-
-        protected IWindowManager WindowManager { get; }
-
-        public SettingsViewModel(ISettingsService settingsService, IAudioService audioService, IWindowManager windowManager)
+        public MainSettingsViewModel(ISettingsService settingsService)
         {
             _settingsService = settingsService;
-            _audioService = audioService;
-            WindowManager = windowManager;
-
-            InitializeAbilityViewModels();
-            InitializeEventViewModels();
         }
-
-        #region Opacity Settings
 
         public double TopWindowOpacity
         {
             get { return _settingsService.Settings.Opacity; }
             set { _settingsService.Settings.Opacity = Math.Round(value, 3); }
         }
-
-        #endregion
-
-        #region Main Settings
 
         public bool EnableDemoMode
         {
@@ -141,23 +113,6 @@ namespace SwtorCaster.ViewModels
             set { _settingsService.Settings.CombatLogFile = value; }
         }
 
-        public string SelectedCombatLogFile
-        {
-            get
-            {
-                try
-                {
-                    return Path.GetFileNameWithoutExtension(_settingsService.Settings.CombatLogFile);
-                }
-                catch
-                {
-
-                }
-
-                return "No file selected.";
-            }
-        }
-
         public int FontSize
         {
             get { return _settingsService.Settings.FontSize; }
@@ -174,6 +129,23 @@ namespace SwtorCaster.ViewModels
         {
             get { return _settingsService.Settings.CompanionAbilityBorderColor.FromHexToColor(); }
             set { _settingsService.Settings.CompanionAbilityBorderColor = value.ToHex(); }
+        }
+
+        public string SelectedCombatLogFile
+        {
+            get
+            {
+                try
+                {
+                    return Path.GetFileNameWithoutExtension(_settingsService.Settings.CombatLogFile);
+                }
+                catch
+                {
+                    // ignored
+                }
+
+                return "No file selected.";
+            }
         }
 
         public void PickFile()
@@ -201,71 +173,5 @@ namespace SwtorCaster.ViewModels
             CombatLogFile = string.Empty;
             NotifyOfPropertyChange(() => SelectedCombatLogFile);
         }
-
-        #endregion
-
-        #region Ability Settings
-
-        private void InitializeAbilityViewModels()
-        {
-            AbilitySettingViewModels = new BindableCollection<AbilitySettingViewModel>();
-
-            foreach (var item in _settingsService.Settings.AbilitySettings)
-            {
-                var abilityViewModel = new AbilitySettingViewModel(item, this);
-                abilityViewModel.AbilitySetting.PropertyChanged += (o, args) => UpdateAbilities();
-                AbilitySettingViewModels.Add(abilityViewModel);
-            }
-
-            AbilitySettingViewModels.CollectionChanged += (o, args) => UpdateAbilities();
-        }
-
-        public void AddAbility()
-        {
-            var abilitySetting = new AbilitySetting();
-            var abilityViewModel = new AbilitySettingViewModel(abilitySetting, this);
-            abilityViewModel.AbilitySetting.PropertyChanged += (sender, arg) => UpdateAbilities();
-            AbilitySettingViewModels.Add(abilityViewModel);
-        }
-
-        private void UpdateAbilities()
-        {
-            _settingsService.Settings.AbilitySettings = AbilitySettingViewModels.Select(x => x.AbilitySetting).ToList();
-            _settingsService.Save();
-        }
-
-        #endregion
-
-        #region Event Settings
-
-        private void InitializeEventViewModels()
-        {
-            EventSettingViewModels = new BindableCollection<EventSettingViewModel>();
-
-            foreach (var item in _settingsService.Settings.EventSettings)
-            {
-                var eventViewModel = new EventSettingViewModel(item, this, _audioService);
-                eventViewModel.EventSetting.PropertyChanged += (o, args) => UpdateEvents();
-                EventSettingViewModels.Add(eventViewModel);
-            }
-
-            EventSettingViewModels.CollectionChanged += (o, args) => UpdateEvents();
-        }
-
-        public void AddEvent()
-        {
-            var eventSetting = new EventSetting();
-            var eventSettingViewModel = new EventSettingViewModel(eventSetting, this, _audioService);
-            eventSettingViewModel.EventSetting.PropertyChanged += (sender, args) => UpdateEvents();
-            EventSettingViewModels.Add(eventSettingViewModel);
-        }
-
-        private void UpdateEvents()
-        {
-            _settingsService.Settings.EventSettings = EventSettingViewModels.Select(x => x.EventSetting).ToList();
-            _settingsService.Save();
-        }
-
-        #endregion
     }
 }

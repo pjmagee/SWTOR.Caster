@@ -1,26 +1,41 @@
 namespace SwtorCaster.ViewModels
 {
     using System.Collections.ObjectModel;
+    using System.Windows.Controls;
     using System.Windows;
     using System.Windows.Media;
+    using MahApps.Metro.Controls;
     using Caliburn.Micro;
     using Core.Domain;
     using Core.Domain.Settings;
-    using Screens;
     using Core.Services.Settings;
     using Core.Extensions;
-
-    public class AbilityViewModel : FocusableScreen, IHandle<Settings>, IHandle<ParserMessage>, IHandle<CombatLogViewModel>
+    
+    public class AbilityListViewModel : Screen, IHandle<ParserMessage>, IHandle<CombatLogViewModel>, IHandle<Settings>
     {
         private readonly ISettingsService _settingsService;
 
-        public override string DisplayName { get; set; } = "SWTOR Caster - Abilities";
+        public SolidColorBrush BackgroundColor
+        {
+            get
+            {
+                var control = GetView() as UserControl;
+                var window = control.TryFindParent<Window>();
 
-        public SolidColorBrush BackgroundColor => new SolidColorBrush(_settingsService.Settings.AbilityLoggerBackgroundColor.FromHexToColor());
+                // ObsView Transpareny is False
+                // OverlayView Transparency is True
+                if (window.AllowsTransparency)
+                {
+                    return new SolidColorBrush(Colors.Transparent);
+                }
+
+                return new SolidColorBrush(_settingsService.Settings.AbilityLoggerBackgroundColor.FromHexToColor());
+            }
+        }
 
         public ObservableCollection<CombatLogViewModel> LogLines { get; } = new ObservableCollection<CombatLogViewModel>();
 
-        public AbilityViewModel(ISettingsService settingsService, IEventAggregator eventAggregator)
+        public AbilityListViewModel(ISettingsService settingsService, IEventAggregator eventAggregator)
         {
             _settingsService = settingsService;
             eventAggregator.Subscribe(this);
@@ -66,15 +81,9 @@ namespace SwtorCaster.ViewModels
             return false;
         }
 
-
         public void CopyToClipBoard(CombatLogViewModel viewModel)
         {
             Clipboard.SetText(viewModel.CombatLogEvent.Ability.EntityId.ToString(), TextDataFormat.Text);
-        }
-
-        public void Handle(Settings message)
-        {
-            Refresh();
         }
 
         public void Handle(ParserMessage message)
@@ -104,6 +113,11 @@ namespace SwtorCaster.ViewModels
             {
                 TryAddItem(message);
             }
+        }
+
+        public void Handle(Settings message)
+        {
+            Refresh();
         }
     }
 }
