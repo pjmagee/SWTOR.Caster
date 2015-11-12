@@ -18,6 +18,7 @@
         <ToolTip x:Key="TooltipColorKey" Content="This should also be set as the Color key in OBS" />
         <ToolTip x:Key="TooltipDemo" Content="Demo mode shows abilities from an existing combat log file being triggered in the logger window to help customize your window" />
         <ToolTip x:Key="TooltipDemoFile" Content="Pick an existing combat log file to use" />
+        <ToolTip x:Key="TooltipFlash" Content="Flash on critical hits and critically applied effects" />
     </UserControl.Resources>
     <StackPanel Orientation="Vertical">
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipMaxItems}">
@@ -53,7 +54,7 @@
             <Label Content="{Binding ElementName=FontSize, Path=Value}" />
         </StackPanel>
 
-        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipHideUnknown}">
+        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipFlash}">
             <Label Content="Flash on critical hits:" />
             <CheckBox Name="EnableShowCriticalHits" VerticalAlignment="Center" />
             <Label Content="(Includes applied effects)" FontWeight="DemiBold" />

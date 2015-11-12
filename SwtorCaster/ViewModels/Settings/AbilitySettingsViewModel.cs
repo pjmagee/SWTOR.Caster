@@ -15,6 +15,12 @@ namespace SwtorCaster.ViewModels
 
         public MetroWindow Window => (GetView() as UserControl).TryFindParent<MetroWindow>();
 
+        public bool EnableAbilitySettings
+        {
+            get { return _settingsService.Settings.EnableAbilitySettings; }
+            set { _settingsService.Settings.EnableAbilitySettings = value; }
+        }
+
         public AbilitySettingsViewModel(ISettingsService settingsService)
         {
             _settingsService = settingsService;

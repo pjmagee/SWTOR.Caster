@@ -1,6 +1,3 @@
-using System.Windows.Controls;
-using MahApps.Metro.Controls;
-
 namespace SwtorCaster.ViewModels
 {
     using System.Linq;
@@ -8,6 +5,8 @@ namespace SwtorCaster.ViewModels
     using Core.Domain.Settings;
     using Core.Services.Audio;
     using Core.Services.Settings;
+    using System.Windows.Controls;
+    using MahApps.Metro.Controls;
 
     public class EventSettingsViewModel : Screen
     {
@@ -17,6 +16,18 @@ namespace SwtorCaster.ViewModels
         private readonly IAudioService _audioService;
 
         public MetroWindow Window => (GetView() as UserControl).TryFindParent<MetroWindow>();
+
+        public bool EnableSound
+        {
+            get { return _settingsService.Settings.EnableSound; }
+            set { _settingsService.Settings.EnableSound = value; }
+        }
+
+        public int Volume
+        {
+            get { return _settingsService.Settings.Volume; }
+            set { _settingsService.Settings.Volume = value; }
+        }
 
         public EventSettingsViewModel(ISettingsService settingsService, IAudioService audioService)
         {

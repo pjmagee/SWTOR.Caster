@@ -47,28 +47,10 @@ namespace SwtorCaster.ViewModels
             set { _settingsService.Settings.EnableCompanionAbilities = value; }
         }
 
-        public bool EnableSound
-        {
-            get { return _settingsService.Settings.EnableSound; }
-            set { _settingsService.Settings.EnableSound = value; }
-        }
-
-        public int Volume
-        {
-            get { return _settingsService.Settings.Volume; }
-            set { _settingsService.Settings.Volume = value; }
-        }
-
         public int Rotate
         {
             get { return _settingsService.Settings.Rotate; }
             set { _settingsService.Settings.Rotate = value; }
-        }
-
-        public bool EnableAbilitySettings
-        {
-            get { return _settingsService.Settings.EnableAbilitySettings; }
-            set { _settingsService.Settings.EnableAbilitySettings = value; }
         }
 
         public bool EnableCombatClear
