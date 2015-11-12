@@ -80,6 +80,14 @@
             <Label Content="(For OBS Window Source Color Key)" FontWeight="DemiBold" />
         </StackPanel>
 
+        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipColorKey}">
+            <Label Content="Top window opacity:" />
+            <Slider x:Name="TopWindowOpacity" Minimum="0" Maximum="1" Width="150"
+                    IsSnapToTickEnabled="True" TickFrequency="0.025"
+                    VerticalAlignment="Center" AutoToolTipPrecision="2" AutoToolTipPlacement="TopLeft" />
+            <Label Content="{Binding ElementName=TopWindowOpacity, Path=Value}" />
+        </StackPanel>
+        
         <Separator Margin="20" Width="Auto" />
 
         <!--<StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">

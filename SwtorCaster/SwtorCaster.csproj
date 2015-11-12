@@ -168,6 +168,7 @@
     <Compile Include="Custom\AbilityItemTemplateSelector.cs" />
     <Compile Include="Custom\SoundEventValueConverter.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="ViewModels\OnTopViewModel.cs" />
     <Compile Include="ViewModels\CombatLogViewModel.cs" />
     <Compile Include="Core\Services\Factory\CombatLogViewModelFactory.cs" />
     <Compile Include="Core\Services\Parsing\ICombatLogParser.cs" />
@@ -197,9 +198,6 @@
     <Compile Include="ViewModels\Screens\FocusableScreen.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SplashViewModel.cs" />
-    <Compile Include="Views\AboutView.cs">
-      <DependentUpon>AboutView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Controls\AbilitySettingsView.cs">
       <DependentUpon>AbilitySettingsView.xaml</DependentUpon>
     </Compile>
@@ -215,14 +213,8 @@
     <Compile Include="Core\Bootstrapper.cs" />
     <Compile Include="Core\Domain\Settings\Settings.cs" />
     <Compile Include="ViewModels\Settings\SettingsViewModel.cs" />
-    <Compile Include="Views\SettingsView.cs">
-      <DependentUpon>SettingsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ViewModels\AbilityViewModel.cs" />
     <Compile Include="ViewModels\LogViewModel.cs" />
-    <Compile Include="Views\SplashView.cs">
-      <DependentUpon>SplashView.xaml</DependentUpon>
-    </Compile>
     <Page Include="Resources\Icons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -235,10 +227,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Views\AbilityView.cs">
-      <DependentUpon>AbilityView.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
+    <Page Include="Views\OnTopView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\AboutView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -273,9 +265,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Views\MainView.cs">
-      <DependentUpon>MainView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

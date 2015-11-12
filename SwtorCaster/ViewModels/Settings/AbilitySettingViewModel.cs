@@ -1,6 +1,5 @@
 namespace SwtorCaster.ViewModels
 {
-    using System;
     using System.Linq;
     using System.Windows.Media;
     using Caliburn.Micro;

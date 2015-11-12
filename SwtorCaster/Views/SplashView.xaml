@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:mah="http://metro.mahapps.com/winfx/xaml/shared"
         xmlns:custom="clr-namespace:SwtorCaster.Custom"
         ShowCloseButton="False" ShowMinButton="False" ShowTitleBar="False"
         Title="SplashView" SizeToContent="WidthAndHeight"

@@ -1,5 +1,6 @@
 namespace SwtorCaster.ViewModels
 {
+    using System;
     using System.IO;
     using System.Linq;
     using System.Windows.Media;
@@ -37,6 +38,16 @@ namespace SwtorCaster.ViewModels
             InitializeAbilityViewModels();
             InitializeEventViewModels();
         }
+
+        #region Opacity Settings
+
+        public double TopWindowOpacity
+        {
+            get { return _settingsService.Settings.Opacity; }
+            set { _settingsService.Settings.Opacity = Math.Round(value, 3); }
+        }
+
+        #endregion
 
         #region Main Settings
 

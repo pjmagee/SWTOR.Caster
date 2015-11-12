@@ -84,6 +84,7 @@ namespace SwtorCaster.Core
         {
             _container.Singleton<SplashViewModel>();
             _container.Singleton<MainViewModel>();
+            _container.Singleton<OnTopViewModel>();
             _container.Singleton<AbilityViewModel>();
             _container.Singleton<LogViewModel>();
             _container.Singleton<AboutViewModel>();
