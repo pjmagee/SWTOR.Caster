@@ -1,8 +1,8 @@
-namespace SwtorCaster.ViewModels.Screens
-{
-    using System.Windows;
-    using Caliburn.Micro;
+using System.Windows;
+using Caliburn.Micro;
 
+namespace SwtorCaster.ViewModels
+{
     public class FocusableScreen : Screen
     {
         public void Focus()

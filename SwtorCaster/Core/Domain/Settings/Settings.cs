@@ -1,10 +1,11 @@
+using SwtorCaster.Annotations;
+
 namespace SwtorCaster.Core.Domain.Settings
 {
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using System.Windows.Media;
-    using Annotations;
     using Extensions;
     using Newtonsoft.Json;
 
@@ -20,6 +21,7 @@ namespace SwtorCaster.Core.Domain.Settings
 
         private string _version;
         private string _combatLogFile;
+        private string _guideFile;
 
         private int _items = 5; // 5 items in the ability logger window
         private int _rotate = 5; // +/- 5 degree angle rotation on image
@@ -300,6 +302,18 @@ namespace SwtorCaster.Core.Domain.Settings
             {
                 if (value == _opacity) return;
                 _opacity = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonProperty("guideFile")]
+        public string GuideFile
+        {
+            get { return _guideFile; }
+            set
+            {
+                if (value == _guideFile) return;
+                _guideFile = value;
                 OnPropertyChanged();
             }
         }

@@ -1,10 +1,12 @@
-﻿namespace SwtorCaster.Custom
+﻿using System.Windows.Controls;
+
+namespace SwtorCaster.Custom
 {
     using System.ComponentModel;
     using System.Windows;
     using System.Windows.Interactivity;
     using System.Windows.Media.Animation;
-
+    
     public class CloseBehavior : Behavior<Window>
     {
         public static readonly DependencyProperty StoryboardProperty =

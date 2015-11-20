@@ -15,6 +15,7 @@ namespace SwtorCaster.Core
     using Services.Events;
     using Services.Factory;
     using Services.Providers;
+    using Services.Guide;
     using ViewModels;
 
     public sealed class Bootstrapper : BootstrapperBase
@@ -87,9 +88,9 @@ namespace SwtorCaster.Core
             _container.Singleton<MainViewModel>();
 
             // Ability logger
-            _container.PerRequest<AbilityListViewModel>();
-            _container.Singleton<OverlayViewModel>();
-            _container.Singleton<ObsViewModel>();
+            _container.PerRequest<AbilityViewModel>();
+            _container.Singleton<AbilityOverlayViewModel>();
+            _container.Singleton<WindowedViewModel>();
 
             // Settings
             _container.Singleton<MainSettingsViewModel>();
@@ -97,33 +98,50 @@ namespace SwtorCaster.Core
             _container.Singleton<EventSettingsViewModel>();
             _container.Singleton<SettingsViewModel>();
 
+            // Guide 
+            _container.Singleton<RotationViewModel>();
+            _container.Singleton<GuideOverlayViewModel>();
+
+            // Guide settings
+            _container.Singleton<GuideSettingsViewModel>();
+            _container.Singleton<CreateGuideViewModel>();
+            _container.Singleton<LoadGuideViewModel>();
+            
             // About
             _container.Singleton<AboutViewModel>();
-
         }
 
         private void BindServices()
         {
+            // Combat services
             _container.Singleton<ICombatLogProvider, CombatLogProvider>();
             _container.Singleton<ICombatLogService, CombatLogService>("CombatLogParser");
             _container.Singleton<ICombatLogService, DemoCombatLogService>("DemoParser");
-
-            _container.Singleton<IEventAggregator, EventAggregator>();
-            _container.Singleton<IAudioService, AudioService>();
-            _container.Singleton<IImageService, ImageService>();
-            _container.Singleton<ISettingsService, SettingsService>();
-            _container.Singleton<ILoggerService, LoggerService>();
-            _container.Singleton<IWindowManager, WindowManager>();
             _container.Singleton<ICombatLogParser, CombatLogParser>();
-            _container.Singleton<IEventService, EventService>();
-
             _container.Singleton<ICombatLogViewModelFactory, CombatLogViewModelFactory>();
+
+            // Caliburn services
+            _container.Singleton<IEventAggregator, EventAggregator>();
+            _container.Singleton<IWindowManager, WindowManager>();
+            
+            // Settings services
+            _container.Singleton<ISettingsService, SettingsService>();
+            _container.Singleton<IEventService, EventService>();
+            _container.Singleton<IAudioService, AudioService>();
+            _container.Singleton<IRotationService, RotationService>();
+
+            // Image services
+            // _container.Singleton<IImageService, ImageService>();
+            _container.Singleton<IImageService, MappedImageService>();
+
+            // Helper services
+            _container.Singleton<ILoggerService, LoggerService>();
         }
 
         protected override void OnExit(object sender, EventArgs e)
         {
             var parser = _container.GetInstance<ICombatLogService>();
-            parser?.Stop();
+            parser?.Stop();                        
         }
     }
 }

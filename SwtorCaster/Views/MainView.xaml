@@ -3,20 +3,22 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         Icon="../Resources/swtorcaster.ico" ShowInTaskbar="True"
-        SizeToContent="WidthAndHeight" ResizeMode="CanResizeWithGrip"
+        SizeToContent="WidthAndHeight" ResizeMode="CanMinimize"
         Title="SWTOR Caster">
     <Window.Resources>
         <ToolTip x:Key="TooltipAbility" Content="You should manually add this window as a window source to OBS" />
         <ToolTip x:Key="TooltipSettings" Content="Configure SWTOR Caster" />
         <ToolTip x:Key="TooltipAbilityOntop" Content="Use this if you're capturing your monitor. Good for recording tutorials or making a guide" />
+        <ToolTip x:Key="TooltipGuide" Content="An overlay guide for rotations" />
         <ToolTip x:Key="TooltipAbout" Content="Shows information about SWTOR Caster" />
     </Window.Resources>
     <Grid Margin="5">
         <StackPanel Orientation="Vertical">
-            <Button x:Name="OpenObsView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipAbility}" Content="Ability Logger windowed" />
-            <Button x:Name="OpenOverlayView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipAbilityOntop}" Content="Ability Logger overlay" />
+            <Button x:Name="OpenAbilityWindowedView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipAbility}" Content="Logger windowed" />
+            <Button x:Name="OpenAbilityOverlayView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipAbilityOntop}" Content="Logger overlay" />
+            <Button x:Name="OpenGuideOverlayView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipGuide}" Content="Guide overlay" />
             <Button x:Name="OpenSettingsView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipSettings}" Content="Settings" />
-            <Button x:Name="OpenAboutView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipAbout}" Content="About"  />
+            <Button x:Name="OpenAboutView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipAbout}" Content="About" />
         </StackPanel>
     </Grid>
 </controls:MetroWindow>

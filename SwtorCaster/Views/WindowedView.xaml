@@ -1,0 +1,8 @@
+﻿<Window x:Class="SwtorCaster.Views.WindowedView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Height="400" Width="600" Icon="../Resources/swtorcaster.ico"
+        Background="{Binding BackgroundColor}" ResizeMode="CanResize" 
+        AllowsTransparency="False" WindowStartupLocation="CenterOwner" x:Name="Window">
+    <ContentControl x:Name="AbilityViewModel" />
+</Window>

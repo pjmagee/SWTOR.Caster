@@ -49,7 +49,7 @@ namespace SwtorCaster.Core.Services.Images
         {
             if (!Directory.Exists(_imagesFolder) || !Directory.EnumerateFiles(_imagesFolder).Any())
             {
-                _loggerService.Log($"Extracting Images.zip for Ability Window");
+                _loggerService.Log($"Extracting Images.zip");
                 ZipFile.ExtractToDirectory(_imagesZip, Environment.CurrentDirectory);
             }
 

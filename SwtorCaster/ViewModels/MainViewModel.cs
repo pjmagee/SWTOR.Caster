@@ -1,7 +1,6 @@
 namespace SwtorCaster.ViewModels
 {
     using Caliburn.Micro;
-    using Screens;
     using Core.Domain.Settings;
     using Core.Services.Combat;
     using Core.Services.Providers;
@@ -14,25 +13,27 @@ namespace SwtorCaster.ViewModels
         private readonly SettingsViewModel _settingsViewModel;
         private readonly AboutViewModel _aboutViewModel;
 
-        // Ability Logger Views
-        private readonly OverlayViewModel _overlayViewModel;
-        private readonly ObsViewModel _obsViewModel;
+        private readonly AbilityOverlayViewModel _abilityOverlayViewModel;
+        private readonly GuideOverlayViewModel _guideOverlayViewModel;
+        private readonly WindowedViewModel _windowedViewModel;
 
         public MainViewModel(
             IWindowManager windowManager,
-            IEventAggregator eventAggregator, 
-            ObsViewModel obsViewModel,
-            SettingsViewModel settingsViewModel, 
-            OverlayViewModel overlayViewModel,
-            AboutViewModel aboutViewModel, 
+            IEventAggregator eventAggregator,
+            WindowedViewModel windowedViewModel,
+            SettingsViewModel settingsViewModel,
+            AbilityOverlayViewModel abilityOverlayViewModel,
+            GuideOverlayViewModel guideOverlayViewModel,
+            AboutViewModel aboutViewModel,
             ICombatLogProvider combatLogProvider)
         {
             _windowManager = windowManager;
             _settingsViewModel = settingsViewModel;
-            _overlayViewModel = overlayViewModel;
+            _abilityOverlayViewModel = abilityOverlayViewModel;
             _aboutViewModel = aboutViewModel;
             _combatLogProvider = combatLogProvider;
-            _obsViewModel = obsViewModel;
+            _guideOverlayViewModel = guideOverlayViewModel;
+            _windowedViewModel = windowedViewModel;
 
             eventAggregator.Subscribe(this);
             Initialized();
@@ -46,24 +47,29 @@ namespace SwtorCaster.ViewModels
 
         public override string DisplayName { get; set; } = "SWTOR Caster";
 
-        public void OpenSettingsView()
+        public void OpenAbilityWindowedView()
         {
-            OpenOrReactivate(_settingsViewModel);
+            OpenOrReactivate(_windowedViewModel);
         }
 
-        public void OpenOverlayView()
+        public void OpenAbilityOverlayView()
         {
-            OpenOrReactivate(_overlayViewModel);
+            OpenOrReactivate(_abilityOverlayViewModel);
         }
 
-        public void OpenObsView()
+        public void OpenGuideOverlayView()
         {
-            OpenOrReactivate(_obsViewModel);
+            OpenOrReactivate(_guideOverlayViewModel);
         }
 
         public void OpenAboutView()
         {
             OpenOrReactivate(_aboutViewModel);
+        }
+
+        public void OpenSettingsView()
+        {
+            OpenOrReactivate(_settingsViewModel);
         }
 
         private void OpenOrReactivate(FocusableScreen focusableScreen)

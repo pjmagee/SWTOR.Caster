@@ -6,7 +6,7 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:cal="http://www.caliburnproject.org"
         mc:Ignorable="d" 
-        Icon="../Resources/swtorcaster.ico"
+        Icon="../../Resources/swtorcaster.ico"
         Height="242" WindowStartupLocation="CenterOwner"
         SizeToContent="WidthAndHeight" ResizeMode="NoResize" Padding="10" Width="468">
     <StackPanel Orientation="Horizontal">

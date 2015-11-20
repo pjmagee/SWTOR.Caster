@@ -1,6 +1,8 @@
 namespace SwtorCaster.Core.Domain.Log
 {
-    public class CombatLogEntity
+    using System;
+
+    public class CombatLogEntity : IEquatable<long>
     {
         public const string EmptyEntityName = "Unknown";
 
@@ -14,5 +16,10 @@ namespace SwtorCaster.Core.Domain.Log
         }
 
         public bool IsUnknown => DisplayName == EmptyEntityName;
+
+        public bool Equals(long other)
+        {
+            return EntityId.Equals(other);
+        }
     }
 }

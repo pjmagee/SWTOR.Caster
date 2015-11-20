@@ -1,0 +1,94 @@
+﻿<UserControl x:Class="SwtorCaster.Views.AbilitySettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:cal="http://www.caliburnproject.org"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="500" Background="White">
+    <UserControl.Resources>
+        <ToolTip x:Key="TooltipAddImage" Content="Add a custom image to use for this Ability. (Replaces Original)" />
+        <ToolTip x:Key="TooltipClear" Content="Clear the custom image and use the default. (Use Original)" />
+        <ToolTip x:Key="TooltipCopyPaste" Content="Click the Ability in the Logger window to copy it to Clipboard! Then Ctrl+V into here." />
+        <ToolTip x:Key="TooltipDeleteImage" Content="Delete this item from the table." />
+        <ToolTip x:Key="TooltipEnableAbilitySettings" Content="Enable the ability configurations. (Individual disabled settings are ignored)" />
+        <ToolTip x:Key="TooltipAddAlias" Content="A random alias will be picked on the logger window. (Includes offical ability name)" />
+        <ToolTip x:Key="TooltipDeleteAlias" Content="Click the alias and press the [DEL] key to remove it." />
+    </UserControl.Resources>
+    <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <Label Content="Enable ability settings:" ToolTip="{StaticResource TooltipEnableAbilitySettings}" />
+            <CheckBox IsChecked="{Binding EnableAbilitySettings}" />
+        </StackPanel>
+        <DataGrid 
+            ItemsSource="{Binding AbilitySettingViewModels}"
+            ScrollViewer.CanContentScroll="True" 
+            ScrollViewer.VerticalScrollBarVisibility="Auto" 
+            ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+            VirtualizingPanel.IsVirtualizing="False"
+            AutoGenerateColumns="False" CanUserDeleteRows="False">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Enabled">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=Enabled, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Ability ID">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding Path=AbilityId, UpdateSourceTrigger=PropertyChanged}" ToolTip="{StaticResource TooltipCopyPaste}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Border" Width="70">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <xctk:ColorPicker SelectedColor="{Binding Path=Border, UpdateSourceTrigger=PropertyChanged}" ColorMode="ColorPalette" DisplayColorAndName="False" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Image">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Height="52" Width="52" Source="{Binding Path=ImageUrl}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Aliases">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <DataGrid ItemsSource="{Binding Path=Aliases}" 
+                                          HeadersVisibility="None" 
+                                          VirtualizingPanel.IsVirtualizing="False" 
+                                          AutoGenerateColumns="False" ToolTip="{StaticResource TooltipDeleteAlias}"
+                                          CanUserAddRows="True" CanUserDeleteRows="True"
+                                          AlternatingRowBackground="{StaticResource AccentColorBrush2}" RowBackground="{StaticResource AccentColorBrush3}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Actions">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button cal:Message.Attach="AddAlias" Content="Add alias" ToolTip="{StaticResource TooltipAddAlias}" Style="{StaticResource ActionButton}" />
+                                <Button cal:Message.Attach="AddImage" Content="Image" ToolTip="{StaticResource TooltipAddImage}" Style="{StaticResource ActionButton}"/>
+                                <Button cal:Message.Attach="RemoveImage" Content="Clear" ToolTip="{StaticResource TooltipClear}" Style="{StaticResource ActionButton}" />
+                                <Button cal:Message.Attach="Delete" Content="Delete" ToolTip="{StaticResource TooltipDeleteImage}" Style="{StaticResource ActionButton}"/>
+                            </StackPanel> 
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="AddAbility" Content="Add Ability" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+    </StackPanel>
+</UserControl>

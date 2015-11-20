@@ -1,6 +1,5 @@
 namespace SwtorCaster.Core.Domain
 {
-    using Services.Parsing;
     using ViewModels;
 
     public class ParserMessage

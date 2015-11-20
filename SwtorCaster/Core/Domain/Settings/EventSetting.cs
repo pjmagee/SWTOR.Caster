@@ -1,8 +1,9 @@
+using SwtorCaster.Annotations;
+
 namespace SwtorCaster.Core.Domain.Settings
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
-    using Annotations;
     using Log;
     using Newtonsoft.Json;
     using Properties;

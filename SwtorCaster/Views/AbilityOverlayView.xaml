@@ -1,0 +1,64 @@
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:cal="http://www.caliburnproject.org"
+        x:Class="SwtorCaster.Views.AbilityOverlayView"
+        Height="400" Width="600" ResizeMode="CanResizeWithGrip" 
+        AllowsTransparency="True" cal:Message.Attach="[Event MouseLeftButtonDown] = [Action OnLeftMouseButtonDown($event)]"
+        WindowStartupLocation="CenterOwner" WindowStyle="None" BorderBrush="Transparent">
+    <Window.Background>
+        <SolidColorBrush Color="LightBlue" Opacity="{Binding Opacity}" />
+    </Window.Background>
+    <Window.Resources>
+        <Style x:Key="FadeInButton" TargetType="{x:Type Button}">
+            <Setter Property="Margin" Value="1" />
+            <Setter Property="Opacity" Value="0.2" />
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="Control.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Duration="0:0:1" To="1" Storyboard.TargetProperty="(Button.Background).(ImageBrush.Opacity)" RepeatBehavior="0" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Control.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard >
+                            <DoubleAnimation Duration="0:0:1" To="0.5" Storyboard.TargetProperty="(Button.Background).(ImageBrush.Opacity)" RepeatBehavior="0" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <!-- Button to close the opacity window -->
+        <StackPanel Orientation="Horizontal">
+            <Button Style="{StaticResource FadeInButton}" ToolTip="Close" cal:Message.Attach="[Event Click] = [Action Close]">
+                <Rectangle Width="15" Height="15">
+                    <Rectangle.Fill>
+                        <VisualBrush Visual="{StaticResource appbar_close}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Button>
+            <Button Style="{StaticResource FadeInButton}" ToolTip="Increase opacity" cal:Message.Attach="[Event Click] = [Action IncreaseOpacity]">
+                <Rectangle Width="15" Height="15">
+                    <Rectangle.Fill>
+                        <VisualBrush Visual="{StaticResource appbar_add}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Button>
+            <Button Style="{StaticResource FadeInButton}" ToolTip="Decrease opacity" cal:Message.Attach="[Event Click] = [Action DecreaseOpacity]">
+                <Rectangle Width="15" Height="2">
+                    <Rectangle.Fill>
+                        <VisualBrush Visual="{StaticResource appbar_minus}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Button>
+        </StackPanel>
+        <ContentControl x:Name="AbilityViewModel" Grid.Row="1" />
+    </Grid>
+</Window>
