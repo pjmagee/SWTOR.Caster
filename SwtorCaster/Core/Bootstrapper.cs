@@ -1,3 +1,6 @@
+using SwtorCaster.Core.Services.Ability;
+using WpfControls;
+
 namespace SwtorCaster.Core
 {
     using System;
@@ -133,6 +136,8 @@ namespace SwtorCaster.Core
             // Image services
             // _container.Singleton<IImageService, ImageService>();
             _container.Singleton<IImageService, MappedImageService>();
+            _container.Singleton<ISuggestionProvider, AbilitySuggestionProvider>();
+            _container.Singleton<IAbilityService, ApiAbilitySearch>();
 
             // Helper services
             _container.Singleton<ILoggerService, LoggerService>();
