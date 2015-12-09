@@ -23,7 +23,7 @@ namespace SwtorCaster.ViewModels
 
         public void OpenTwitch()
         {
-            Process.Start("http://www.twitch.tv/sneakymaan");
+            Process.Start("http://www.twitch.tv/delegate_");
         }
 
         public void OpenGithub()

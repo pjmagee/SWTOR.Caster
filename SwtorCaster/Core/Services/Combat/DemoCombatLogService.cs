@@ -2,16 +2,12 @@ namespace SwtorCaster.Core.Services.Combat
 {
     using System;
     using System.IO;
-    using System.Linq;
     using System.Threading;
     using System.Windows;
-    using System.Windows.Media;
     using Caliburn.Micro;
     using Domain.Log;
     using Events;
-    using Extensions;
     using Factory;
-    using Images;
     using Parsing;
     using Settings;
 

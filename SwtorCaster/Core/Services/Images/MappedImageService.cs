@@ -17,7 +17,7 @@ namespace SwtorCaster.Core.Services.Images
 
         public void Initialize()
         {
-            if (!Directory.Exists(_imagesFolder) || !Directory.EnumerateFiles(_imagesFolder).Any())
+            if (!Directory.Exists(_imagesFolder))
             {
                 ZipFile.ExtractToDirectory(_imagesZip, Environment.CurrentDirectory);
             }

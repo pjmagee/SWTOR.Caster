@@ -11,9 +11,9 @@
         SizeToContent="WidthAndHeight" ResizeMode="NoResize" Padding="10" Width="468">
     <StackPanel Orientation="Horizontal">
         <StackPanel Orientation="Vertical" Width="140" Height="Auto" VerticalAlignment="Center">
-            <Viewport3D Width="130" Height="200" ToolTip="Awakened Gamers presents, SWTOR Caster">
+            <Viewport3D Width="130" Height="200" ToolTip="TOR Community presents, SWTOR Caster">
                 <Viewport3D.Camera>
-                    <PerspectiveCamera Position="0,0,2"/>
+                    <PerspectiveCamera Position="0,0,2.5"/>
                 </Viewport3D.Camera>
                 <Viewport2DVisual3D x:Name="v2dv3d">
                     <Viewport2DVisual3D.Transform>
@@ -36,11 +36,8 @@
                             Brush="White" />
                     </Viewport2DVisual3D.Material>
 
-                    <Image Source="../Resources/Awakened Gamers.png" 
-                           VerticalAlignment="Stretch"
-                           HorizontalAlignment="Stretch"
-                           Margin="0,0,10,0" 
-                           RenderTransformOrigin="0.5,0.5">
+                    <Image Source="../Resources/tor community.png" 
+                           VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RenderTransformOrigin="0.5,0.5">
                         <Image.Triggers>
                             <EventTrigger RoutedEvent="FrameworkElement.Loaded">
                                 <BeginStoryboard>
@@ -93,19 +90,12 @@
                     </TextBlock>
                 </Button>
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label FontWeight="Bold">Gaming Community:</Label>
-                <Button cal:Message.Attach="[Event Click] = [Action OpenGuild]" Style="{StaticResource HyperlinkButton}">
-                    <TextBlock VerticalAlignment="Center">
-                        <Hyperlink Focusable="False">http://awakenedgamers.com</Hyperlink>
-                    </TextBlock>
-                </Button>
-            </StackPanel>
+      
             <StackPanel Orientation="Horizontal">
                 <Label FontWeight="Bold">Twitch:</Label>
                 <Button cal:Message.Attach="[Event Click] = [Action OpenTwitch]" Style="{StaticResource HyperlinkButton}">
                     <TextBlock VerticalAlignment="Center">
-                        <Hyperlink Focusable="False">http://www.twitch.tv/sneakymaan</Hyperlink>
+                        <Hyperlink Focusable="False">http://www.twitch.tv/delegate_</Hyperlink>
                     </TextBlock>
                 </Button>
             </StackPanel>
@@ -126,7 +116,7 @@
                 </Button>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Label Content="Ability images from:" FontWeight="Bold" />
+                <Label Content="TOR Community:" FontWeight="Bold" />
                 <Button cal:Message.Attach="[Event Click] = [Action OpenTorCommunity]" Style="{StaticResource HyperlinkButton}">
                     <TextBlock VerticalAlignment="Center">
                         <Hyperlink Focusable="False">http://www.torcommunity.com/</Hyperlink>

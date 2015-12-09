@@ -2,7 +2,7 @@
 {
     using System.Windows;
     using System.Windows.Controls;
-    using SwtorCaster.ViewModels;
+    using ViewModels;
 
     public class AbilityItemTemplateSelector : DataTemplateSelector
     {

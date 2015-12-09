@@ -16,7 +16,7 @@
         <StackPanel Orientation="Vertical">
             <Button x:Name="OpenAbilityWindowedView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipAbility}" Content="Logger windowed" />
             <Button x:Name="OpenAbilityOverlayView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipAbilityOntop}" Content="Logger overlay" />
-            <Button x:Name="OpenGuideOverlayView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipGuide}" Content="Guide overlay" />
+            <!--<Button x:Name="OpenGuideOverlayView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipGuide}" Content="Guide overlay" />-->
             <Button x:Name="OpenSettingsView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipSettings}" Content="Settings" />
             <Button x:Name="OpenAboutView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipAbout}" Content="About" />
         </StackPanel>

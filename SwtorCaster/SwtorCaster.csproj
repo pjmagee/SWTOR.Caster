@@ -320,6 +320,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Resources\tor community.png" />
     <Resource Include="Resources\swtorcaster.ico" />
     <EmbeddedResource Include="Resources\mappings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -332,9 +333,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Content Include="Images.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="app.config" />
     <None Include="Properties\app.manifest" />
     <None Include="packages.config" />
@@ -357,7 +355,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Awakened Gamers.png" />
     <Resource Include="Resources\Entypo.ttf" />
     <Resource Include="Resources\font.ttf" />
   </ItemGroup>

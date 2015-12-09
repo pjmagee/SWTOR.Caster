@@ -25,13 +25,13 @@
     </i:Interaction.Behaviors>
     <Grid Margin="10">
         <StackPanel Orientation="Horizontal">
-            <StackPanel VerticalAlignment="Stretch">
-                <Image Source="../Resources/Awakened Gamers.png" Width="140" Height="Auto" VerticalAlignment="Center" />
+            <StackPanel VerticalAlignment="Center">
+                <Image Source="../Resources/tor community.png" Width="140" Height="auto" VerticalAlignment="Stretch" />
             </StackPanel>
             <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,10,0">
                 <custom:OutlinedText Text="Delegate's" HorizontalAlignment="Center" />
                 <custom:OutlinedText Text="SWTOR Caster" HorizontalAlignment="Center" />
-                <controls:ProgressRing Foreground="#FF250303" Height="50" Width="50" IsActive="True" Margin="0,10,0,10" />
+                <controls:ProgressRing Foreground="Yellow" Height="50" Width="50" IsActive="True" Margin="0,10,0,10" />
                 <Label Content="Loading ancient knowledge..." FontWeight="Bold" HorizontalContentAlignment="Center" />
             </StackPanel>
         </StackPanel>

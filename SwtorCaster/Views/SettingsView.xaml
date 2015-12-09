@@ -16,9 +16,9 @@
             <TabItem Header="Main Settings" ToolTip="{StaticResource TooltipMainSettings}">
                 <ContentControl x:Name="MainSettingsViewModel" />
             </TabItem>
-            <TabItem Header="Guide Settings" ToolTip="{StaticResource TooltipGuideSettings}">
+            <!--<TabItem Header="Guide Settings" ToolTip="{StaticResource TooltipGuideSettings}">
                 <ContentControl x:Name="GuideSettingsViewModel" />
-            </TabItem>
+            </TabItem>-->
             <TabItem Header="Sound Settings" ToolTip="{StaticResource TooltipSoundSettings}">
                 <ContentControl x:Name="EventSettingsViewModel" />
             </TabItem>

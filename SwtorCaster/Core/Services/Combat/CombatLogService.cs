@@ -105,6 +105,7 @@ namespace SwtorCaster.Core.Services.Combat
                 Directory.CreateDirectory(_logDirectory.FullName);
 
             DateTime lastLogFolderMod = Directory.GetLastWriteTime(_logDirectory.FullName);
+
             if (LastModded != lastLogFolderMod)
             {
                 LastModded = lastLogFolderMod;
@@ -113,7 +114,8 @@ namespace SwtorCaster.Core.Services.Combat
                 CachedLogFileInfo = logInfo;
 
                 return logInfo;
-            } else
+            }
+            else
             {
                 return CachedLogFileInfo;
             }
