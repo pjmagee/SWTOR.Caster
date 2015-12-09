@@ -48,7 +48,7 @@ namespace SwtorCaster.Core.Services.Images
 
         public IEnumerable<string> GetImages()
         {
-            return _imageMappings.Select(x => x.Image);
+            return _imageMappings.Select(x => Path.Combine(_imagesFolder, x.Image));
         }
 
         public bool IsUnknown(long abilityId)
