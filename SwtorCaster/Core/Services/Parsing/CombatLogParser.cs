@@ -38,7 +38,7 @@ namespace SwtorCaster.Core.Services.Parsing
             if (string.IsNullOrEmpty(line))
                 throw new ParseException("Line was null.");
 
-            CombatLogEvent = new CombatLogEvent() { RawLine = line };
+            CombatLogEvent = new CombatLogEvent();
 
             var match = BaseLineRegex.Match(line);
 

@@ -38,6 +38,9 @@ namespace SwtorCaster.Core.Services.Combat
 
         public bool IsRunning { get; private set; }
 
+        internal DateTime LastModded;
+        internal FileInfo CachedLogFileInfo;
+
         private CombatLogService()
         {
             _clearTimer = new DispatcherTimer(DispatcherPriority.Normal) { Interval = TimeSpan.FromSeconds(1), IsEnabled = true };
@@ -100,10 +103,20 @@ namespace SwtorCaster.Core.Services.Combat
         {
             if (!Directory.Exists(_logDirectory.FullName))
                 Directory.CreateDirectory(_logDirectory.FullName);
-            
 
-            var fileInfos = _logDirectory.EnumerateFiles("*.txt", SearchOption.TopDirectoryOnly);
-            return fileInfos.OrderByDescending(x => x.LastWriteTime).FirstOrDefault();
+            DateTime lastLogFolderMod = Directory.GetLastWriteTime(_logDirectory.FullName);
+            if (LastModded != lastLogFolderMod)
+            {
+                LastModded = lastLogFolderMod;
+                var fileInfos = _logDirectory.EnumerateFiles("*.txt", SearchOption.TopDirectoryOnly);
+                FileInfo logInfo = fileInfos.OrderByDescending(x => x.LastWriteTime).FirstOrDefault();
+                CachedLogFileInfo = logInfo;
+
+                return logInfo;
+            } else
+            {
+                return CachedLogFileInfo;
+            }
         }
 
         private void ClearTimerOnTick(object sender, EventArgs eventArgs)
@@ -151,19 +164,23 @@ namespace SwtorCaster.Core.Services.Combat
 
                     while (true)
                     {
-                        var value = reader.ReadLine();
-
-                        if (value != null)
+                        if (!reader.EndOfStream)
                         {
-                            Handle(value);
-
-                            if (_clearStopwatch.IsRunning)
+                            var value = reader.ReadLine();
+                            if (value != null)
                             {
-                                _clearStopwatch.Restart();
+                                Handle(value);
+
+                                if (_clearStopwatch.IsRunning)
+                                {
+                                    _clearStopwatch.Restart();
+                                }
                             }
                         }
-
-                        Thread.Sleep(1);
+                        else
+                        {
+                            Thread.Sleep(500);
+                        }
                     }
                 }
             }

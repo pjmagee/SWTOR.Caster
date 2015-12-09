@@ -4,7 +4,6 @@ namespace SwtorCaster.Core.Domain.Log
 
     public class CombatLogEvent
     {
-        public string RawLine { get; set; }
         public DateTime TimeStamp { get; set; }
 
         public CombatLogParticipant Source { get; set; }

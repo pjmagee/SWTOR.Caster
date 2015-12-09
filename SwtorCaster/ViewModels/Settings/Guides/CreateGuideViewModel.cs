@@ -7,10 +7,13 @@ namespace SwtorCaster.ViewModels
     using System.Linq;
     using Newtonsoft.Json;
     using Core.Services.Guide;
-    using SwtorCaster.Core.Services.Images;
+    using Core.Services.Ability;
+    using WpfControls;
 
     public class CreateGuideViewModel : PropertyChangedBase
     {
+        private readonly IRotationService _rotationService;
+
         public string GuideTitle { get; set; }
 
         public string GuideDescription { get; set; }
@@ -21,17 +24,18 @@ namespace SwtorCaster.ViewModels
 
         public string GuideLink { get; set; }
 
-        private readonly IRotationService _rotationService;
-
         public RotationViewModel RotationViewModel { get; set; } = new RotationViewModel();
 
-        public CreateGuideViewModel(IRotationService rotationService, IImageService imageService)
+        public CreateGuideViewModel(IRotationService rotationService, ISuggestionProvider abilitySuggestionProvider)
         {
             _rotationService = rotationService;
-            Images = new BindableCollection<GuideImageItem>(imageService.GetImages().Select(x => new GuideImageItem(x)));
+            AbilitySuggestionProvider = abilitySuggestionProvider;
+            Images = new BindableCollection<AbilityItem>();
         }
 
-        public BindableCollection<GuideImageItem> Images { get; }
+        public ISuggestionProvider AbilitySuggestionProvider { get; }
+
+        public BindableCollection<AbilityItem> Images { get; }
 
         public BindableCollection<RotationItemViewModel> RotationItems => RotationViewModel?.RotationItems;
 
@@ -63,7 +67,7 @@ namespace SwtorCaster.ViewModels
                         .ToList()
                 };
 
-                var json = JsonConvert.SerializeObject(rotation);
+                var json = JsonConvert.SerializeObject(rotation, Formatting.Indented);
 
                 File.WriteAllText(fileDialog.FileName, json);
             }

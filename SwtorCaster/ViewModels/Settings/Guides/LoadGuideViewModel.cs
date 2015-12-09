@@ -87,6 +87,8 @@ namespace SwtorCaster.ViewModels
             {
                 _settingsService.Settings.GuideFile = fileDialog.FileName;
             }
+
+            Refresh();
         }
 
         public void ClearFile()

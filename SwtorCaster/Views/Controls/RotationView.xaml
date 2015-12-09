@@ -37,7 +37,7 @@
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Focusable="False">
+                    <StackPanel Orientation="Horizontal" Focusable="False" Margin="5">
                         <Image Source="{Binding ImageUrl}" ToolTip="{Binding HelpText}" Margin="5,0,0,0" Width="52" Height="52" RenderTransformOrigin=".5,.5" />
                         <Rectangle Width="15" Height="15" Margin="5,0,0,0">
                             <Rectangle.Fill>

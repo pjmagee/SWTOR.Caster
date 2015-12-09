@@ -312,7 +312,6 @@ namespace SwtorCaster.Core.Domain.Settings
             get { return _guideFile; }
             set
             {
-                if (value == _guideFile) return;
                 _guideFile = value;
                 OnPropertyChanged();
             }
