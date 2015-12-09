@@ -166,7 +166,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Core\Domain\Guide\Rotation.cs" />
     <Compile Include="Core\Domain\Log\CombatLogEntity.cs" />
     <Compile Include="Core\Domain\Log\CombatLogEvent.cs" />
     <Compile Include="Core\Domain\Log\CombatLogEventArgs.cs" />
@@ -174,7 +173,6 @@
     <Compile Include="Core\Domain\Log\EffectName.cs" />
     <Compile Include="Core\Domain\Log\EffectType.cs" />
     <Compile Include="Core\Domain\Log\SoundEvent.cs" />
-    <Compile Include="Core\Domain\Guide\RotationItem.cs" />
     <Compile Include="Core\Domain\Settings\EventSetting.cs" />
     <Compile Include="Core\Extensions\CombatLogExtensions.cs" />
     <Compile Include="Core\Extensions\EnumerableExtension.cs" />
@@ -187,16 +185,12 @@
     <Compile Include="Core\Services\Events\EventService.cs" />
     <Compile Include="Core\Extensions\SettingExtensions.cs" />
     <Compile Include="Core\Services\Events\IEventService.cs" />
-    <Compile Include="Core\Services\Guide\RotationService.cs" />
     <Compile Include="Core\Services\Images\ImageMapping.cs" />
     <Compile Include="Core\Services\Images\MappedImageService.cs" />
     <Compile Include="Core\Services\Parsing\CombatLogParser.cs" />
     <Compile Include="Custom\AbilityItemTemplateSelector.cs" />
     <Compile Include="Custom\SoundEventValueConverter.cs" />
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="Core\Services\Guide\IRotationService.cs" />
-    <Compile Include="ViewModels\Settings\Guides\AutoCompleteItem.cs" />
-    <Compile Include="ViewModels\Settings\Guides\GuideRotationImage.cs" />
     <Compile Include="ViewModels\WindowedViewModel.cs" />
     <Compile Include="ViewModels\AbilityOverlayViewModel.cs" />
     <Compile Include="ViewModels\CombatLogViewModel.cs" />
@@ -219,28 +213,22 @@
     <Compile Include="Core\Services\Combat\CombatLogService.cs" />
     <Compile Include="Core\Services\Settings\SettingsService.cs" />
     <Compile Include="Custom\CloseBehavior.cs" />
-    <Compile Include="ViewModels\GuideOverlayViewModel.cs" />
     <Compile Include="ViewModels\Settings\Abilities\AbilityAliasItem.cs" />
     <Compile Include="ViewModels\Settings\Abilities\AbilitySettingsViewModel.cs" />
     <Compile Include="ViewModels\Settings\Abilities\AbilitySettingItem.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="Core\Services\Audio\IAudioService.cs" />
     <Compile Include="Core\Services\Audio\AudioService.cs" />
-    <Compile Include="ViewModels\Settings\Guides\CreateGuideViewModel.cs" />
     <Compile Include="ViewModels\Settings\Events\EventSettingsViewModel.cs" />
     <Compile Include="ViewModels\Settings\Events\EventSettingItem.cs" />
     <Compile Include="ViewModels\Screens\FocusableScreen.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\Settings\Guides\GuideSettingsViewModel.cs" />
-    <Compile Include="ViewModels\Settings\Guides\RotationItemViewModel.cs" />
-    <Compile Include="ViewModels\Settings\Guides\LoadGuideViewModel.cs" />
     <Compile Include="ViewModels\Settings\MainSettingsViewModel.cs" />
     <Compile Include="ViewModels\SplashViewModel.cs" />
     <Compile Include="Core\Bootstrapper.cs" />
     <Compile Include="Core\Domain\Settings\Settings.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\AbilityViewModel.cs" />
-    <Compile Include="ViewModels\Settings\Guides\RotationViewModel.cs" />
     <Page Include="Resources\Icons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -252,10 +240,6 @@
     <Page Include="Views\Controls\AbilityView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\GuideOverlayView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AbilityOverlayView.xaml">
       <SubType>Designer</SubType>
@@ -269,19 +253,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Controls\GuideSettingsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\Controls\AbilitySettingsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Controls\CreateGuideView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Controls\LoadGuideView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

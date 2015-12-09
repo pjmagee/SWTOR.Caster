@@ -14,7 +14,6 @@ namespace SwtorCaster.ViewModels
         private readonly AboutViewModel _aboutViewModel;
 
         private readonly AbilityOverlayViewModel _abilityOverlayViewModel;
-        private readonly GuideOverlayViewModel _guideOverlayViewModel;
         private readonly WindowedViewModel _windowedViewModel;
 
         public MainViewModel(
@@ -23,7 +22,6 @@ namespace SwtorCaster.ViewModels
             WindowedViewModel windowedViewModel,
             SettingsViewModel settingsViewModel,
             AbilityOverlayViewModel abilityOverlayViewModel,
-            GuideOverlayViewModel guideOverlayViewModel,
             AboutViewModel aboutViewModel,
             ICombatLogProvider combatLogProvider)
         {
@@ -32,7 +30,6 @@ namespace SwtorCaster.ViewModels
             _abilityOverlayViewModel = abilityOverlayViewModel;
             _aboutViewModel = aboutViewModel;
             _combatLogProvider = combatLogProvider;
-            _guideOverlayViewModel = guideOverlayViewModel;
             _windowedViewModel = windowedViewModel;
 
             eventAggregator.Subscribe(this);
@@ -56,12 +53,7 @@ namespace SwtorCaster.ViewModels
         {
             OpenOrReactivate(_abilityOverlayViewModel);
         }
-
-        public void OpenGuideOverlayView()
-        {
-            OpenOrReactivate(_guideOverlayViewModel);
-        }
-
+        
         public void OpenAboutView()
         {
             OpenOrReactivate(_aboutViewModel);

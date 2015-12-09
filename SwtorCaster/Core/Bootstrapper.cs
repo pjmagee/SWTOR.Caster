@@ -1,6 +1,3 @@
-using SwtorCaster.Core.Services.Ability;
-using WpfControls;
-
 namespace SwtorCaster.Core
 {
     using System;
@@ -18,7 +15,8 @@ namespace SwtorCaster.Core
     using Services.Events;
     using Services.Factory;
     using Services.Providers;
-    using Services.Guide;
+    using SwtorCaster.Core.Services.Ability;
+    using WpfControls;
     using ViewModels;
 
     public sealed class Bootstrapper : BootstrapperBase
@@ -100,15 +98,6 @@ namespace SwtorCaster.Core
             _container.Singleton<AbilitySettingsViewModel>();
             _container.Singleton<EventSettingsViewModel>();
             _container.Singleton<SettingsViewModel>();
-
-            // Guide 
-            _container.Singleton<RotationViewModel>();
-            _container.Singleton<GuideOverlayViewModel>();
-
-            // Guide settings
-            _container.Singleton<GuideSettingsViewModel>();
-            _container.Singleton<CreateGuideViewModel>();
-            _container.Singleton<LoadGuideViewModel>();
             
             // About
             _container.Singleton<AboutViewModel>();
@@ -131,7 +120,6 @@ namespace SwtorCaster.Core
             _container.Singleton<ISettingsService, SettingsService>();
             _container.Singleton<IEventService, EventService>();
             _container.Singleton<IAudioService, AudioService>();
-            _container.Singleton<IRotationService, RotationService>();
 
             // Image services
             // _container.Singleton<IImageService, ImageService>();
