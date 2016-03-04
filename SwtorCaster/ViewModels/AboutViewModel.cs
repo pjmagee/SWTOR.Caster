@@ -8,7 +8,7 @@ namespace SwtorCaster.ViewModels
 
         public void OpenSWTORCaster()
         {
-            Process.Start("http://pjmagee.github.io/swtor-caster/");
+            Process.Start("https://torcommunity.com/tools/swtor-caster");
         }
 
         public void OpenGuild()
@@ -29,11 +29,6 @@ namespace SwtorCaster.ViewModels
         public void OpenGithub()
         {
             Process.Start("https://github.com/pjmagee/swtor-caster/");
-        }
-
-        public void OpenTorCommunity()
-        {
-            Process.Start("http://torcommunity.com/");
         }
     }
 }

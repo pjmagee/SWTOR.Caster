@@ -1,9 +1,7 @@
-using System.Windows.Controls;
-
 namespace SwtorCaster.ViewModels
 {
     using MahApps.Metro.Controls;
-    using SwtorCaster.Core.Services.Settings;
+    using Core.Services.Settings;
     using System;
     using System.Collections.Generic;
     using System.IO;

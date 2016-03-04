@@ -86,7 +86,7 @@
                 <Label FontWeight="Bold">Site:</Label>
                 <Button cal:Message.Attach="[Event Click] = [Action OpenSWTORCaster]" Style="{StaticResource HyperlinkButton}">
                     <TextBlock VerticalAlignment="Center">
-                        <Hyperlink Focusable="False">http://pjmagee.github.io/swtor-caster/</Hyperlink>
+                        <Hyperlink Focusable="False">https://torcommunity.com/tools/swtor-caster</Hyperlink>
                     </TextBlock>
                 </Button>
             </StackPanel>
@@ -99,6 +99,7 @@
                     </TextBlock>
                 </Button>
             </StackPanel>
+            
             <StackPanel Orientation="Horizontal">
                 <Label FontWeight="Bold" Content="Contribute:" />
                 <Button cal:Message.Attach="[Event Click] = [Action OpenGithub]" Style="{StaticResource HyperlinkButton}">
@@ -107,19 +108,12 @@
                     </TextBlock>
                 </Button>
             </StackPanel>
+            
             <StackPanel Orientation="Horizontal">
                 <Label Content="Referral link:" FontWeight="Bold" />
                 <Button cal:Message.Attach="[Event Click] = [Action OpenReferral]" Style="{StaticResource HyperlinkButton}">
                     <TextBlock VerticalAlignment="Center">
                         <Hyperlink Focusable="False">http://www.swtor.com/r/rpNrdB</Hyperlink>
-                    </TextBlock>
-                </Button>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Content="TOR Community:" FontWeight="Bold" />
-                <Button cal:Message.Attach="[Event Click] = [Action OpenTorCommunity]" Style="{StaticResource HyperlinkButton}">
-                    <TextBlock VerticalAlignment="Center">
-                        <Hyperlink Focusable="False">http://www.torcommunity.com/</Hyperlink>
                     </TextBlock>
                 </Button>
             </StackPanel>

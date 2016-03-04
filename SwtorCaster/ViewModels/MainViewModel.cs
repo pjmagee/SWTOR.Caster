@@ -38,6 +38,20 @@ namespace SwtorCaster.ViewModels
 
         private void Initialized()
         {
+            StartParserService();
+            OpenDefaultWindows();
+        }
+
+        private void OpenDefaultWindows()
+        {
+            if (_settingsViewModel.MainSettingsViewModel.OpenLoggerWindowOnStartup)
+            {
+                OpenAbilityWindowedView();
+            }
+        }
+
+        private void StartParserService()
+        {
             var parser = _combatLogProvider.GetCombatLogService();
             parser.Start();
         }

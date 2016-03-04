@@ -1,7 +1,6 @@
-using SwtorCaster.Annotations;
-
 namespace SwtorCaster.Core.Domain.Settings
 {
+    using SwtorCaster.Annotations;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -30,18 +29,17 @@ namespace SwtorCaster.Core.Domain.Settings
         private int _volume = 10; // the default volume of 100%
         private double _opacity = 0.15; // the top window opacity over the game.
 
+        private bool _openLoggerWindowOnStartup;
+        private bool _enableSound;
+        private bool _enableAbilitySettings;
+        private bool _enableDemoMode;
+
         private bool _enableAbilityText = true;
         private bool _enableClearInactivity = true;
         private bool _enableCombatClear = true;
         private bool _enableCompanionAbilities = true;
         private bool _enableLogging = true;
         private bool _ignoreUnknownAbilities = true;
-
-        private bool _enableSound;
-        private bool _enableAbilitySettings;
-        private bool _enableShowCrits;
-        private bool _enableDemoMode;
-        
 
         [JsonProperty("items")]
         public int Items
@@ -55,14 +53,15 @@ namespace SwtorCaster.Core.Domain.Settings
             }
         }
 
-        [JsonProperty("enableShowCriticalHits")]
-        public bool EnableShowCriticalHits
+
+        [JsonProperty("openLoggerWindowOnStartup")]
+        public bool OpenLoggerWindowOnStartup
         {
-            get { return _enableShowCrits; }
+            get { return _openLoggerWindowOnStartup; }
             set
             {
-                if (value == _enableShowCrits) return;
-                _enableShowCrits = value;
+                if (value == _openLoggerWindowOnStartup) return;
+                _openLoggerWindowOnStartup = value;
                 OnPropertyChanged();
             }
         }

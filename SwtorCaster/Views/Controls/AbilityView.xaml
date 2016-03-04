@@ -7,93 +7,39 @@
     xmlns:cal="http://www.caliburnproject.org"
     xmlns:custom="clr-namespace:SwtorCaster.Custom"
     mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="500">
-    <ListView 
-        Name="AbilityList" 
+    <ListView Name="AbilityList" 
         ItemsSource="{Binding LogLines}" Background="{Binding BackgroundColor}"
         Focusable="False" Padding="10,10,0,0"
         IsTextSearchEnabled="False"
         BorderBrush="Transparent"
         ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
         ScrollViewer.VerticalScrollBarVisibility="Disabled">
-        <ListView.Resources>
-            <DataTemplate x:Key="CriticalTemplate">
-                <StackPanel cal:Message.Attach="[Event MouseLeftButtonUp] = [Action CopyToClipBoard($dataContext)]" x:Name="Item" Orientation="Horizontal" ToolTip="{Binding TooltipText}">
-                    <Border BorderThickness="2"  Margin="0,0,10,0"
-                            CornerRadius="5,5,5,5" RenderTransformOrigin=".5,.5">
-                        <Border.BorderBrush>
-                            <SolidColorBrush Color="{Binding ImageBorderColor}" />
-                        </Border.BorderBrush>
-                        <Border.Background>
-                            <SolidColorBrush Color="{Binding ImageBorderColor}" />
-                        </Border.Background>
-                        <Border.Style>
-                            <Style TargetType="{x:Type Border}">
-                                <Setter Property="Background">
-                                    <Setter.Value>
-                                        <SolidColorBrush Color="{Binding ImageBorderColor}" />
-                                    </Setter.Value>
-                                </Setter>
-                                <Style.Triggers>
-                                    <EventTrigger RoutedEvent="Border.Loaded">
-                                        <EventTrigger.Actions>
-                                            <BeginStoryboard>
-                                                <Storyboard>
-                                                    <!-- Border -->
-                                                    <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
-                                                        From="Red" To="AliceBlue" Duration="00:00:0.500" AutoReverse="True" RepeatBehavior="Forever" />
-                                                    <!-- Background -->
-                                                    <ColorAnimation 
-                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" 
-                                                        From="Red" To="AliceBlue" Duration="00:00:0.500" AutoReverse="True" RepeatBehavior="Forever" />
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </EventTrigger.Actions>
-                                    </EventTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Border.Style>
-                        <Border.RenderTransform>
-                            <RotateTransform Angle="{Binding ImageAngle}" />
-                        </Border.RenderTransform>
-                        <Image x:Name="AbilityIcon" Source="{Binding ImageUrl}" Width="52" Height="52" 
-                               RenderTransformOrigin=".5,.5">
-                            <Image.RenderTransform>
-                                <RotateTransform Angle="{Binding ImageAngle}" />
-                            </Image.RenderTransform>
-                        </Image>
-                    </Border>
-                    <custom:OutlinedText 
-                        VerticalAlignment="Center" Text="{Binding Text}" Visibility="{Binding TextVisibility}" FontSize="{Binding FontSize, FallbackValue=32}">
-                    </custom:OutlinedText>
-                </StackPanel>
-            </DataTemplate>
-            <DataTemplate x:Key="NormalTemplate">
-                <StackPanel cal:Message.Attach="[Event MouseLeftButtonUp] = [Action CopyToClipBoard($dataContext)]" x:Name="Item" Orientation="Horizontal" ToolTip="{Binding TooltipText}">
-                    <Border x:Name="AbilityBorder"
+        <DataTemplate>
+            <StackPanel cal:Message.Attach="[Event MouseLeftButtonUp] = [Action CopyToClipBoard($dataContext)]" x:Name="Item" Orientation="Horizontal" ToolTip="{Binding TooltipText}">
+                <Border x:Name="AbilityBorder"
                             BorderThickness="2"  Margin="0,0,10,0"
                             CornerRadius="8,8,8,8" RenderTransformOrigin=".5,.5">
-                        <Image x:Name="AbilityIcon" Source="{Binding ImageUrl}" Width="52" Height="52" 
+                    <Image x:Name="AbilityIcon" Source="{Binding ImageUrl}" Width="52" Height="52" 
                                RenderTransformOrigin=".5,.5">
-                            <Image.RenderTransform>
-                                <RotateTransform Angle="{Binding ImageAngle}" />
-                            </Image.RenderTransform>
-                        </Image>
-                        <Border.BorderBrush>
-                            <SolidColorBrush Color="{Binding ImageBorderColor}" />
-                        </Border.BorderBrush>
-                        <Border.Background>
-                            <SolidColorBrush Color="{Binding ImageBorderColor}" />
-                        </Border.Background>
-                        <Border.RenderTransform>
+                        <Image.RenderTransform>
                             <RotateTransform Angle="{Binding ImageAngle}" />
-                        </Border.RenderTransform>
-                    </Border>
-                    <custom:OutlinedText
+                        </Image.RenderTransform>
+                    </Image>
+                    <Border.BorderBrush>
+                        <SolidColorBrush Color="{Binding ImageBorderColor}" />
+                    </Border.BorderBrush>
+                    <Border.Background>
+                        <SolidColorBrush Color="{Binding ImageBorderColor}" />
+                    </Border.Background>
+                    <Border.RenderTransform>
+                        <RotateTransform Angle="{Binding ImageAngle}" />
+                    </Border.RenderTransform>
+                </Border>
+                <custom:OutlinedText
                         VerticalAlignment="Center" Text="{Binding Text}" Visibility="{Binding TextVisibility}" FontSize="{Binding FontSize, FallbackValue=32}">
-                    </custom:OutlinedText>
-                </StackPanel>
-            </DataTemplate>
-        </ListView.Resources>
+                </custom:OutlinedText>
+            </StackPanel>
+        </DataTemplate>
         <ListView.ItemContainerStyle>
             <Style TargetType="{x:Type ListViewItem}">
                 <Setter Property="Focusable" Value="false" />
@@ -116,8 +62,5 @@
                 </Style.Triggers>
             </Style>
         </ListView.ItemContainerStyle>
-        <ListView.ItemTemplateSelector>
-            <custom:AbilityItemTemplateSelector Normal="{StaticResource NormalTemplate}" Critical="{StaticResource CriticalTemplate}" />
-        </ListView.ItemTemplateSelector>
     </ListView>
 </UserControl>

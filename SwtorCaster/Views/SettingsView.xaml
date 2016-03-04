@@ -7,7 +7,6 @@
         SizeToContent="Width">
     <controls:MetroWindow.Resources>
         <ToolTip x:Key="TooltipMainSettings" Content="Main settings for SWTOR Caster" />
-        <ToolTip x:Key="TooltipGuideSettings" Content="Guide settings for the Guide overlay window" />
         <ToolTip x:Key="TooltipSoundSettings" Content="Sound settings for SWTOR Logger window" />
         <ToolTip x:Key="TooltipAbilitySettings" Content="Ability settings for SWTOR Logger window" />
     </controls:MetroWindow.Resources>
@@ -16,9 +15,6 @@
             <TabItem Header="Main Settings" ToolTip="{StaticResource TooltipMainSettings}">
                 <ContentControl x:Name="MainSettingsViewModel" />
             </TabItem>
-            <!--<TabItem Header="Guide Settings" ToolTip="{StaticResource TooltipGuideSettings}">
-                <ContentControl x:Name="GuideSettingsViewModel" />
-            </TabItem>-->
             <TabItem Header="Sound Settings" ToolTip="{StaticResource TooltipSoundSettings}">
                 <ContentControl x:Name="EventSettingsViewModel" />
             </TabItem>

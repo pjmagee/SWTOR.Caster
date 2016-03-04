@@ -40,12 +40,6 @@ namespace SwtorCaster.Core.Services.Factory
                 viewModel.ImageBorderColor = settings.CompanionAbilityBorderColor.FromHexToColor();
             }
 
-            if (@event.IsCrit && settings.EnableShowCriticalHits)
-            {
-                viewModel.ImageBorderColor = Colors.Yellow;
-                viewModel.IsCrit = true;
-            }
-
             return viewModel;
         }
 

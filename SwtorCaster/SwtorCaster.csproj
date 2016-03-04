@@ -152,10 +152,6 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WpfControls, Version=1.0.0.7, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WpfControls.AutoCompleteTextBox.1.0.0.7\lib\net35\WpfControls.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Xceed.Wpf.Toolkit, Version=2.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <HintPath>..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
       <Private>True</Private>
@@ -178,17 +174,12 @@
     <Compile Include="Core\Extensions\EnumerableExtension.cs" />
     <Compile Include="Core\ParseException.cs" />
     <Compile Include="Core\Services\Ability\AbilityItem.cs" />
-    <Compile Include="Core\Services\Ability\ApiAbilitySearch.cs" />
-    <Compile Include="Core\Services\Ability\TemporaryAbilityService.cs" />
-    <Compile Include="Core\Services\Ability\AbilitySuggestionProvider.cs" />
-    <Compile Include="Core\Services\Ability\IAbilityService.cs" />
     <Compile Include="Core\Services\Events\EventService.cs" />
     <Compile Include="Core\Extensions\SettingExtensions.cs" />
     <Compile Include="Core\Services\Events\IEventService.cs" />
     <Compile Include="Core\Services\Images\ImageMapping.cs" />
     <Compile Include="Core\Services\Images\MappedImageService.cs" />
     <Compile Include="Core\Services\Parsing\CombatLogParser.cs" />
-    <Compile Include="Custom\AbilityItemTemplateSelector.cs" />
     <Compile Include="Custom\SoundEventValueConverter.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModels\WindowedViewModel.cs" />

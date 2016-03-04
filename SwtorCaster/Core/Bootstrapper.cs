@@ -15,13 +15,11 @@ namespace SwtorCaster.Core
     using Services.Events;
     using Services.Factory;
     using Services.Providers;
-    using SwtorCaster.Core.Services.Ability;
-    using WpfControls;
     using ViewModels;
 
     public sealed class Bootstrapper : BootstrapperBase
     {
-        private SimpleContainer _container;
+        private SimpleContainer container;
 
         public Bootstrapper()
         {
@@ -39,12 +37,12 @@ namespace SwtorCaster.Core
 
         protected override IEnumerable<object> GetAllInstances(Type service)
         {
-            return _container.GetAllInstances(service);
+            return container.GetAllInstances(service);
         }
 
         protected override object GetInstance(Type service, string key)
         {
-            var instance = _container.GetInstance(service, key);
+            var instance = container.GetInstance(service, key);
             if (instance != null) return instance;
 
             throw new Exception("Could not locate any instances.");
@@ -52,12 +50,12 @@ namespace SwtorCaster.Core
 
         protected override void BuildUp(object instance)
         {
-            _container.BuildUp(instance);
+            container.BuildUp(instance);
         }
 
         protected override void Configure()
         {
-            _container = new SimpleContainer();
+            container = new SimpleContainer();
             BindServices();
             BindViewModels();
         }
@@ -74,8 +72,8 @@ namespace SwtorCaster.Core
 
         private async Task InitializeImages()
         {
-            var splashViewModel = _container.GetInstance<SplashViewModel>();
-            var imageService = _container.GetInstance<IImageService>();
+            var splashViewModel = container.GetInstance<SplashViewModel>();
+            var imageService = container.GetInstance<IImageService>();
 
             splashViewModel.Start();
             await Task.Run(() => imageService.Initialize());
@@ -85,55 +83,53 @@ namespace SwtorCaster.Core
         private void BindViewModels()
         {
             // Start up
-            _container.Singleton<SplashViewModel>();
-            _container.Singleton<MainViewModel>();
+            container.Singleton<SplashViewModel>();
+            container.Singleton<MainViewModel>();
 
             // Ability logger
-            _container.PerRequest<AbilityViewModel>();
-            _container.Singleton<AbilityOverlayViewModel>();
-            _container.Singleton<WindowedViewModel>();
+            container.PerRequest<AbilityViewModel>();
+            container.Singleton<AbilityOverlayViewModel>();
+            container.Singleton<WindowedViewModel>();
 
             // Settings
-            _container.Singleton<MainSettingsViewModel>();
-            _container.Singleton<AbilitySettingsViewModel>();
-            _container.Singleton<EventSettingsViewModel>();
-            _container.Singleton<SettingsViewModel>();
+            container.Singleton<MainSettingsViewModel>();
+            container.Singleton<AbilitySettingsViewModel>();
+            container.Singleton<EventSettingsViewModel>();
+            container.Singleton<SettingsViewModel>();
             
             // About
-            _container.Singleton<AboutViewModel>();
+            container.Singleton<AboutViewModel>();
         }
 
         private void BindServices()
         {
             // Combat services
-            _container.Singleton<ICombatLogProvider, CombatLogProvider>();
-            _container.Singleton<ICombatLogService, CombatLogService>("CombatLogParser");
-            _container.Singleton<ICombatLogService, DemoCombatLogService>("DemoParser");
-            _container.Singleton<ICombatLogParser, CombatLogParser>();
-            _container.Singleton<ICombatLogViewModelFactory, CombatLogViewModelFactory>();
+            container.Singleton<ICombatLogProvider, CombatLogProvider>();
+            container.Singleton<ICombatLogService, CombatLogService>("CombatLogParser");
+            container.Singleton<ICombatLogService, DemoCombatLogService>("DemoParser");
+            container.Singleton<ICombatLogParser, CombatLogParser>();
+            container.Singleton<ICombatLogViewModelFactory, CombatLogViewModelFactory>();
 
             // Caliburn services
-            _container.Singleton<IEventAggregator, EventAggregator>();
-            _container.Singleton<IWindowManager, WindowManager>();
+            container.Singleton<IEventAggregator, EventAggregator>();
+            container.Singleton<IWindowManager, WindowManager>();
             
             // Settings services
-            _container.Singleton<ISettingsService, SettingsService>();
-            _container.Singleton<IEventService, EventService>();
-            _container.Singleton<IAudioService, AudioService>();
+            container.Singleton<ISettingsService, SettingsService>();
+            container.Singleton<IEventService, EventService>();
+            container.Singleton<IAudioService, AudioService>();
 
             // Image services
-            // _container.Singleton<IImageService, ImageService>();
-            _container.Singleton<IImageService, MappedImageService>();
-            _container.Singleton<ISuggestionProvider, AbilitySuggestionProvider>();
-            _container.Singleton<IAbilityService, ApiAbilitySearch>();
+            // container.Singleton<IImageService, ImageService>();
+            container.Singleton<IImageService, MappedImageService>();
 
             // Helper services
-            _container.Singleton<ILoggerService, LoggerService>();
+            container.Singleton<ILoggerService, LoggerService>();
         }
 
         protected override void OnExit(object sender, EventArgs e)
         {
-            var parser = _container.GetInstance<ICombatLogService>();
+            var parser = container.GetInstance<ICombatLogService>();
             parser?.Stop();                        
         }
     }

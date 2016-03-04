@@ -1,7 +1,6 @@
-using SwtorCaster.Annotations;
-
 namespace SwtorCaster.Core.Domain.Settings
 {
+    using Annotations;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;

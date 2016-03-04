@@ -23,16 +23,16 @@ namespace SwtorCaster.ViewModels
             set { _settingsService.Settings.Opacity = Math.Round(value, 3); }
         }
 
+        public bool OpenLoggerWindowOnStartup
+        {
+            get { return _settingsService.Settings.OpenLoggerWindowOnStartup; }
+            set { _settingsService.Settings.OpenLoggerWindowOnStartup = value; }
+        }
+
         public bool EnableDemoMode
         {
             get { return _settingsService.Settings.EnableDemoMode; }
             set { _settingsService.Settings.EnableDemoMode = value; }
-        }
-
-        public bool EnableShowCriticalHits
-        {
-            get { return _settingsService.Settings.EnableShowCriticalHits; }
-            set { _settingsService.Settings.EnableShowCriticalHits = value; }
         }
 
         public int Items

@@ -1,4 +1,6 @@
-﻿namespace SwtorCaster.Core.Services.Logging
+﻿using System.Configuration;
+
+namespace SwtorCaster.Core.Services.Logging
 {
     using System;
     using System.IO;
@@ -7,7 +9,14 @@
     public class LoggerService : ILoggerService
     {
         private readonly string _logPath = Path.Combine(Environment.CurrentDirectory, "log.txt");
+        
+        public LoggerService()
+        {
+            IsLoggingEnabled = ConfigurationManager.AppSettings["logging"] == "True";
+        }
 
+        private bool IsLoggingEnabled { get; }
+        
         public void Clear()
         {
             try
@@ -24,7 +33,10 @@
         {
             try
             {
-                File.AppendAllText(_logPath, $"[{DateTime.Now}] {line}.{Environment.NewLine}");
+                if (IsLoggingEnabled)
+                {
+                    File.AppendAllText(_logPath, $"[{DateTime.Now}] {line}.{Environment.NewLine}");
+                }
             }
             catch
             {

@@ -2,7 +2,6 @@ namespace SwtorCaster.ViewModels
 {
     using System.Windows;
     using System.Windows.Media;
-    using System.Windows.Media.Animation;
     using Caliburn.Micro;
     using Core.Domain.Log;
 
@@ -24,10 +23,6 @@ namespace SwtorCaster.ViewModels
         public Color ImageBorderColor { get; set; }
 
         public int ImageAngle { get; set; }
-
-        public BeginStoryboard CritialHitAnimation { get; set; }
-
-        public bool IsCrit { get; set; }
 
         #endregion
 

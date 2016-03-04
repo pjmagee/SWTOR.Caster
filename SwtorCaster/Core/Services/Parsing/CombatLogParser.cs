@@ -7,9 +7,7 @@ namespace SwtorCaster.Core.Services.Parsing
 
     public class CombatLogParser : ICombatLogParser
     {
-        public static string CurrentPlayer { get; set; }
-
-        public bool IgnoreLineFormatErrors = true;
+        private static string CurrentPlayer { get; set; }
 
         private const string FileNameRegexPattern = @"^(^\S+)_(\d{4}-\d{2}-\d{2})_(\d{2}_\d{2}_\d{2}_\d{6})\.txt";
         private const string BaseLineRegexPattern = @"^\[(?<TimeStamp>[^\]]*)\] \[(?<Source>[^\]]*?)\] \[(?<Target>[^\]]*?)\] \[(?<Ability>[^\]]*?)\] \[(?<Effect>.*?)\] \((?<Value>.*?)\)($|( <(?<Threat>[^>]*?)>))";
