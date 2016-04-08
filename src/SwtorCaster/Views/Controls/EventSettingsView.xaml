@@ -1,0 +1,79 @@
+﻿<UserControl x:Class="SwtorCaster.Views.EventSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:custom="clr-namespace:SwtorCaster.Custom"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="400" Background="White">
+    <UserControl.Resources>
+        <ToolTip x:Key="TooltipEnableEvents" Content="Play sounds when configured events occur." />
+        <ToolTip x:Key="TooltipAddAudio" Content="Select an audio file to play when the event occurs." />
+        <custom:SoundEventValueConverter x:Key="SoundEventValueConverter" />
+    </UserControl.Resources>
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <Label Content="Enable sound settings:" ToolTip="{StaticResource TooltipEnableEvents}" />
+            <CheckBox x:Name="SoundsEnabled" IsChecked="{Binding EnableSound}" />
+            <Label Content="Volume:" />
+            <Slider x:Name="Volume" Minimum="1" Maximum="100" Width="150" VerticalAlignment="Center" AutoToolTipPrecision="2" TickFrequency="5" AutoToolTipPlacement="TopLeft" />
+            <Label Content="{Binding ElementName=Volume, Path=Value}" />
+        </StackPanel>
+        <DataGrid Name="Events" 
+                  ItemsSource="{Binding EventSettingViewModels}" 
+                  ScrollViewer.CanContentScroll="True" 
+                  ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                  VirtualizingPanel.IsVirtualizing="False"
+                  CanUserDeleteRows="False" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Enabled">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=Enabled, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Event">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <controls:SplitButton 
+                                ItemsSource="{Binding Path=EffectNames}"
+                                SelectedItem="{Binding Path=SelectedEffectName, Converter={StaticResource SoundEventValueConverter},
+                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Sound">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Sound}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Ability Id">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding Path=AbilityId, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Actions">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <Button Content="Audio" cal:Message.Attach="AddAudio" ToolTip="{StaticResource TooltipAddAudio}" Style="{StaticResource ActionButton}" />
+                                <Button Content="Play" cal:Message.Attach="Play" Style="{StaticResource ActionButton}" />
+                                <Button Content="Stop" cal:Message.Attach="Stop" Style="{StaticResource ActionButton}" />
+                                <Button Content="Delete" cal:Message.Attach="Delete" Style="{StaticResource ActionButton}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="AddEvent" Margin="0,10" Content="Add Event" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+    </StackPanel>
+</UserControl>
