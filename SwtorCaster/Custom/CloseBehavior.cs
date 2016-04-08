@@ -1,6 +1,4 @@
-﻿using System.Windows.Controls;
-
-namespace SwtorCaster.Custom
+﻿namespace SwtorCaster.Custom
 {
     using System.ComponentModel;
     using System.Windows;

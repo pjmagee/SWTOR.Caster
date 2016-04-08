@@ -1,12 +1,10 @@
-using SwtorCaster.Annotations;
-
 namespace SwtorCaster.Core.Domain.Settings
 {
+    using Annotations;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using Log;
     using Newtonsoft.Json;
-    using Properties;
 
     public class EventSetting : INotifyPropertyChanged
     {

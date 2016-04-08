@@ -9,7 +9,6 @@ namespace SwtorCaster.Core.Services.Parsing
     {
         private static string CurrentPlayer { get; set; }
 
-        private const string FileNameRegexPattern = @"^(^\S+)_(\d{4}-\d{2}-\d{2})_(\d{2}_\d{2}_\d{2}_\d{6})\.txt";
         private const string BaseLineRegexPattern = @"^\[(?<TimeStamp>[^\]]*)\] \[(?<Source>[^\]]*?)\] \[(?<Target>[^\]]*?)\] \[(?<Ability>[^\]]*?)\] \[(?<Effect>.*?)\] \((?<Value>.*?)\)($|( <(?<Threat>[^>]*?)>))";
         private const string TimeStampRegexPattern = @"^(\d{2}):(\d{2}):(\d{2})\.(\d{3})";
         private const string NpcRegexPattern = @"^([^{]*) {(\d*)}:(\d*)";
@@ -19,7 +18,6 @@ namespace SwtorCaster.Core.Services.Parsing
         private const string AbsorbRegexPattern = @"\((\d+) ([^\)]*)\)";
         private const string ValueRegexPattern = @"^(\d+)(\*)?( \w+ {\d+})?(\(\w+ {\d+}\))?( -(\w+ {\d+})?)?( \(\d+ \w+ {\d+}\))?$";
 
-        private static readonly Regex FileNameRegex = new Regex(FileNameRegexPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex BaseLineRegex = new Regex(BaseLineRegexPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex TimeStampRegex = new Regex(TimeStampRegexPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex NpcRegex = new Regex(NpcRegexPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -95,27 +93,14 @@ namespace SwtorCaster.Core.Services.Parsing
             CombatLogEvent.Value = Convert.ToInt32(match.Groups[1].Value);
             CombatLogEvent.IsCrit = !string.IsNullOrEmpty(match.Groups[2].Value);
 
-            string damageTypeString = match.Groups[3].Value.Trim();
+            ProcessDamageType(match);
+            ProcessDamageModifier(match);
+            ProcessMitigation(match);
+            ProcessAbsorb(match);
+        }
 
-            if (!string.IsNullOrEmpty(damageTypeString))
-            {
-                CombatLogEvent.DamageType = ProcessEntity(damageTypeString);
-            }
-
-            string reflectString = match.Groups[4].Value.Trim();
-
-            if (!string.IsNullOrEmpty(reflectString))
-            {
-                CombatLogEvent.DamageModifier = ProcessEntity(reflectString.Substring(1, reflectString.LastIndexOf("}")));
-            }
-
-            string mitigationString = match.Groups[5].Value.Trim();
-
-            if (!string.IsNullOrEmpty(mitigationString))
-            {
-                CombatLogEvent.Mitigation = ProcessEntity(mitigationString.Substring(1));
-            }
-
+        private void ProcessAbsorb(Match match)
+        {
             string absorbString = match.Groups[7].Value.Trim();
 
             if (string.IsNullOrEmpty(absorbString)) return;
@@ -126,6 +111,36 @@ namespace SwtorCaster.Core.Services.Parsing
             {
                 CombatLogEvent.AbsorbedValue = Convert.ToInt32(absorbMatch.Groups[1].Value);
                 CombatLogEvent.AbsorbType = ProcessEntity(absorbMatch.Groups[2].Value);
+            }
+        }
+
+        private void ProcessMitigation(Match match)
+        {
+            string mitigationString = match.Groups[5].Value.Trim();
+
+            if (!string.IsNullOrEmpty(mitigationString))
+            {
+                CombatLogEvent.Mitigation = ProcessEntity(mitigationString.Substring(1));
+            }
+        }
+
+        private void ProcessDamageModifier(Match match)
+        {
+            string reflectString = match.Groups[4].Value.Trim();
+
+            if (!string.IsNullOrEmpty(reflectString))
+            {
+                CombatLogEvent.DamageModifier = ProcessEntity(reflectString.Substring(1, reflectString.LastIndexOf("}")));
+            }
+        }
+
+        private void ProcessDamageType(Match match)
+        {
+            string damageTypeString = match.Groups[3].Value.Trim();
+
+            if (!string.IsNullOrEmpty(damageTypeString))
+            {
+                CombatLogEvent.DamageType = ProcessEntity(damageTypeString);
             }
         }
 
@@ -155,16 +170,21 @@ namespace SwtorCaster.Core.Services.Parsing
 
             if (!match.Success) return entity;
 
+            ProcessDisplayName(entity, match);
+
+            entity.EntityId = Convert.ToInt64(match.Groups[2].Value);
+
+            return entity;
+        }
+
+        private static void ProcessDisplayName(CombatLogEntity entity, Match match)
+        {
             string name = match.Groups[1].Value;
 
             if (!string.IsNullOrEmpty(name))
             {
                 entity.DisplayName = name;
             }
-
-            entity.EntityId = Convert.ToInt64(match.Groups[2].Value);
-
-            return entity;
         }
 
         private void ProcessTarget(string target)
@@ -193,33 +213,11 @@ namespace SwtorCaster.Core.Services.Parsing
 
             if (participant.IsPlayer)
             {
-                if (entity.EndsWith("}"))
-                {
-                    var match = CompanionRegex.Match(entity.Substring(1));
-
-                    if (match.Success)
-                    {
-                        name = match.Groups[2].Value;
-                        participant.IsPlayerCompanion = true;
-                        participant.CompanionOwner = match.Groups[1].Value;
-                        participant.EntityId = Convert.ToInt64(match.Groups[3].Value);
-                    }
-                }
-                else
-                {
-                    name = entity.Substring(1);
-                }
+                name = MatchByPlayer(entity, name, participant);
             }
             else // NPC
             {
-                var match = NpcRegex.Match(entity);
-
-                if (match.Success)
-                {
-                    name = match.Groups[1].Value;
-                    participant.EntityId = Convert.ToInt64(match.Groups[2].Value);
-                    participant.UniqueId = Convert.ToInt64(match.Groups[3].Value);
-                }
+                name = MatchByNPC(entity, name, participant);
             }
 
             if (!string.IsNullOrEmpty(name))
@@ -228,6 +226,42 @@ namespace SwtorCaster.Core.Services.Parsing
             }
 
             return participant;
+        }
+
+        private static string MatchByNPC(string entity, string name, CombatLogParticipant participant)
+        {
+            var match = NpcRegex.Match(entity);
+
+            if (match.Success)
+            {
+                name = match.Groups[1].Value;
+                participant.EntityId = Convert.ToInt64(match.Groups[2].Value);
+                participant.UniqueId = Convert.ToInt64(match.Groups[3].Value);
+            }
+
+            return name;
+        }
+
+        private static string MatchByPlayer(string entity, string name, CombatLogParticipant participant)
+        {
+            if (entity.EndsWith("}"))
+            {
+                var match = CompanionRegex.Match(entity.Substring(1));
+
+                if (match.Success)
+                {
+                    name = match.Groups[2].Value;
+                    participant.IsPlayerCompanion = true;
+                    participant.CompanionOwner = match.Groups[1].Value;
+                    participant.EntityId = Convert.ToInt64(match.Groups[3].Value);
+                }
+            }
+            else
+            {
+                name = entity.Substring(1);
+            }
+
+            return name;
         }
     }
 }
