@@ -38,6 +38,10 @@ namespace SwtorCaster.ViewModels
 
         public int FontSize { get; set; }
 
+        public FontFamily FontFamily { get; set; }
+
+        public SolidColorBrush FontColor { get; set; }
+
         public string TooltipText { get; set; }
 
         #endregion

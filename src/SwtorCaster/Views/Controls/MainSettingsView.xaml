@@ -19,6 +19,7 @@
         <ToolTip x:Key="TooltipDemo" Content="Demo mode shows abilities from an existing combat log file being triggered in the logger window to help customize your window" />
         <ToolTip x:Key="TooltipDemoFile" Content="Pick an existing combat log file to use" />
         <ToolTip x:Key="TooltipOpenLoggerOnStartup" Content="Opens the default logger window on application start up." />
+        <ToolTip x:Key="TooltipTextFont" Content="The font to use in the ability logger" />
     </UserControl.Resources>
     <StackPanel Orientation="Vertical">
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipOpenLoggerOnStartup}">
@@ -52,17 +53,27 @@
             <Label Content="Enable ability text:" />
             <CheckBox Name="EnableAbilityText" VerticalAlignment="Center" />
         </StackPanel>
+        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipTextFont}">
+            <Label Content="Ability text font:" />
+            <ComboBox DataContext="{Binding}" Name="TextFont" ItemsSource="{x:Static Fonts.SystemFontFamilies}" Width="150" SelectedItem="{Binding TextFont}" />
+        </StackPanel>
+        
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipEnableText}" >
             <Label Content="Ability text font size:" />
             <Slider x:Name="FontSize" Minimum="20" Maximum="50" Width="150" IsSnapToTickEnabled="True" VerticalAlignment="Center" AutoToolTipPlacement="TopLeft" />
             <Label Content="{Binding ElementName=FontSize, Path=Value}" />
         </StackPanel>
 
+        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipCompanionBorder}" Margin="0,0,0,5">
+            <Label Content="Ability text color:" />
+            <xctk:ColorPicker ColorMode="ColorPalette" Width="Auto" DisplayColorAndName="False" SelectedColor="{Binding SelectedAbilityTextColor}" />
+        </StackPanel>
+
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipHideUnknown}">
             <Label Content="Ignore unknown abilities:" />
             <CheckBox Name="IgnoreUnknownAbilities" VerticalAlignment="Center" />
         </StackPanel>
-        
+
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipCompanions}" >
             <Label Content="Enable companion abilities:" />
             <CheckBox Name="EnableCompanionAbilities" VerticalAlignment="Center" />
@@ -93,14 +104,14 @@
             <Label Content="{Binding ElementName=TopWindowOpacity, Path=Value}" />
             <Label Content="(Window on top)" FontWeight="DemiBold" />
         </StackPanel>
-        
+
         <Separator Margin="20" Width="Auto" />
 
         <!--<StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
             <Label Content="Enable debug logging:" ToolTip="Enable logging to file for debugging." />
             <CheckBox Name="EnableLogging" VerticalAlignment="Center" />
         </StackPanel>-->
-        
+
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
             <TextBlock Margin="5"
                 TextAlignment="Center" 

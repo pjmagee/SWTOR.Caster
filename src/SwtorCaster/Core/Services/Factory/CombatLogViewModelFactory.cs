@@ -1,6 +1,7 @@
 namespace SwtorCaster.Core.Services.Factory
 {
     using System;
+    using System.ComponentModel;
     using System.IO;
     using System.Linq;
     using System.Windows;
@@ -40,7 +41,16 @@ namespace SwtorCaster.Core.Services.Factory
                 viewModel.ImageBorderColor = settings.CompanionAbilityBorderColor.FromHexToColor();
             }
 
+            ApplyTextSettings(viewModel, settings);
+
             return viewModel;
+        }
+
+        private void ApplyTextSettings(CombatLogViewModel viewModel, Settings settings)
+        {
+            viewModel.FontColor = new SolidColorBrush(settings.AbilityTextColor.FromHexToColor());
+            viewModel.FontFamily = settings.TextFont.FromStringToFont();
+            viewModel.FontSize = settings.FontSize;
         }
 
         private void ApplyLoggerSettings(CombatLogEvent combatLogEvent, CombatLogViewModel viewModel, Settings settings)
@@ -48,9 +58,9 @@ namespace SwtorCaster.Core.Services.Factory
             viewModel.ImageUrl = _imageService.GetImageById(combatLogEvent.Ability.EntityId);
             viewModel.ImageBorderColor = Colors.Transparent;
             viewModel.ImageAngle = _random.Next(-settings.Rotate, settings.Rotate);
+
             viewModel.Text = combatLogEvent.Ability.DisplayName;
             viewModel.TextVisibility = settings.EnableAbilityText ? Visibility.Visible : Visibility.Hidden;
-            viewModel.FontSize = settings.FontSize;
             viewModel.TooltipText = $"{combatLogEvent.Ability.EntityId} (Click to copy ability id to clipboard)";
         }
 

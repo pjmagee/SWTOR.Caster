@@ -10,6 +10,7 @@
     public class OutlinedText : FrameworkElement
     {
         private Geometry _textGeometry;
+
         private static void OnOutlineTextInvalidated(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((OutlinedText)d).CreateText();
@@ -73,10 +74,10 @@
             typeof(Brush),
             typeof(OutlinedText),
             new FrameworkPropertyMetadata(
-                new SolidColorBrush(Colors.Yellow),
-                FrameworkPropertyMetadataOptions.AffectsRender,
-                OnOutlineTextInvalidated,
-                null
+                defaultValue: new SolidColorBrush(Colors.Yellow),
+                flags: FrameworkPropertyMetadataOptions.AffectsRender,
+                propertyChangedCallback: OnOutlineTextInvalidated,
+                coerceValueCallback: null
                 )
             );
 
@@ -87,14 +88,14 @@
         }
 
         public static readonly DependencyProperty FontProperty = DependencyProperty.Register(
-            "Font",
-            typeof(FontFamily),
-            typeof(OutlinedText),
-            new FrameworkPropertyMetadata(
-                new FontFamily(new Uri("pack://application:,,,/"), "./resources/#SF Distant Galaxy"),
-                FrameworkPropertyMetadataOptions.AffectsRender,
-                OnOutlineTextInvalidated,
-                null
+            "FontFamily",
+            propertyType: typeof(FontFamily),
+            ownerType: typeof(OutlinedText),
+            typeMetadata: new FrameworkPropertyMetadata(
+                defaultValue:  new FontFamily(new Uri("pack://application:,,,/"), "./resources/#SF Distant Galaxy"),
+                flags: FrameworkPropertyMetadataOptions.AffectsRender,
+                propertyChangedCallback: OnOutlineTextInvalidated,
+                coerceValueCallback: null
                 )
             );
 

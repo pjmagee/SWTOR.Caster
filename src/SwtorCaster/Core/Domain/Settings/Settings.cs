@@ -1,10 +1,10 @@
 namespace SwtorCaster.Core.Domain.Settings
 {
-    using Annotations;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using System.Windows.Media;
+    using Annotations;
     using Extensions;
     using Newtonsoft.Json;
 
@@ -17,10 +17,12 @@ namespace SwtorCaster.Core.Domain.Settings
 
         private string _abilityLoggerBackgroundColor = Colors.Transparent.ToHex();
         private string _companionAbilityBorderColor = Colors.Purple.ToHex();
+        private string _abilityTextColor = Colors.Yellow.ToHex();
 
         private string _version;
         private string _combatLogFile;
         private string _guideFile;
+        private string _textFont;
 
         private int _items = 5; // 5 items in the ability logger window
         private int _rotate = 5; // +/- 5 degree angle rotation on image
@@ -40,6 +42,7 @@ namespace SwtorCaster.Core.Domain.Settings
         private bool _enableCompanionAbilities = true;
         private bool _enableLogging = true;
         private bool _ignoreUnknownAbilities = true;
+        
 
         [JsonProperty("items")]
         public int Items
@@ -97,6 +100,18 @@ namespace SwtorCaster.Core.Domain.Settings
             {
                 if (value == _enableAbilityText) return;
                 _enableAbilityText = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonProperty("textFont")]
+        public string TextFont
+        {
+            get { return _textFont; }
+            set
+            {
+                if (value == _textFont) return;
+                _textFont = value;
                 OnPropertyChanged();
             }
         }
@@ -181,6 +196,18 @@ namespace SwtorCaster.Core.Domain.Settings
             {
                 if (value == _abilityLoggerBackgroundColor) return;
                 _abilityLoggerBackgroundColor = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonProperty("abilityTextColor")]
+        public string AbilityTextColor
+        {
+            get { return _abilityTextColor; }
+            set
+            {
+                if (value == _abilityTextColor) return;
+                _abilityTextColor = value;
                 OnPropertyChanged();
             }
         }

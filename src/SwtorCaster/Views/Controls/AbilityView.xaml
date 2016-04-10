@@ -36,8 +36,9 @@
                             <RotateTransform Angle="{Binding ImageAngle}" />
                         </Border.RenderTransform>
                     </Border>
-                    <custom:OutlinedText
-                        VerticalAlignment="Center" Text="{Binding Text}" Visibility="{Binding TextVisibility}" FontSize="{Binding FontSize, FallbackValue=32}">
+                    <custom:OutlinedText Text="{Binding Text}" 
+                        VerticalAlignment="Center" Visibility="{Binding TextVisibility}" 
+                        FontSize="{Binding FontSize, FallbackValue=32}" FontFamily="{Binding FontFamily}" Fill="{Binding FontColor}">
                     </custom:OutlinedText>
                 </StackPanel>
             </DataTemplate>

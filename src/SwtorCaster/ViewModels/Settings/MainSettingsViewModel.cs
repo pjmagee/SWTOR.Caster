@@ -65,6 +65,12 @@ namespace SwtorCaster.ViewModels
             set { _settingsService.Settings.EnableAbilityText = value; }
         }
 
+        public FontFamily TextFont
+        {
+            get { return _settingsService.Settings.TextFont.FromStringToFont(); }
+            set { _settingsService.Settings.TextFont = value.FromFontToString(); }
+        }
+
         public bool EnableInactivityClear
         {
             get { return _settingsService.Settings.EnableClearInactivity; }
@@ -103,8 +109,14 @@ namespace SwtorCaster.ViewModels
 
         public Color SelectedAbilityBackgroundColor
         {
-            get { return _settingsService.Settings.AbilityLoggerBackgroundColor.FromHexToColor(); }
-            set { _settingsService.Settings.AbilityLoggerBackgroundColor = value.ToHex(); }
+            get { return _settingsService.Settings.AbilityTextColor.FromHexToColor(); }
+            set { _settingsService.Settings.AbilityTextColor = value.ToHex(); }
+        }
+
+        public Color SelectedAbilityTextColor
+        {
+            get { return _settingsService.Settings.AbilityTextColor.FromHexToColor(); }
+            set { _settingsService.Settings.AbilityTextColor = value.ToHex(); }
         }
 
         public Color SelectedCompanionAbilityBorderColor
