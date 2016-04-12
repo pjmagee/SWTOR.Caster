@@ -20,6 +20,8 @@ namespace SwtorCaster.ViewModels
 
         public IEnumerable<FontFamily> SelectableFonts => fontService.GetSelectableFonts();
 
+        public string FontsPath => fontService.FontsPath;
+
         public double TopWindowOpacity
         {
             get { return settingsService.Settings.Opacity; }

@@ -6,8 +6,7 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:viewModels="clr-namespace:SwtorCaster.ViewModels"
              xmlns:custom="clr-namespace:SwtorCaster.Custom"
-             mc:Ignorable="d"  
-             d:DesignHeight="600" d:DesignWidth="400" Background="White">
+             mc:Ignorable="d" Background="White">
     <UserControl.Resources>
         <ToolTip x:Key="TooltipMaxItems" Content="The maximum number of logged abilitys to display in the ability logger window (recommend between 3 and 6)" />
         <ToolTip x:Key="TooltipRotate" Content="The rotation angle in degrees (recommend between -5 and 5). Set to 0 for both for no image rotation. Gives a rotation to the ability images." />
@@ -22,8 +21,7 @@
         <ToolTip x:Key="TooltipTextFont" Content="The font to use in the ability logger window. You can google and install custom fonts." />
         <custom:FontFamilyConverter x:Key="FontFamilyConverter" />
     </UserControl.Resources>
-    <StackPanel Orientation="Vertical">
-
+    <StackPanel Orientation="Vertical" Margin="5">
         <StackPanel Orientation="Horizontal">
             <Rectangle Width="15" Height="15" Margin="5">
                 <Rectangle.Fill>
@@ -32,7 +30,6 @@
             </Rectangle>
             <Label>Hover over each option for a tooltip description.</Label>
         </StackPanel>
-
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipOpenLoggerOnStartup}">
             <Label Content="Open logger window on startup:" />
             <CheckBox Name="OpenLoggerWindowOnStartup" VerticalAlignment="Center" />
@@ -73,6 +70,17 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
+            <Rectangle Width="15" Height="15" Margin="5">
+                <Rectangle.ToolTip>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Add custom fonts to: " />
+                        <TextBlock Text="{Binding FontsPath}" />
+                    </StackPanel>
+                </Rectangle.ToolTip>
+                <Rectangle.Fill>
+                    <VisualBrush Visual="{StaticResource appbar_alert}" />
+                </Rectangle.Fill>
+            </Rectangle>
         </StackPanel>
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipEnableText}" >
             <Label Content="Ability text font size:" />
@@ -80,11 +88,11 @@
             <Label Content="{Binding ElementName=FontSize, Path=Value}" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipCompanionBorder}" Margin="0,0,0,5">
-            <Label Content="Ability text colour:" />
+            <Label Content="Ability text fill colour:" />
             <xctk:ColorPicker ColorMode="ColorPalette" Width="100" DisplayColorAndName="False" SelectedColor="{Binding SelectedAbilityTextColor}" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipCompanionBorder}" Margin="0,0,0,5">
-            <Label Content="Ability text border colour:" />
+            <Label Content="Ability text outline colour:" />
             <xctk:ColorPicker ColorMode="ColorPalette" Width="100" DisplayColorAndName="False" SelectedColor="{Binding SelectedAbilityTextBorderColor}" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipHideUnknown}">
@@ -100,29 +108,20 @@
             <xctk:ColorPicker ColorMode="ColorPalette" Width="100" DisplayColorAndName="False" SelectedColor="{Binding SelectedCompanionAbilityBorderColor}" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipColorKey}">
-            <Label Content="Logger background:" />
+            <Label Content="Logger windowed background:" />
             <xctk:ColorPicker ColorMode="ColorPalette" Width="100" DisplayColorAndName="False" SelectedColor="{Binding SelectedAbilityBackgroundColor}" />
-            <Label Content="(OBS Colour Key Transparency)" FontWeight="DemiBold" />
+            <Rectangle Width="15" Height="15" Margin="5" ToolTip="Use this colour in the OBS Colour key settings to make the window transparant on the stream.">
+                <Rectangle.Fill>
+                    <VisualBrush Visual="{StaticResource appbar_alert}" />
+                </Rectangle.Fill>
+            </Rectangle>
         </StackPanel>
-        <!--<StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipColorKey}">
-            <Label Content="Overlay logger background:" />
-            <xctk:ColorPicker ColorMode="ColorPalette" Width="Auto" DisplayColorAndName="False" SelectedColor="{Binding SelectedAbilityBackgroundColor}" />
-            <Label Content="(Window on top)" FontWeight="DemiBold" />
-        </StackPanel>-->
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipColorKey}">
-            <Label Content="Overlay opacity:" />
+            <Label Content="Logger Overlay opacity:" />
             <Slider x:Name="TopWindowOpacity" Minimum="0" Maximum="1" Width="150"
                     IsSnapToTickEnabled="True" TickFrequency="0.025"
                     VerticalAlignment="Center" AutoToolTipPrecision="2" AutoToolTipPlacement="TopLeft" />
             <Label Content="{Binding ElementName=TopWindowOpacity, Path=Value}" />
-            <Label Content="(Window on top)" FontWeight="DemiBold" />
         </StackPanel>
-
-<!--        <Separator Margin="20" Width="Auto" />-->
-
-        <!--<StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
-            <Label Content="Enable debug logging:" ToolTip="Enable logging to file for debugging." />
-            <CheckBox Name="EnableLogging" VerticalAlignment="Center" />
-        </StackPanel>-->
     </StackPanel>
 </UserControl>

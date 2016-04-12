@@ -6,8 +6,7 @@
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:cal="http://www.caliburnproject.org"
              xmlns:custom="clr-namespace:SwtorCaster.Custom"
-             mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="400" Background="White">
+             mc:Ignorable="d" d:DesignWidth="400" Background="White">
     <UserControl.Resources>
         <ToolTip x:Key="TooltipEnableEvents" Content="Play sounds when configured events occur." />
         <ToolTip x:Key="TooltipAddAudio" Content="Select an audio file to play when the event occurs." />
@@ -74,6 +73,6 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="AddEvent" Margin="0,10" Content="Add Event" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+        <Button x:Name="AddEvent" Margin="5" Content="Add Event" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
     </StackPanel>
 </UserControl>

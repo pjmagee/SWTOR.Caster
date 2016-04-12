@@ -14,6 +14,8 @@ namespace SwtorCaster.Core.Services.Settings
         private IEnumerable<FontFamily> fontFamilies;
         private static readonly FontFamily DefaultFontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./Resources/#SF Distant Galaxy");
 
+        public string FontsPath => FontsFolder;
+
         public IEnumerable<FontFamily> GetSelectableFonts() => fontFamilies;
 
         public FontFamily GetFontFromString(string value) => fontFamilies.FirstOrDefault(x => x.FamilyNames.Values.Contains(value)) ?? DefaultFontFamily;

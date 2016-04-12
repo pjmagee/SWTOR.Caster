@@ -5,6 +5,8 @@
 
     public interface IFontService
     {
+        string FontsPath { get; }
+
         IEnumerable<FontFamily> GetSelectableFonts();
 
         FontFamily GetFontFromString(string value);
