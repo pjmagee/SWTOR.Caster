@@ -22,6 +22,11 @@ namespace SwtorCaster.Core.Services.Settings
 
         public void Initialize()
         {
+            if (!Directory.Exists(FontsFolder))
+            {
+                Directory.CreateDirectory(FontsFolder);
+            }
+
             fontFamilies = new DirectoryInfo(FontsFolder)
                 .EnumerateFiles("*.ttf")
                 .Select(x => new { Uri = new Uri(x.Directory.FullName + "/"), FamilyName = new GlyphTypeface(new Uri(x.FullName)).GetFamilyName() })
