@@ -7,14 +7,14 @@ namespace SwtorCaster.ViewModels
 
     public class MainViewModel : Screen, IHandle<Settings>, IHandle<ICombatLogService>
     {
-        private readonly ICombatLogProvider _combatLogProvider;
-        private readonly IWindowManager _windowManager;
+        private readonly ICombatLogProvider combatLogProvider;
+        private readonly IWindowManager windowManager;
 
-        private readonly SettingsViewModel _settingsViewModel;
-        private readonly AboutViewModel _aboutViewModel;
+        private readonly SettingsViewModel settingsViewModel;
+        private readonly AboutViewModel aboutViewModel;
 
-        private readonly AbilityOverlayViewModel _abilityOverlayViewModel;
-        private readonly WindowedViewModel _windowedViewModel;
+        private readonly AbilityOverlayViewModel abilityOverlayViewModel;
+        private readonly WindowedViewModel windowedViewModel;
 
         public MainViewModel(
             IWindowManager windowManager,
@@ -25,12 +25,12 @@ namespace SwtorCaster.ViewModels
             AboutViewModel aboutViewModel,
             ICombatLogProvider combatLogProvider)
         {
-            _windowManager = windowManager;
-            _settingsViewModel = settingsViewModel;
-            _abilityOverlayViewModel = abilityOverlayViewModel;
-            _aboutViewModel = aboutViewModel;
-            _combatLogProvider = combatLogProvider;
-            _windowedViewModel = windowedViewModel;
+            this.windowManager = windowManager;
+            this.settingsViewModel = settingsViewModel;
+            this.abilityOverlayViewModel = abilityOverlayViewModel;
+            this.aboutViewModel = aboutViewModel;
+            this.combatLogProvider = combatLogProvider;
+            this.windowedViewModel = windowedViewModel;
 
             eventAggregator.Subscribe(this);
             Initialized();
@@ -44,7 +44,7 @@ namespace SwtorCaster.ViewModels
 
         private void OpenDefaultWindows()
         {
-            if (_settingsViewModel.MainSettingsViewModel.OpenLoggerWindowOnStartup)
+            if (settingsViewModel.MainSettingsViewModel.OpenLoggerWindowOnStartup)
             {
                 OpenAbilityWindowedView();
             }
@@ -52,7 +52,7 @@ namespace SwtorCaster.ViewModels
 
         private void StartParserService()
         {
-            var parser = _combatLogProvider.GetCombatLogService();
+            var parser = combatLogProvider.GetCombatLogService();
             parser.Start();
         }
 
@@ -60,29 +60,29 @@ namespace SwtorCaster.ViewModels
 
         public void OpenAbilityWindowedView()
         {
-            OpenOrReactivate(_windowedViewModel);
+            OpenOrReactivate(windowedViewModel);
         }
 
         public void OpenAbilityOverlayView()
         {
-            OpenOrReactivate(_abilityOverlayViewModel);
+            OpenOrReactivate(abilityOverlayViewModel);
         }
         
         public void OpenAboutView()
         {
-            OpenOrReactivate(_aboutViewModel);
+            OpenOrReactivate(aboutViewModel);
         }
 
         public void OpenSettingsView()
         {
-            OpenOrReactivate(_settingsViewModel);
+            OpenOrReactivate(settingsViewModel);
         }
 
         private void OpenOrReactivate(FocusableScreen focusableScreen)
         {
             if (!focusableScreen.IsActive)
             {
-                _windowManager.ShowWindow(focusableScreen);
+                windowManager.ShowWindow(focusableScreen);
             }
             else
             {

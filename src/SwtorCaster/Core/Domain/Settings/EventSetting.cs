@@ -8,21 +8,21 @@ namespace SwtorCaster.Core.Domain.Settings
 
     public class EventSetting : INotifyPropertyChanged
     {
-        private bool _enabled;
-        private SoundEvent _effectName = SoundEvent.AbilityActivate;
-        private string _abilityId;
-        private string _sound;
+        private bool enabled;
+        private SoundEvent effectName = SoundEvent.AbilityActivate;
+        private string abilityId;
+        private string sound;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         [JsonProperty("enabled")]
         public bool Enabled
         {
-            get { return _enabled; }
+            get { return enabled; }
             set
             {
-                if (value == _enabled) return;
-                _enabled = value;
+                if (value == enabled) return;
+                enabled = value;
                 OnPropertyChanged();
             }
         }
@@ -30,11 +30,11 @@ namespace SwtorCaster.Core.Domain.Settings
         [JsonProperty("effectName")]
         public SoundEvent EffectName
         {
-            get { return _effectName; }
+            get { return effectName; }
             set
             {
-                if (value == _effectName) return;
-                _effectName = value;
+                if (value == effectName) return;
+                effectName = value;
                 OnPropertyChanged();
             }
         }
@@ -42,11 +42,11 @@ namespace SwtorCaster.Core.Domain.Settings
         [JsonProperty("abilityId")]
         public string AbilityId
         {
-            get { return _abilityId; }
+            get { return abilityId; }
             set
             {
-                if (value == _abilityId) return;
-                _abilityId = value;
+                if (value == abilityId) return;
+                abilityId = value;
                 OnPropertyChanged();
             }
         }
@@ -54,11 +54,11 @@ namespace SwtorCaster.Core.Domain.Settings
         [JsonProperty("soundFile")]
         public string Sound
         {
-            get { return _sound; }
+            get { return sound; }
             set
             {
-                if (value == _sound) return;
-                _sound = value;
+                if (value == sound) return;
+                sound = value;
                 OnPropertyChanged();
             }
         }

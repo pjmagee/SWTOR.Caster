@@ -11,25 +11,25 @@ namespace SwtorCaster.ViewModels
     {
         public BindableCollection<AbilitySettingItem> AbilitySettingViewModels { get; set; } = new BindableCollection<AbilitySettingItem>();
 
-        private readonly ISettingsService _settingsService;
+        private readonly ISettingsService settingsService;
 
         public MetroWindow Window => (GetView() as UserControl).TryFindParent<MetroWindow>();
 
         public bool EnableAbilitySettings
         {
-            get { return _settingsService.Settings.EnableAbilitySettings; }
-            set { _settingsService.Settings.EnableAbilitySettings = value; }
+            get { return settingsService.Settings.EnableAbilitySettings; }
+            set { settingsService.Settings.EnableAbilitySettings = value; }
         }
 
         public AbilitySettingsViewModel(ISettingsService settingsService)
         {
-            _settingsService = settingsService;
+            this.settingsService = settingsService;
             InitializeAbilityViewModels();
         }
 
         private void InitializeAbilityViewModels()
         {
-            foreach (var item in _settingsService.Settings.AbilitySettings)
+            foreach (var item in settingsService.Settings.AbilitySettings)
             {
                 var abilityViewModel = new AbilitySettingItem(this, item);
                 abilityViewModel.AbilitySetting.PropertyChanged += (o, args) => UpdateAbilities();
@@ -48,8 +48,8 @@ namespace SwtorCaster.ViewModels
 
         private void UpdateAbilities()
         {
-            _settingsService.Settings.AbilitySettings = AbilitySettingViewModels.Select(x => x.AbilitySetting).ToList();
-            _settingsService.Save();
+            settingsService.Settings.AbilitySettings = AbilitySettingViewModels.Select(x => x.AbilitySetting).ToList();
+            settingsService.Save();
         }
     }
 }

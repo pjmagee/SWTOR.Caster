@@ -4,24 +4,35 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-             mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="400" Background="White">
+             xmlns:viewModels="clr-namespace:SwtorCaster.ViewModels"
+             xmlns:custom="clr-namespace:SwtorCaster.Custom"
+             mc:Ignorable="d"  
+             d:DesignHeight="600" d:DesignWidth="400" Background="White">
     <UserControl.Resources>
-        <ToolTip x:Key="TooltipMaxItems" Content="The maximum number of logged abilitys to display in the ability LoggerService window (recommend between 5 and 7)" />
-        <ToolTip x:Key="TooltipRotate" Content="The rotation angle in degrees (recommend between -5 and 5). Set to 0 for both for no image rotation." />
-        <ToolTip x:Key="TooltipClearExitCombat" Content="When you exit combat, clear the logged abilities from the view (Good for Ops/Ranked PVP)" />
-        <ToolTip x:Key="TooltipClearInactivity" Content="After a defined amount of seconds, clear the ability window" />
+        <ToolTip x:Key="TooltipMaxItems" Content="The maximum number of logged abilitys to display in the ability logger window (recommend between 3 and 6)" />
+        <ToolTip x:Key="TooltipRotate" Content="The rotation angle in degrees (recommend between -5 and 5). Set to 0 for both for no image rotation. Gives a rotation to the ability images." />
+        <ToolTip x:Key="TooltipClearExitCombat" Content="When you exit combat, clear the logged abilities from the view (Good for Operations/Ranked PVP)" />
+        <ToolTip x:Key="TooltipClearInactivity" Content="After the defined amount of seconds, clear the ability window" />
         <ToolTip x:Key="TooltipEnableText" Content="Display the ability name next to the icon in the ability window" />
-        <ToolTip x:Key="TooltipHideUnknown" Content="Do not display abilities without known images" />
-        <ToolTip x:Key="TooltipCompanions" Content="Hide or show the companions abilities" />
-        <ToolTip x:Key="TooltipCompanionBorder" Content="Set a border for companion abilities to help distinguish them from your own" />
-        <ToolTip x:Key="TooltipColorKey" Content="This should also be set as the Color key in OBS" />
-        <ToolTip x:Key="TooltipDemo" Content="Demo mode shows abilities from an existing combat log file being triggered in the logger window to help customize your window" />
-        <ToolTip x:Key="TooltipDemoFile" Content="Pick an existing combat log file to use" />
+        <ToolTip x:Key="TooltipHideUnknown" Content="Do not display abilities without known images, e.g hidden PVP Warzone Resets that can be confusing." />
+        <ToolTip x:Key="TooltipCompanions" Content="Hide or show the companions abilities in the logger window." />
+        <ToolTip x:Key="TooltipCompanionBorder" Content="Set a border colour for companion abilities to help distinguish them from your own abilities" />
+        <ToolTip x:Key="TooltipColorKey" Content="This should also be set as the Colour key in OBS (to add transparency when streaming)" />
         <ToolTip x:Key="TooltipOpenLoggerOnStartup" Content="Opens the default logger window on application start up." />
-        <ToolTip x:Key="TooltipTextFont" Content="The font to use in the ability logger" />
+        <ToolTip x:Key="TooltipTextFont" Content="The font to use in the ability logger window. You can google and install custom fonts." />
+        <custom:FontFamilyConverter x:Key="FontFamilyConverter" />
     </UserControl.Resources>
     <StackPanel Orientation="Vertical">
+
+        <StackPanel Orientation="Horizontal">
+            <Rectangle Width="15" Height="15" Margin="5">
+                <Rectangle.Fill>
+                    <VisualBrush Visual="{StaticResource appbar_alert}" />
+                </Rectangle.Fill>
+            </Rectangle>
+            <Label>Hover over each option for a tooltip description.</Label>
+        </StackPanel>
+
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipOpenLoggerOnStartup}">
             <Label Content="Open logger window on startup:" />
             <CheckBox Name="OpenLoggerWindowOnStartup" VerticalAlignment="Center" />
@@ -55,47 +66,49 @@
         </StackPanel>
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipTextFont}">
             <Label Content="Ability text font:" />
-            <ComboBox DataContext="{Binding}" Name="TextFont" ItemsSource="{x:Static Fonts.SystemFontFamilies}" Width="150" SelectedItem="{Binding TextFont}" />
+            <ComboBox DataContext="{Binding}" Name="TextFont" ItemsSource="{Binding SelectableFonts}" Width="200" SelectedItem="{Binding TextFont}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Label Content="{Binding Converter={StaticResource FontFamilyConverter} }" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
         </StackPanel>
-        
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipEnableText}" >
             <Label Content="Ability text font size:" />
-            <Slider x:Name="FontSize" Minimum="20" Maximum="50" Width="150" IsSnapToTickEnabled="True" VerticalAlignment="Center" AutoToolTipPlacement="TopLeft" />
+            <Slider x:Name="FontSize" Minimum="20" Maximum="65" Width="150" IsSnapToTickEnabled="True" VerticalAlignment="Center" AutoToolTipPlacement="TopLeft" />
             <Label Content="{Binding ElementName=FontSize, Path=Value}" />
         </StackPanel>
-
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipCompanionBorder}" Margin="0,0,0,5">
-            <Label Content="Ability text color:" />
-            <xctk:ColorPicker ColorMode="ColorPalette" Width="Auto" DisplayColorAndName="False" SelectedColor="{Binding SelectedAbilityTextColor}" />
+            <Label Content="Ability text colour:" />
+            <xctk:ColorPicker ColorMode="ColorPalette" Width="100" DisplayColorAndName="False" SelectedColor="{Binding SelectedAbilityTextColor}" />
         </StackPanel>
-
+        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipCompanionBorder}" Margin="0,0,0,5">
+            <Label Content="Ability text border colour:" />
+            <xctk:ColorPicker ColorMode="ColorPalette" Width="100" DisplayColorAndName="False" SelectedColor="{Binding SelectedAbilityTextBorderColor}" />
+        </StackPanel>
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipHideUnknown}">
             <Label Content="Ignore unknown abilities:" />
             <CheckBox Name="IgnoreUnknownAbilities" VerticalAlignment="Center" />
         </StackPanel>
-
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipCompanions}" >
             <Label Content="Enable companion abilities:" />
             <CheckBox Name="EnableCompanionAbilities" VerticalAlignment="Center" />
         </StackPanel>
-
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipCompanionBorder}" Margin="0,0,0,5">
-            <Label Content="Companion ability border color:" />
-            <xctk:ColorPicker ColorMode="ColorPalette" Width="Auto" DisplayColorAndName="False" SelectedColor="{Binding SelectedCompanionAbilityBorderColor}" />
+            <Label Content="Companion ability border colour:" />
+            <xctk:ColorPicker ColorMode="ColorPalette" Width="100" DisplayColorAndName="False" SelectedColor="{Binding SelectedCompanionAbilityBorderColor}" />
         </StackPanel>
-
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipColorKey}">
-            <Label Content="OBS logger background:" />
-            <xctk:ColorPicker ColorMode="ColorPalette" Width="Auto" DisplayColorAndName="False" SelectedColor="{Binding SelectedAbilityBackgroundColor}" />
-            <Label Content="(For OBS Window Source Color Key)" FontWeight="DemiBold" />
+            <Label Content="Logger background:" />
+            <xctk:ColorPicker ColorMode="ColorPalette" Width="100" DisplayColorAndName="False" SelectedColor="{Binding SelectedAbilityBackgroundColor}" />
+            <Label Content="(OBS Colour Key Transparency)" FontWeight="DemiBold" />
         </StackPanel>
-
         <!--<StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipColorKey}">
             <Label Content="Overlay logger background:" />
             <xctk:ColorPicker ColorMode="ColorPalette" Width="Auto" DisplayColorAndName="False" SelectedColor="{Binding SelectedAbilityBackgroundColor}" />
             <Label Content="(Window on top)" FontWeight="DemiBold" />
         </StackPanel>-->
-
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipColorKey}">
             <Label Content="Overlay opacity:" />
             <Slider x:Name="TopWindowOpacity" Minimum="0" Maximum="1" Width="150"
@@ -105,33 +118,11 @@
             <Label Content="(Window on top)" FontWeight="DemiBold" />
         </StackPanel>
 
-        <Separator Margin="20" Width="Auto" />
+<!--        <Separator Margin="20" Width="Auto" />-->
 
         <!--<StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
             <Label Content="Enable debug logging:" ToolTip="Enable logging to file for debugging." />
             <CheckBox Name="EnableLogging" VerticalAlignment="Center" />
         </StackPanel>-->
-
-        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
-            <TextBlock Margin="5"
-                TextAlignment="Center" 
-                HorizontalAlignment="Center" 
-                Text="Demo mode reads an existing combat log file and outputs the result into the ability window." 
-                TextWrapping="Wrap" />
-        </StackPanel>
-
-        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipDemo}">
-            <Label Content="Combat log file:" VerticalAlignment="Center" />
-            <TextBlock Text="{Binding SelectedCombatLogFile}" VerticalAlignment="Center" Margin="5,0,5,0" />
-            <Button x:Name="PickFile" ToolTip="{StaticResource TooltipDemoFile}" Content="Pick file" Style="{StaticResource ActionButton}" />
-            <Button x:Name="ClearFile" Content="Clear file" Style="{StaticResource ActionButton}" />
-        </StackPanel>
-
-        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
-            <Label Content="Enable demo mode:" ToolTip="{StaticResource TooltipDemo}" />
-            <CheckBox x:Name="EnableDemoMode" VerticalAlignment="Center" />
-            <Label Content="(Disables the real time logging)" FontWeight="DemiBold" />
-        </StackPanel>
-
     </StackPanel>
 </UserControl>

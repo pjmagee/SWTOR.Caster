@@ -17,10 +17,10 @@
        <ListView.ItemTemplate>
             <DataTemplate>
                 <StackPanel cal:Message.Attach="[Event MouseLeftButtonUp] = [Action CopyToClipBoard($dataContext)]" x:Name="Item" Orientation="Horizontal" ToolTip="{Binding TooltipText}">
-                    <Border x:Name="AbilityBorder"
+                    <Border x:Name="AbilityBorder" VerticalAlignment="Center"
                             BorderThickness="2"  Margin="0,0,10,0"
                             CornerRadius="8,8,8,8" RenderTransformOrigin=".5,.5">
-                        <Image x:Name="AbilityIcon" Source="{Binding ImageUrl}" Width="52" Height="52" 
+                        <Image x:Name="AbilityIcon" Source="{Binding ImageUrl}" Width="52" Height="52" VerticalAlignment="Center"
                                RenderTransformOrigin=".5,.5">
                             <Image.RenderTransform>
                                 <RotateTransform Angle="{Binding ImageAngle}" />
@@ -38,7 +38,10 @@
                     </Border>
                     <custom:OutlinedText Text="{Binding Text}" 
                         VerticalAlignment="Center" Visibility="{Binding TextVisibility}" 
-                        FontSize="{Binding FontSize, FallbackValue=32}" FontFamily="{Binding FontFamily}" Fill="{Binding FontColor}">
+                        FontSize="{Binding FontSize, FallbackValue=32}" 
+                        FontFamily="{Binding FontFamily}" 
+                        Fill="{Binding FontColor}" 
+                        Stroke="{Binding FontBorderColor}">
                     </custom:OutlinedText>
                 </StackPanel>
             </DataTemplate>

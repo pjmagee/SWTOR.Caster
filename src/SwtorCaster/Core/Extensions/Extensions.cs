@@ -1,7 +1,7 @@
-﻿namespace SwtorCaster.Core.Extensions
+﻿using System.Linq;
+
+namespace SwtorCaster.Core.Extensions
 {
-    using System;
-    using System.ComponentModel;
     using System.Windows.Media;
 
     public static class Extensions
@@ -25,23 +25,18 @@
             return color.ToString();
         }
 
-        public static FontFamily FromStringToFont(this string value)
+        public static string GetFamilyName(this FontFamily fontFamily)
         {
-            try
-            {
-                TypeConverter converter = TypeDescriptor.GetConverter(typeof(FontFamily));
-                return (FontFamily)converter.ConvertFromString(value);
-            }
-            catch
-            {
-                return new FontFamily(new Uri("pack://application:,,,/"), "./resources/#SF Distant Galaxy");
-            }
+            return fontFamily.FamilyNames.Values == null ? 
+                        fontFamily.Source.Split('#').Last() : 
+                        fontFamily.FamilyNames.Values.First();
         }
 
-        public static string FromFontToString(this FontFamily family)
+        public static string GetFamilyName(this GlyphTypeface fontFamily)
         {
-            TypeConverter converter = TypeDescriptor.GetConverter(typeof(FontFamily));
-            return converter.ConvertToString(family);
+            return fontFamily.FamilyNames.Values.Any() ?
+                        fontFamily.FamilyNames.Values.First() :
+                        "";
         }
     }
 }

@@ -9,7 +9,7 @@
     [ContentProperty("Text")]
     public class OutlinedText : FrameworkElement
     {
-        private Geometry _textGeometry;
+        private Geometry textGeometry;
 
         private static void OnOutlineTextInvalidated(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -19,7 +19,7 @@
         protected override void OnRender(DrawingContext drawingContext)
         {
             CreateText();
-            drawingContext.DrawGeometry(Fill, new Pen(Stroke, StrokeThickness), _textGeometry);
+            drawingContext.DrawGeometry(Fill, new Pen(Stroke, StrokeThickness), textGeometry);
         }
 
         public void CreateText()
@@ -36,10 +36,10 @@
                 FlowDirection.LeftToRight,
                 new Typeface(FontFamily, fontStyle, fontWeight, FontStretches.Normal),
                 FontSize,
-                Brushes.Black // This brush does not matter since we use the geometry of the text. 
+                Brushes.Black
                 );
 
-            _textGeometry = formattedText.BuildGeometry(new Point(0, 0));
+            textGeometry = formattedText.BuildGeometry(new Point(0, 0));
 
             MinWidth = formattedText.Width;
             MinHeight = formattedText.Height;
@@ -92,7 +92,7 @@
             propertyType: typeof(FontFamily),
             ownerType: typeof(OutlinedText),
             typeMetadata: new FrameworkPropertyMetadata(
-                defaultValue:  new FontFamily(new Uri("pack://application:,,,/"), "./resources/#SF Distant Galaxy"),
+                defaultValue: new FontFamily(new Uri("pack://application:,,,/"), "./resources/#SF Distant Galaxy"),
                 flags: FrameworkPropertyMetadataOptions.AffectsRender,
                 propertyChangedCallback: OnOutlineTextInvalidated,
                 coerceValueCallback: null

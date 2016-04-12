@@ -4,20 +4,20 @@ namespace SwtorCaster.ViewModels
 
     public class AbilityAliasItem : PropertyChangedBase
     {
-        private string _name;
+        private string name;
 
         public AbilityAliasItem(string name = "")
         {
-            _name = name;
+            this.name = name;
         }
 
         public string Name
         {
-            get { return _name; }
+            get { return name; }
             set
             {
-                if (value == _name) return;
-                _name = value;
+                if (value == name) return;
+                name = value;
                 NotifyOfPropertyChange();
             }
         }

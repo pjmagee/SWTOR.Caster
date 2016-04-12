@@ -8,17 +8,17 @@ namespace SwtorCaster.ViewModels
 
     public class WindowedViewModel : FocusableScreen, IHandle<Settings>
     {
-        private readonly ISettingsService _settingsService;
+        private readonly ISettingsService settingsService;
 
         public override string DisplayName { get; set; } = "SWTOR Caster - Ability Logger";
 
         public WindowedViewModel(AbilityViewModel abilityViewModel, ISettingsService settingsService)
         {
-            _settingsService = settingsService;
+            this.settingsService = settingsService;
             AbilityViewModel = abilityViewModel;
         }
 
-        public SolidColorBrush BackgroundColor => new SolidColorBrush(_settingsService.Settings.AbilityLoggerBackgroundColor.FromHexToColor());
+        public SolidColorBrush BackgroundColor => new SolidColorBrush(settingsService.Settings.AbilityLoggerBackgroundColor.FromHexToColor());
 
         public AbilityViewModel AbilityViewModel { get; }
 

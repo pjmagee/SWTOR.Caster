@@ -7,7 +7,7 @@ namespace SwtorCaster.ViewModels
 
     public class CombatLogViewModel : PropertyChangedBase
     {
-        private string _text;
+        private string text;
 
         public CombatLogEvent CombatLogEvent { get; }
 
@@ -30,13 +30,15 @@ namespace SwtorCaster.ViewModels
 
         public string Text
         {
-            get { return _text.ToLower(); }
-            set { _text = value; }
+            get { return text.ToLower(); }
+            set { text = value; }
         }
 
         public Visibility TextVisibility { get; set; }
 
         public int FontSize { get; set; }
+
+        public Brush FontBorderColor { get; set; }
 
         public FontFamily FontFamily { get; set; }
 

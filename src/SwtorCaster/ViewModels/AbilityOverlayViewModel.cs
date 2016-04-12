@@ -9,9 +9,9 @@ namespace SwtorCaster.ViewModels
 
     public class AbilityOverlayViewModel : FocusableScreen, IHandle<Settings>
     {
-        private readonly ISettingsService _settingsService;
+        private readonly ISettingsService settingsService;
 
-        public double Opacity => _settingsService.Settings.Opacity;
+        public double Opacity => settingsService.Settings.Opacity;
 
         public AbilityViewModel AbilityViewModel { get; }
 
@@ -19,7 +19,7 @@ namespace SwtorCaster.ViewModels
 
         public AbilityOverlayViewModel(ISettingsService settingsService, AbilityViewModel abilityViewModel, IEventAggregator aggregator)
         {
-            _settingsService = settingsService;
+            this.settingsService = settingsService;
             AbilityViewModel = abilityViewModel;
             aggregator.Subscribe(this);
         }
@@ -38,12 +38,12 @@ namespace SwtorCaster.ViewModels
 
         public void IncreaseOpacity()
         {
-            _settingsService.Settings.Opacity = Math.Round(_settingsService.Settings.Opacity + 0.025, 2);
+            settingsService.Settings.Opacity = Math.Round(settingsService.Settings.Opacity + 0.025, 2);
         }
 
         public void DecreaseOpacity()
         {
-            _settingsService.Settings.Opacity = Math.Round(_settingsService.Settings.Opacity - 0.025, 2);
+            settingsService.Settings.Opacity = Math.Round(settingsService.Settings.Opacity - 0.025, 2);
         }
 
         protected override void OnActivate()

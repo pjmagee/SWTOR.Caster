@@ -19,36 +19,36 @@ namespace SwtorCaster.Core.Services.Combat
 
     public class CombatLogService : ICombatLogService
     {
-        private Thread _thread;
-        private FileInfo _currentFile;
+        private Thread thread;
+        private FileInfo currentFile;
 
         private static string SwtorCombatLogPath => Path.Combine(GetFolderPath(SpecialFolder.MyDocuments),
             "Star Wars - The Old Republic", "CombatLogs");
 
-        private readonly ILoggerService _loggerService;
-        private readonly ISettingsService _settingsService;
-        private readonly IEventAggregator _eventAggregator;
-        private readonly IEventService _eventService;
-        private readonly ICombatLogParser _parser;
-        private readonly ICombatLogViewModelFactory _logViewModelFactory;
-        private readonly Stopwatch _clearStopwatch;
-        private readonly DispatcherTimer _clearTimer;
-        private readonly DispatcherTimer _fileWriteTimer;
-        private readonly DirectoryInfo _logDirectory;
+        private readonly ILoggerService loggerService;
+        private readonly ISettingsService settingsService;
+        private readonly IEventAggregator eventAggregator;
+        private readonly IEventService eventService;
+        private readonly ICombatLogParser parser;
+        private readonly ICombatLogViewModelFactory logViewModelFactory;
+        private readonly Stopwatch clearStopwatch;
+        private readonly DispatcherTimer clearTimer;
+        private readonly DispatcherTimer fileWriteTimer;
+        private readonly DirectoryInfo logDirectory;
+
+        private DateTime lastModded;
+        private FileInfo cachedLogFileInfo;
 
         public bool IsRunning { get; private set; }
 
-        internal DateTime LastModded;
-        internal FileInfo CachedLogFileInfo;
-
         private CombatLogService()
         {
-            _clearTimer = new DispatcherTimer(DispatcherPriority.Normal) { Interval = TimeSpan.FromSeconds(1), IsEnabled = true };
-            _clearStopwatch = new Stopwatch();
-            _fileWriteTimer = new DispatcherTimer(DispatcherPriority.Normal) { Interval = TimeSpan.FromSeconds(10), IsEnabled = true };
-            _logDirectory = new DirectoryInfo(SwtorCombatLogPath);
-            _clearTimer.Tick += ClearTimerOnTick;
-            _fileWriteTimer.Tick += FileWriteTimerOnTick;
+            clearTimer = new DispatcherTimer(DispatcherPriority.Normal) { Interval = TimeSpan.FromSeconds(1), IsEnabled = true };
+            clearStopwatch = new Stopwatch();
+            fileWriteTimer = new DispatcherTimer(DispatcherPriority.Normal) { Interval = TimeSpan.FromSeconds(10), IsEnabled = true };
+            logDirectory = new DirectoryInfo(SwtorCombatLogPath);
+            clearTimer.Tick += ClearTimerOnTick;
+            fileWriteTimer.Tick += FileWriteTimerOnTick;
         }
 
         public CombatLogService(
@@ -59,12 +59,12 @@ namespace SwtorCaster.Core.Services.Combat
             ICombatLogParser parser,
             ICombatLogViewModelFactory logViewModelFactory) : this()
         {
-            _loggerService = loggerService;
-            _settingsService = settingsService;
-            _eventAggregator = eventAggregator;
-            _eventService = eventService;
-            _parser = parser;
-            _logViewModelFactory = logViewModelFactory;
+            this.loggerService = loggerService;
+            this.settingsService = settingsService;
+            this.eventAggregator = eventAggregator;
+            this.eventService = eventService;
+            this.parser = parser;
+            this.logViewModelFactory = logViewModelFactory;
         }
 
         public void Start()
@@ -73,72 +73,72 @@ namespace SwtorCaster.Core.Services.Combat
 
             try
             {
-                _currentFile = GetLatestFile();
-                _clearTimer.Start();
-                _clearStopwatch.Start();
+                currentFile = GetLatestFile();
+                clearTimer.Start();
+                clearStopwatch.Start();
 
                 ReadCurrentFile();
-                _fileWriteTimer.Start();
+                fileWriteTimer.Start();
 
-                _loggerService.Log($"Parser service started.");
+                loggerService.Log($"Parser service started.");
             }
             catch (Exception e)
             {
-                _loggerService.Log($"Error starting parser service: {e.Message}");
+                loggerService.Log($"Error starting parser service: {e.Message}");
             }
         }
 
         public void Stop()
         {
             IsRunning = false;
-            _thread?.Abort();
-            _clearStopwatch?.Stop();
-            _clearTimer?.Stop();
-            _fileWriteTimer?.Stop();
-            _thread = null;
-            _loggerService.Log($"Parser service stopped");
+            thread?.Abort();
+            clearStopwatch?.Stop();
+            clearTimer?.Stop();
+            fileWriteTimer?.Stop();
+            thread = null;
+            loggerService.Log($"Parser service stopped");
         }
 
         private FileInfo GetLatestFile()
         {
-            if (!Directory.Exists(_logDirectory.FullName))
-                Directory.CreateDirectory(_logDirectory.FullName);
+            if (!Directory.Exists(logDirectory.FullName))
+                Directory.CreateDirectory(logDirectory.FullName);
 
-            DateTime lastLogFolderMod = Directory.GetLastWriteTime(_logDirectory.FullName);
+            DateTime lastLogFolderMod = Directory.GetLastWriteTime(logDirectory.FullName);
 
-            if (LastModded != lastLogFolderMod)
+            if (lastModded != lastLogFolderMod)
             {
-                LastModded = lastLogFolderMod;
-                var fileInfos = _logDirectory.EnumerateFiles("*.txt", SearchOption.TopDirectoryOnly);
+                lastModded = lastLogFolderMod;
+                var fileInfos = logDirectory.EnumerateFiles("*.txt", SearchOption.TopDirectoryOnly);
                 FileInfo logInfo = fileInfos.OrderByDescending(x => x.LastWriteTime).FirstOrDefault();
-                CachedLogFileInfo = logInfo;
+                cachedLogFileInfo = logInfo;
 
                 return logInfo;
             }
             else
             {
-                return CachedLogFileInfo;
+                return cachedLogFileInfo;
             }
         }
 
         private void ClearTimerOnTick(object sender, EventArgs eventArgs)
         {
-            if (!_settingsService.Settings.EnableClearInactivity) return;
-            if (_clearStopwatch.Elapsed.Seconds < _settingsService.Settings.ClearAfterInactivity) return;
+            if (!settingsService.Settings.EnableClearInactivity) return;
+            if (clearStopwatch.Elapsed.Seconds < settingsService.Settings.ClearAfterInactivity) return;
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                _eventAggregator.PublishOnUIThread(new ParserMessage() { ClearLog = true });
+                eventAggregator.PublishOnUIThread(new ParserMessage() { ClearLog = true });
             });
         }
 
         private void FileWriteTimerOnTick(object sender, EventArgs eventArgs)
         {
             var file = GetLatestFile();
-            if (file?.FullName == _currentFile?.FullName) return;
+            if (file?.FullName == currentFile?.FullName) return;
 
-            _loggerService.Log($"Detected new file {file?.FullName}");
-            _loggerService.Log($"Restarting parser service with new file");
+            loggerService.Log($"Detected new file {file?.FullName}");
+            loggerService.Log($"Restarting parser service with new file");
 
             Stop();
             Start();
@@ -150,8 +150,8 @@ namespace SwtorCaster.Core.Services.Combat
 
             if (file != null)
             {
-                _thread = new Thread(() => Read(file.FullName));
-                _thread.Start();
+                thread = new Thread(() => Read(file.FullName));
+                thread.Start();
                 IsRunning = true;
             }
         }
@@ -173,9 +173,9 @@ namespace SwtorCaster.Core.Services.Combat
                             {
                                 Handle(value);
 
-                                if (_clearStopwatch.IsRunning)
+                                if (clearStopwatch.IsRunning)
                                 {
-                                    _clearStopwatch.Restart();
+                                    clearStopwatch.Restart();
                                 }
                             }
                         }
@@ -192,20 +192,20 @@ namespace SwtorCaster.Core.Services.Combat
         {
             try
             {
-                var logLine = _parser.Parse(value);
-                _eventService.Handle(logLine);
+                var logLine = parser.Parse(value);
+                eventService.Handle(logLine);
                 Application.Current.Dispatcher.Invoke(() => Render(logLine));
             }
             catch (Exception e)
             {
-                _loggerService.Log($"Error adding item: {e.Message}");
+                loggerService.Log($"Error adding item: {e.Message}");
             }
         }
 
         private void Render(CombatLogEvent logLine)
         {
-            var viewModel = _logViewModelFactory.Create(logLine);
-            _eventAggregator.PublishOnUIThread(viewModel);
+            var viewModel = logViewModelFactory.Create(logLine);
+            eventAggregator.PublishOnUIThread(viewModel);
         }
     }
 }

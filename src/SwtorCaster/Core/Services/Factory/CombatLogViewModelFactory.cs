@@ -1,7 +1,6 @@
 namespace SwtorCaster.Core.Services.Factory
 {
     using System;
-    using System.ComponentModel;
     using System.IO;
     using System.Linq;
     using System.Windows;
@@ -15,20 +14,22 @@ namespace SwtorCaster.Core.Services.Factory
 
     public class CombatLogViewModelFactory : ICombatLogViewModelFactory
     {
-        private readonly Random _random = new Random();
-        private readonly ISettingsService _settingsService;
-        private readonly IImageService _imageService;
+        private readonly Random random = new Random();
+        private readonly ISettingsService settingsService;
+        private readonly IImageService imageService;
+        private readonly IFontService fontService;
 
-        public CombatLogViewModelFactory(ISettingsService settingsService, IImageService imageService)
+        public CombatLogViewModelFactory(ISettingsService settingsService, IImageService imageService, IFontService fontService)
         {
-            _settingsService = settingsService;
-            _imageService = imageService;
+            this.settingsService = settingsService;
+            this.imageService = imageService;
+            this.fontService = fontService;
         }
 
         public CombatLogViewModel Create(CombatLogEvent @event)
         {
             var viewModel = new CombatLogViewModel(@event);
-            var settings = _settingsService.Settings;
+            var settings = settingsService.Settings;
 
             if (@event.IsAbilityActivate() || @event.IsApplyEffect())
             {
@@ -49,15 +50,16 @@ namespace SwtorCaster.Core.Services.Factory
         private void ApplyTextSettings(CombatLogViewModel viewModel, Settings settings)
         {
             viewModel.FontColor = new SolidColorBrush(settings.AbilityTextColor.FromHexToColor());
-            viewModel.FontFamily = settings.TextFont.FromStringToFont();
+            viewModel.FontFamily = fontService.GetFontFromString(settings.TextFont);
             viewModel.FontSize = settings.FontSize;
+            viewModel.FontBorderColor = new SolidColorBrush(settings.AbilityTextBorderColor.FromHexToColor());
         }
 
         private void ApplyLoggerSettings(CombatLogEvent combatLogEvent, CombatLogViewModel viewModel, Settings settings)
         {
-            viewModel.ImageUrl = _imageService.GetImageById(combatLogEvent.Ability.EntityId);
+            viewModel.ImageUrl = imageService.GetImageById(combatLogEvent.Ability.EntityId);
             viewModel.ImageBorderColor = Colors.Transparent;
-            viewModel.ImageAngle = _random.Next(-settings.Rotate, settings.Rotate);
+            viewModel.ImageAngle = random.Next(-settings.Rotate, settings.Rotate);
 
             viewModel.Text = combatLogEvent.Ability.DisplayName;
             viewModel.TextVisibility = settings.EnableAbilityText ? Visibility.Visible : Visibility.Hidden;

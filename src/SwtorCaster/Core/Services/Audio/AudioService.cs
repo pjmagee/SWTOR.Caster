@@ -7,12 +7,12 @@ namespace SwtorCaster.Core.Services.Audio
 
     public class AudioService : IAudioService
     {
-        private WaveOut _waveOut;
+        private WaveOut waveOut;
         private ManualResetEvent _event;
 
         public async void Play(string audioFile, int volume)
         {
-            _waveOut?.Stop();
+            waveOut?.Stop();
 
             await Task.Run(() =>
             {
@@ -22,14 +22,14 @@ namespace SwtorCaster.Core.Services.Audio
                     {
                         audioFileReader.Volume = volume * 0.01f;
 
-                        using (_waveOut = new WaveOut())
+                        using (waveOut = new WaveOut())
                         {
-                            _waveOut.Init(audioFileReader);
+                            waveOut.Init(audioFileReader);
 
                             using (_event = new ManualResetEvent(false))
                             {
-                                _waveOut.Play();
-                                _waveOut.PlaybackStopped += (sender, args) => _event.Set();
+                                waveOut.Play();
+                                waveOut.PlaybackStopped += (sender, args) => _event.Set();
                                 _event.WaitOne();
                             }
                         }
@@ -44,7 +44,7 @@ namespace SwtorCaster.Core.Services.Audio
 
         public void Stop()
         {
-            _waveOut?.Stop();
+            waveOut?.Stop();
         }
     }
 }

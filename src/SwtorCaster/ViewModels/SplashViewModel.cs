@@ -4,16 +4,16 @@ namespace SwtorCaster.ViewModels
 
     public class SplashViewModel : Screen
     {
-        private readonly IWindowManager _windowManager;
+        private readonly IWindowManager windowManager;
 
         public SplashViewModel(IWindowManager windowManager)
         {
-            _windowManager = windowManager;
+            this.windowManager = windowManager;
         }
 
         public void Start()
         {
-            _windowManager.ShowWindow(this);
+            windowManager.ShowWindow(this);
         }
     }
 }

@@ -10,12 +10,16 @@ namespace SwtorCaster.ViewModels
 
         public AbilitySettingsViewModel AbilitySettingsViewModel { get; }
 
+        public DemoSettingsViewModel DemoSettingsViewModel { get; }
+
         public SettingsViewModel(
             MainSettingsViewModel mainSettingsViewModel, 
             AbilitySettingsViewModel abilitySettingsViewModel, 
-            EventSettingsViewModel eventSettingsViewModel)
+            EventSettingsViewModel eventSettingsViewModel,
+            DemoSettingsViewModel demoSettingsViewModel)
         {
             EventSettingsViewModel = eventSettingsViewModel;
+            DemoSettingsViewModel = demoSettingsViewModel;
             MainSettingsViewModel = mainSettingsViewModel;
             AbilitySettingsViewModel = abilitySettingsViewModel;
         }

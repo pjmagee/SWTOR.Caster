@@ -13,15 +13,15 @@ namespace SwtorCaster.Core.Services.Settings
     {
         private static readonly string SwtorCaster = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SwtorCaster");
         private static readonly string SettingsPath = Path.Combine(SwtorCaster, "settings.json");
-        private readonly ILoggerService _loggerService;
-        private readonly IEventAggregator _eventAggregator;
+        private readonly ILoggerService loggerService;
+        private readonly IEventAggregator eventAggregator;
 
         public Settings Settings { get; set; }
 
         public SettingsService(ILoggerService loggerService, IEventAggregator eventAggregator)
         {
-            _loggerService = loggerService;
-            _eventAggregator = eventAggregator;
+            this.loggerService = loggerService;
+            this.eventAggregator = eventAggregator;
             Load();
         }
 
@@ -45,11 +45,11 @@ namespace SwtorCaster.Core.Services.Settings
 
                 File.WriteAllText(SettingsPath, json);
 
-                _eventAggregator.PublishOnUIThread(settings);
+                eventAggregator.PublishOnUIThread(settings);
             }
             catch (Exception e)
             {
-                _loggerService.Log(e.Message);
+                loggerService.Log(e.Message);
                 MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -66,7 +66,7 @@ namespace SwtorCaster.Core.Services.Settings
                 catch (Exception e)
                 {
                     Settings = new Settings();
-                    _loggerService.Log(e.Message);
+                    loggerService.Log(e.Message);
                     MessageBox.Show("Error reading saved settings, loading default settings.", "Settings", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
@@ -75,7 +75,11 @@ namespace SwtorCaster.Core.Services.Settings
                 Settings = new Settings();
             }
 
-            // Hook into the property changed event, so that we instantly save changes.
+            WireEvents();
+        }
+
+        private void WireEvents()
+        {
             Settings.PropertyChanged -= SettingsOnPropertyChanged;
             Settings.PropertyChanged += SettingsOnPropertyChanged;
         }

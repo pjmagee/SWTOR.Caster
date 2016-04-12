@@ -74,9 +74,13 @@ namespace SwtorCaster.Core
         {
             var splashViewModel = container.GetInstance<SplashViewModel>();
             var imageService = container.GetInstance<IImageService>();
+            var fontService = container.GetInstance<IFontService>();
 
             splashViewModel.Start();
+
             await Task.Run(() => imageService.Initialize());
+            await Task.Run(() => fontService.Initialize());
+
             splashViewModel.TryClose();
         }
 
@@ -95,6 +99,7 @@ namespace SwtorCaster.Core
             container.Singleton<MainSettingsViewModel>();
             container.Singleton<AbilitySettingsViewModel>();
             container.Singleton<EventSettingsViewModel>();
+            container.Singleton<DemoSettingsViewModel>();
             container.Singleton<SettingsViewModel>();
             
             // About
@@ -125,6 +130,7 @@ namespace SwtorCaster.Core
 
             // Helper services
             container.Singleton<ILoggerService, LoggerService>();
+            container.Singleton<IFontService, FontService>();
         }
 
         protected override void OnExit(object sender, EventArgs e)

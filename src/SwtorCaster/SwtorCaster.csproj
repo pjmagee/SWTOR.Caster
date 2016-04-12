@@ -180,8 +180,12 @@
     <Compile Include="Core\Services\Images\ImageMapping.cs" />
     <Compile Include="Core\Services\Images\MappedImageService.cs" />
     <Compile Include="Core\Services\Parsing\CombatLogParser.cs" />
+    <Compile Include="Core\Services\Settings\FontService.cs" />
+    <Compile Include="Core\Services\Settings\IFontService.cs" />
+    <Compile Include="Custom\FontFamilyConverter.cs" />
     <Compile Include="Custom\SoundEventValueConverter.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="ViewModels\Settings\DemoSettingsViewModel.cs" />
     <Compile Include="ViewModels\WindowedViewModel.cs" />
     <Compile Include="ViewModels\AbilityOverlayViewModel.cs" />
     <Compile Include="ViewModels\CombatLogViewModel.cs" />
@@ -221,6 +225,10 @@
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\AbilityViewModel.cs" />
     <Page Include="Resources\Icons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controls\DemoSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -279,14 +287,21 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Resource Include="Resources\tor community.png" />
-    <Resource Include="Resources\swtorcaster.ico" />
+    <Resource Include="Resources\tor community.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\swtorcaster.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <EmbeddedResource Include="Resources\mappings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="MappedImages.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\SF Distant Galaxy.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <None Include="SwtorCaster_TemporaryKey.pfx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -315,7 +330,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Entypo.ttf" />
-    <Resource Include="Resources\font.ttf" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

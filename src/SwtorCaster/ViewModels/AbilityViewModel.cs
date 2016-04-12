@@ -13,7 +13,7 @@ namespace SwtorCaster.ViewModels
     
     public class AbilityViewModel : Screen, IHandle<ParserMessage>, IHandle<CombatLogViewModel>, IHandle<Settings>
     {
-        private readonly ISettingsService _settingsService;
+        private readonly ISettingsService settingsService;
 
         public SolidColorBrush BackgroundColor
         {
@@ -29,7 +29,7 @@ namespace SwtorCaster.ViewModels
                     return new SolidColorBrush(Colors.Transparent);
                 }
 
-                return new SolidColorBrush(_settingsService.Settings.AbilityLoggerBackgroundColor.FromHexToColor());
+                return new SolidColorBrush(settingsService.Settings.AbilityLoggerBackgroundColor.FromHexToColor());
             }
         }
 
@@ -37,14 +37,14 @@ namespace SwtorCaster.ViewModels
 
         public AbilityViewModel(ISettingsService settingsService, IEventAggregator eventAggregator)
         {
-            _settingsService = settingsService;
+            this.settingsService = settingsService;
             eventAggregator.Subscribe(this);
         }
 
         private void TryAddItem(CombatLogViewModel item)
         {
-            if (LogLines.Count > _settingsService.Settings.Items) LogLines.Clear();
-            if (LogLines.Count == _settingsService.Settings.Items) LogLines.RemoveAt(LogLines.Count - 1);
+            if (LogLines.Count > settingsService.Settings.Items) LogLines.Clear();
+            if (LogLines.Count == settingsService.Settings.Items) LogLines.RemoveAt(LogLines.Count - 1);
             LogLines.Insert(0, item);
         }
 
@@ -65,7 +65,7 @@ namespace SwtorCaster.ViewModels
         {
             if (message == null) return;
 
-            var settings = _settingsService.Settings;
+            var settings = settingsService.Settings;
 
             if (settings.EnableCombatClear && message.CombatLogEvent.IsExitCombat()) LogLines.Clear();
             if (!settings.EnableCompanionAbilities && message.CombatLogEvent.IsPlayerCompanion()) return;

@@ -10,67 +10,67 @@ namespace SwtorCaster.ViewModels
 
     public class AbilitySettingItem : PropertyChangedBase
     {
-        private readonly AbilitySetting _abilitySetting;
-        private readonly AbilitySettingsViewModel _abilitySettingsViewModel;
+        private readonly AbilitySetting abilitySetting;
+        private readonly AbilitySettingsViewModel abilitySettingsViewModel;
 
-        public AbilitySetting AbilitySetting => _abilitySetting;
+        public AbilitySetting AbilitySetting => abilitySetting;
 
         public BindableCollection<AbilityAliasItem> Aliases { get; set; } = new BindableCollection<AbilityAliasItem>();
 
         public AbilitySettingItem(AbilitySettingsViewModel abilitySettingsViewModel, AbilitySetting abilitySetting)
         {
-            _abilitySetting = abilitySetting;
-            _abilitySettingsViewModel = abilitySettingsViewModel;
+            this.abilitySetting = abilitySetting;
+            this.abilitySettingsViewModel = abilitySettingsViewModel;
             InitializeAliases();
         }
 
         private void InitializeAliases()
         {
-            var aliases = _abilitySetting.Aliases.Where(x => !string.IsNullOrEmpty(x)).Select(x => new AbilityAliasItem(x));
+            var aliases = abilitySetting.Aliases.Where(x => !string.IsNullOrEmpty(x)).Select(x => new AbilityAliasItem(x));
             Aliases.AddRange(aliases);
             Aliases.CollectionChanged += (sender, args) => UpdateAliases();
         }
 
         private void UpdateAliases()
         {
-            _abilitySetting.Aliases = Aliases.Where(x => !string.IsNullOrEmpty(x.Name)).Select(x => x.Name).ToList();
+            abilitySetting.Aliases = Aliases.Where(x => !string.IsNullOrEmpty(x.Name)).Select(x => x.Name).ToList();
         }
 
         public string AbilityId
         {
-            get { return _abilitySetting.AbilityId; }
-            set { _abilitySetting.AbilityId = value; }
+            get { return abilitySetting.AbilityId; }
+            set { abilitySetting.AbilityId = value; }
         }
 
         public string ImageUrl
         {
-            get { return _abilitySetting.Image; }
+            get { return abilitySetting.Image; }
             set
             {
-                _abilitySetting.Image = value;
+                abilitySetting.Image = value;
                 NotifyOfPropertyChange(() => ImageUrl);
             }
         }
 
         public Color Border
         {
-            get { return _abilitySetting.BorderColor.FromHexToColor(); }
-            set { _abilitySetting.BorderColor = value.ToHex(); }
+            get { return abilitySetting.BorderColor.FromHexToColor(); }
+            set { abilitySetting.BorderColor = value.ToHex(); }
         }
 
         public bool Enabled
         {
-            get { return _abilitySetting.Enabled; }
-            set { _abilitySetting.Enabled = value; }
+            get { return abilitySetting.Enabled; }
+            set { abilitySetting.Enabled = value; }
         }
 
         public async void Delete()
         {
-            var result = await _abilitySettingsViewModel.Window.ShowMessageAsync("Delete ability setting", "Are you sure?", MessageDialogStyle.AffirmativeAndNegative);
+            var result = await abilitySettingsViewModel.Window.ShowMessageAsync("Delete ability setting", "Are you sure?", MessageDialogStyle.AffirmativeAndNegative);
 
             if (result == MessageDialogResult.Affirmative)
             {
-                _abilitySettingsViewModel.AbilitySettingViewModels.Remove(this);
+                abilitySettingsViewModel.AbilitySettingViewModels.Remove(this);
             }
         }
 

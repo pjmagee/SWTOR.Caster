@@ -12,46 +12,46 @@ namespace SwtorCaster.Core.Domain.Settings
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private IEnumerable<AbilitySetting> _abilitySettings = new List<AbilitySetting>();
-        private IEnumerable<EventSetting> _eventSettings = new List<EventSetting>();
+        private IEnumerable<AbilitySetting> abilitySettings = new List<AbilitySetting>();
+        private IEnumerable<EventSetting> eventSettings = new List<EventSetting>();
 
-        private string _abilityLoggerBackgroundColor = Colors.Transparent.ToHex();
-        private string _companionAbilityBorderColor = Colors.Purple.ToHex();
-        private string _abilityTextColor = Colors.Yellow.ToHex();
+        private string abilityLoggerBackgroundColor = Colors.Transparent.ToHex();
+        private string companionAbilityBorderColor = Colors.Purple.ToHex();
+        private string abilityTextColor = Colors.Yellow.ToHex();
+        private string abilityTextBorderColor = Colors.Black.ToHex();
 
-        private string _version;
-        private string _combatLogFile;
-        private string _guideFile;
-        private string _textFont;
+        private string version;
+        private string combatLogFile;
+        private string textFont = "SF Distant Galaxy";
 
-        private int _items = 5; // 5 items in the ability logger window
-        private int _rotate = 5; // +/- 5 degree angle rotation on image
-        private int _clearAfterInactivity = 10; // 10 seconds
-        private int _fontSize = 32; // default text ability font size
-        private int _volume = 10; // the default volume of 100%
-        private double _opacity = 0.15; // the top window opacity over the game.
+        private int items = 5; // 5 items in the ability logger window
+        private int rotate = 5; // +/- 5 degree angle rotation on image
+        private int clearAfterInactivity = 10; // 10 seconds
+        private int fontSize = 32; // default text ability font size
+        private int volume = 10; // the default volume of 100%
+        private double opacity = 0.15; // the top window opacity over the game.
+        
+        private bool enableSound;
+        private bool enableAbilitySettings;
+        private bool enableDemoMode;
 
-        private bool _openLoggerWindowOnStartup;
-        private bool _enableSound;
-        private bool _enableAbilitySettings;
-        private bool _enableDemoMode;
-
-        private bool _enableAbilityText = true;
-        private bool _enableClearInactivity = true;
-        private bool _enableCombatClear = true;
-        private bool _enableCompanionAbilities = true;
-        private bool _enableLogging = true;
-        private bool _ignoreUnknownAbilities = true;
+        private bool openLoggerWindowOnStartup = true;
+        private bool enableAbilityText = true;
+        private bool enableClearInactivity = true;
+        private bool enableCombatClear = true;
+        private bool enableCompanionAbilities = true;
+        private bool enableLogging = true;
+        private bool ignoreUnknownAbilities = true;
         
 
         [JsonProperty("items")]
         public int Items
         {
-            get { return _items; }
+            get { return items; }
             set
             {
-                if (value == _items) return;
-                _items = value;
+                if (value == items) return;
+                items = value;
                 OnPropertyChanged();
             }
         }
@@ -60,11 +60,11 @@ namespace SwtorCaster.Core.Domain.Settings
         [JsonProperty("openLoggerWindowOnStartup")]
         public bool OpenLoggerWindowOnStartup
         {
-            get { return _openLoggerWindowOnStartup; }
+            get { return openLoggerWindowOnStartup; }
             set
             {
-                if (value == _openLoggerWindowOnStartup) return;
-                _openLoggerWindowOnStartup = value;
+                if (value == openLoggerWindowOnStartup) return;
+                openLoggerWindowOnStartup = value;
                 OnPropertyChanged();
             }
         }
@@ -72,11 +72,11 @@ namespace SwtorCaster.Core.Domain.Settings
         [JsonProperty("enableCompanionAbilities")]
         public bool EnableCompanionAbilities
         {
-            get { return _enableCompanionAbilities; }
+            get { return enableCompanionAbilities; }
             set
             {
-                if (value == _enableCompanionAbilities) return;
-                _enableCompanionAbilities = value;
+                if (value == enableCompanionAbilities) return;
+                enableCompanionAbilities = value;
                 OnPropertyChanged();
             }
         }
@@ -84,10 +84,10 @@ namespace SwtorCaster.Core.Domain.Settings
         [JsonProperty("companionAbilityBorderColor")]
         public string CompanionAbilityBorderColor
         {
-            get { return _companionAbilityBorderColor; }
+            get { return companionAbilityBorderColor; }
             set
             {
-                _companionAbilityBorderColor = value;
+                companionAbilityBorderColor = value;
                 OnPropertyChanged();
             }
         }
@@ -95,11 +95,11 @@ namespace SwtorCaster.Core.Domain.Settings
         [JsonProperty("enableAbilityText")]
         public bool EnableAbilityText
         {
-            get { return _enableAbilityText; }
+            get { return enableAbilityText; }
             set
             {
-                if (value == _enableAbilityText) return;
-                _enableAbilityText = value;
+                if (value == enableAbilityText) return;
+                enableAbilityText = value;
                 OnPropertyChanged();
             }
         }
@@ -107,11 +107,11 @@ namespace SwtorCaster.Core.Domain.Settings
         [JsonProperty("textFont")]
         public string TextFont
         {
-            get { return _textFont; }
+            get { return textFont; }
             set
             {
-                if (value == _textFont) return;
-                _textFont = value;
+                if (value == textFont) return;
+                textFont = value;
                 OnPropertyChanged();
             }
         }
@@ -119,11 +119,11 @@ namespace SwtorCaster.Core.Domain.Settings
         [JsonProperty("rotate")]
         public int Rotate
         {
-            get { return _rotate; }
+            get { return rotate; }
             set
             {
-                if (value == _rotate) return;
-                _rotate = value;
+                if (value == rotate) return;
+                rotate = value;
                 OnPropertyChanged();
             }
         }
@@ -131,11 +131,11 @@ namespace SwtorCaster.Core.Domain.Settings
         [JsonProperty("enableClearInactivity")]
         public bool EnableClearInactivity
         {
-            get { return _enableClearInactivity; }
+            get { return enableClearInactivity; }
             set
             {
-                if (value == _enableClearInactivity) return;
-                _enableClearInactivity = value;
+                if (value == enableClearInactivity) return;
+                enableClearInactivity = value;
                 OnPropertyChanged();
             }
         }
@@ -143,11 +143,11 @@ namespace SwtorCaster.Core.Domain.Settings
         [JsonProperty("clearAfterInactivity")]
         public int ClearAfterInactivity
         {
-            get { return _clearAfterInactivity; }
+            get { return clearAfterInactivity; }
             set
             {
-                if (value == _clearAfterInactivity) return;
-                _clearAfterInactivity = value;
+                if (value == clearAfterInactivity) return;
+                clearAfterInactivity = value;
                 OnPropertyChanged();
             }
         }
@@ -155,11 +155,11 @@ namespace SwtorCaster.Core.Domain.Settings
         [JsonProperty("enableCombatClear")]
         public bool EnableCombatClear
         {
-            get { return _enableCombatClear; }
+            get { return enableCombatClear; }
             set
             {
-                if (value == _enableCombatClear) return;
-                _enableCombatClear = value;
+                if (value == enableCombatClear) return;
+                enableCombatClear = value;
                 OnPropertyChanged();
             }
         }
@@ -167,11 +167,11 @@ namespace SwtorCaster.Core.Domain.Settings
         [JsonProperty("version")]
         public string Version
         {
-            get { return _version; }
+            get { return version; }
             set
             {
-                if (value == _version) return;
-                _version = value;
+                if (value == version) return;
+                version = value;
                 OnPropertyChanged();
             }
         }
@@ -179,11 +179,11 @@ namespace SwtorCaster.Core.Domain.Settings
         [JsonProperty("enableLogging")]
         public bool EnableLogging
         {
-            get { return _enableLogging; }
+            get { return enableLogging; }
             set
             {
-                if (value == _enableLogging) return;
-                _enableLogging = value;
+                if (value == enableLogging) return;
+                enableLogging = value;
                 OnPropertyChanged();
             }
         }
@@ -191,11 +191,11 @@ namespace SwtorCaster.Core.Domain.Settings
         [JsonProperty("abilityLoggerBackgroundColour")]
         public string AbilityLoggerBackgroundColor
         {
-            get { return _abilityLoggerBackgroundColor; }
+            get { return abilityLoggerBackgroundColor; }
             set
             {
-                if (value == _abilityLoggerBackgroundColor) return;
-                _abilityLoggerBackgroundColor = value;
+                if (value == abilityLoggerBackgroundColor) return;
+                abilityLoggerBackgroundColor = value;
                 OnPropertyChanged();
             }
         }
@@ -203,23 +203,36 @@ namespace SwtorCaster.Core.Domain.Settings
         [JsonProperty("abilityTextColor")]
         public string AbilityTextColor
         {
-            get { return _abilityTextColor; }
+            get { return abilityTextColor; }
             set
             {
-                if (value == _abilityTextColor) return;
-                _abilityTextColor = value;
+                if (value == abilityTextColor) return;
+                abilityTextColor = value;
                 OnPropertyChanged();
             }
         }
 
+        [JsonProperty("abilityTextBorderColor")]
+        public string AbilityTextBorderColor
+        {
+            get { return abilityTextBorderColor; }
+            set
+            {
+                if (value == abilityTextBorderColor) return;
+                abilityTextBorderColor = value;
+                OnPropertyChanged();
+            }
+        }
+
+
         [JsonProperty("ignoreUnknownAbilities")]
         public bool IgnoreUnknownAbilities
         {
-            get { return _ignoreUnknownAbilities; }
+            get { return ignoreUnknownAbilities; }
             set
             {
-                if (_ignoreUnknownAbilities == value) return;
-                _ignoreUnknownAbilities = value;
+                if (ignoreUnknownAbilities == value) return;
+                ignoreUnknownAbilities = value;
                 OnPropertyChanged();
             }
         }
@@ -227,11 +240,11 @@ namespace SwtorCaster.Core.Domain.Settings
         [JsonProperty("fontSize")]
         public int FontSize
         {
-            get { return _fontSize; }
+            get { return fontSize; }
             set
             {
-                if (_fontSize == value) return;
-                _fontSize = value;
+                if (fontSize == value) return;
+                fontSize = value;
                 OnPropertyChanged();
             }
         }
@@ -239,11 +252,11 @@ namespace SwtorCaster.Core.Domain.Settings
         [JsonProperty("volume")]
         public int Volume
         {
-            get { return _volume; }
+            get { return volume; }
             set
             {
-                if (value.Equals(_volume)) return;
-                _volume = value;
+                if (value.Equals(volume)) return;
+                volume = value;
                 OnPropertyChanged();
             }
         }
@@ -251,11 +264,11 @@ namespace SwtorCaster.Core.Domain.Settings
         [JsonProperty("enableSound")]
         public bool EnableSound
         {
-            get { return _enableSound; }
+            get { return enableSound; }
             set
             {
-                if (value == _enableSound) return;
-                _enableSound = value;
+                if (value == enableSound) return;
+                enableSound = value;
                 OnPropertyChanged();
             }
         }
@@ -263,11 +276,11 @@ namespace SwtorCaster.Core.Domain.Settings
         [JsonProperty("enableAbilitySettings")]
         public bool EnableAbilitySettings
         {
-            get { return _enableAbilitySettings; }
+            get { return enableAbilitySettings; }
             set
             {
-                if (value == _enableAbilitySettings) return;
-                _enableAbilitySettings = value;
+                if (value == enableAbilitySettings) return;
+                enableAbilitySettings = value;
                 OnPropertyChanged();
             }
         }
@@ -275,11 +288,11 @@ namespace SwtorCaster.Core.Domain.Settings
         [JsonProperty("abilitySettings")]
         public IEnumerable<AbilitySetting> AbilitySettings
         {
-            get { return _abilitySettings; }
+            get { return abilitySettings; }
             set
             {
-                if (Equals(value, _abilitySettings)) return;
-                _abilitySettings = value;
+                if (Equals(value, abilitySettings)) return;
+                abilitySettings = value;
                 OnPropertyChanged();
             }
         }
@@ -287,11 +300,11 @@ namespace SwtorCaster.Core.Domain.Settings
         [JsonProperty("eventSettings")]
         public IEnumerable<EventSetting> EventSettings
         {
-            get { return _eventSettings; }
+            get { return eventSettings; }
             set
             {
-                if (Equals(value, _eventSettings)) return;
-                _eventSettings = value;
+                if (Equals(value, eventSettings)) return;
+                eventSettings = value;
                 OnPropertyChanged();
             }
         }
@@ -299,11 +312,11 @@ namespace SwtorCaster.Core.Domain.Settings
         [JsonProperty("enableDemoMode")]
         public bool EnableDemoMode
         {
-            get { return _enableDemoMode; }
+            get { return enableDemoMode; }
             set
             {
-                if (value == _enableDemoMode) return;
-                _enableDemoMode = value;
+                if (value == enableDemoMode) return;
+                enableDemoMode = value;
                 OnPropertyChanged();
             }
         }
@@ -311,11 +324,11 @@ namespace SwtorCaster.Core.Domain.Settings
         [JsonProperty("demoModeCombatLogFile")]
         public string CombatLogFile
         {
-            get { return _combatLogFile; }
+            get { return combatLogFile; }
             set
             {
-                if (value == _combatLogFile) return;
-                _combatLogFile = value;
+                if (value == combatLogFile) return;
+                combatLogFile = value;
                 OnPropertyChanged();
             }
         }
@@ -323,22 +336,11 @@ namespace SwtorCaster.Core.Domain.Settings
         [JsonProperty("topWindowOpacity")]
         public double Opacity
         {
-            get { return _opacity; }
+            get { return opacity; }
             set
             {
-                if (value == _opacity) return;
-                _opacity = value;
-                OnPropertyChanged();
-            }
-        }
-
-        [JsonProperty("guideFile")]
-        public string GuideFile
-        {
-            get { return _guideFile; }
-            set
-            {
-                _guideFile = value;
+                if (value == opacity) return;
+                opacity = value;
                 OnPropertyChanged();
             }
         }

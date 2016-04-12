@@ -8,6 +8,7 @@
         Title="SplashView" SizeToContent="WidthAndHeight"
         Topmost="True" WindowStartupLocation="CenterScreen" Padding="20" AllowsTransparency="True" WindowStyle="None" ResizeMode="NoResize" ShowInTaskbar="False">
     <Window.Resources>
+        <FontFamily x:Key="StarWars">/Resources/#SF Distant Galaxy</FontFamily>
         <Storyboard x:Key="ExitAnimation">
             <DoubleAnimation Storyboard.Target="{Binding ElementName='window'}"
                              Storyboard.TargetProperty="(Window.Opacity)"
@@ -29,8 +30,8 @@
                 <Image Source="../Resources/tor community.png" Width="140" Height="auto" VerticalAlignment="Stretch" />
             </StackPanel>
             <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,10,0">
-                <custom:OutlinedText Text="Delegate's" HorizontalAlignment="Center" />
-                <custom:OutlinedText Text="SWTOR Caster" HorizontalAlignment="Center" />
+                <custom:OutlinedText Text="Delegate's" HorizontalAlignment="Center" FontFamily="{StaticResource StarWars}" />
+                <custom:OutlinedText Text="SWTOR Caster" HorizontalAlignment="Center" FontFamily="{StaticResource StarWars}" />
                 <controls:ProgressRing Foreground="Yellow" Height="50" Width="50" IsActive="True" Margin="0,10,0,10" />
                 <Label Content="Loading ancient knowledge..." FontWeight="Bold" HorizontalContentAlignment="Center" />
             </StackPanel>
