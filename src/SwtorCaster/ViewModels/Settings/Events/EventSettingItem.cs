@@ -14,9 +14,9 @@ namespace SwtorCaster.ViewModels
 
     public class EventSettingItem : Screen
     {
-        private readonly EventSettingsViewModel _eventSettingsViewModel;
-        private readonly IAudioService _audioService;
-        private readonly ISettingsService _settingsService;
+        private readonly EventSettingsViewModel eventSettingsViewModel;
+        private readonly IAudioService audioService;
+        private readonly ISettingsService settingsService;
 
         public EventSetting EventSetting { get; }
 
@@ -33,10 +33,10 @@ namespace SwtorCaster.ViewModels
 
         public EventSettingItem(EventSettingsViewModel eventSettingsViewModel, EventSetting eventSetting, IAudioService audioService, ISettingsService settingsService)
         {
-            _eventSettingsViewModel = eventSettingsViewModel;
+            this.eventSettingsViewModel = eventSettingsViewModel;
             EventSetting = eventSetting;
-            _audioService = audioService;
-            _settingsService = settingsService;
+            this.audioService = audioService;
+            this.settingsService = settingsService;
         }
 
         public string AbilityId
@@ -90,7 +90,7 @@ namespace SwtorCaster.ViewModels
         {
             try
             {
-                _audioService.Play(EventSetting.Sound, _settingsService.Settings.Volume);
+                audioService.Play(EventSetting.Sound, settingsService.Settings.Volume);
             }
             catch (Exception e)
             {
@@ -102,11 +102,11 @@ namespace SwtorCaster.ViewModels
         {
             try
             {
-                _audioService.Stop();
+                audioService.Stop();
             }
             catch(Exception e)
             {
-                await _eventSettingsViewModel.Window.ShowMessageAsync("Error stopping sound", e.Message);
+                await eventSettingsViewModel.Window.ShowMessageAsync("Error stopping sound", e.Message);
             }
         }
 
@@ -114,16 +114,16 @@ namespace SwtorCaster.ViewModels
         {
             try
             {
-                var result = await _eventSettingsViewModel.Window.ShowMessageAsync("Delete sound setting", "Are you sure?", MessageDialogStyle.AffirmativeAndNegative);
+                var result = await eventSettingsViewModel.Window.ShowMessageAsync("Delete sound setting", "Are you sure?", MessageDialogStyle.AffirmativeAndNegative);
 
                 if (result == MessageDialogResult.Affirmative)
                 {
-                    _eventSettingsViewModel.EventSettingViewModels.Remove(this);
+                    eventSettingsViewModel.EventSettingViewModels.Remove(this);
                 }
             }
             catch (Exception e)
             {
-                await _eventSettingsViewModel.Window.ShowMessageAsync("Error deleting sound", e.Message);
+                await eventSettingsViewModel.Window.ShowMessageAsync("Error deleting sound", e.Message);
             }
         }
     }

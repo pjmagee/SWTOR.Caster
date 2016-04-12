@@ -12,35 +12,35 @@ namespace SwtorCaster.ViewModels
     {
         public BindableCollection<EventSettingItem> EventSettingViewModels { get; set; } = new BindableCollection<EventSettingItem>();
 
-        private readonly ISettingsService _settingsService;
-        private readonly IAudioService _audioService;
+        private readonly ISettingsService settingsService;
+        private readonly IAudioService audioService;
 
         public MetroWindow Window => (GetView() as UserControl).TryFindParent<MetroWindow>();
 
         public bool EnableSound
         {
-            get { return _settingsService.Settings.EnableSound; }
-            set { _settingsService.Settings.EnableSound = value; }
+            get { return settingsService.Settings.EnableSound; }
+            set { settingsService.Settings.EnableSound = value; }
         }
 
         public int Volume
         {
-            get { return _settingsService.Settings.Volume; }
-            set { _settingsService.Settings.Volume = value; }
+            get { return settingsService.Settings.Volume; }
+            set { settingsService.Settings.Volume = value; }
         }
 
         public EventSettingsViewModel(ISettingsService settingsService, IAudioService audioService)
         {
-            _settingsService = settingsService;
-            _audioService = audioService;
+            this.settingsService = settingsService;
+            this.audioService = audioService;
             InitializeEventViewModels();
         }
 
         private void InitializeEventViewModels()
         {
-            foreach (var item in _settingsService.Settings.EventSettings)
+            foreach (var item in settingsService.Settings.EventSettings)
             {
-                var eventViewModel = new EventSettingItem(this, item, _audioService, _settingsService);
+                var eventViewModel = new EventSettingItem(this, item, audioService, settingsService);
                 eventViewModel.EventSetting.PropertyChanged += (o, args) => UpdateEvents();
                 EventSettingViewModels.Add(eventViewModel);
             }
@@ -50,15 +50,15 @@ namespace SwtorCaster.ViewModels
 
         public void AddEvent()
         {
-            var eventSettingViewModel = new EventSettingItem(this, new EventSetting(), _audioService, _settingsService);
+            var eventSettingViewModel = new EventSettingItem(this, new EventSetting(), audioService, settingsService);
             eventSettingViewModel.EventSetting.PropertyChanged += (sender, args) => UpdateEvents();
             EventSettingViewModels.Add(eventSettingViewModel);
         }
 
         private void UpdateEvents()
         {
-            _settingsService.Settings.EventSettings = EventSettingViewModels.Select(x => x.EventSetting).ToList();
-            _settingsService.Save();
+            settingsService.Settings.EventSettings = EventSettingViewModels.Select(x => x.EventSetting).ToList();
+            settingsService.Save();
         }
     }
 }

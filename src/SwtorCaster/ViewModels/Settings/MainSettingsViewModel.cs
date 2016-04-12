@@ -1,11 +1,7 @@
-using Microsoft.Win32;
-
 namespace SwtorCaster.ViewModels
 {
     using System;
-    using System.Linq;
     using System.Windows.Media;
-    using System.IO;
     using Caliburn.Micro;
     using Core.Extensions;
     using Core.Services.Settings;
