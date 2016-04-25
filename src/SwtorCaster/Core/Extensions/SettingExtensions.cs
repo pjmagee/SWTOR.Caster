@@ -45,7 +45,7 @@ namespace SwtorCaster.Core.Extensions
         {
             return setting.EffectName == SoundEvent.AbilityCancel &&
                    line.IsAbilityCancel() && line.IsThisPlayer() &&
-                   line.IsAbilityCancel() && line.IsAbility(setting.AbilityId);
+                   line.IsAbility(setting.AbilityId);
         }
     }
 }
