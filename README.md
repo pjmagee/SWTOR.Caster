@@ -39,7 +39,6 @@ The combat log file is written to the client asyncronously which means that as s
 - Global option to disable/enable your custom images.
 - Replace the offical ability icon with a custom icon of your choice.
 - Replace the ability text name with an alias, for example if you used "Mount", you can make the text say "I mounted".
-- 
 
 ### Demo settings
 - Demo settings allow you to load in a pre-exiting combat log file  that your game has generated and allow you to "play back" this combat log file, so that it can be used for making video guides, helping you configure your sound/ability settings etc so that you don't have to always alt into the game do something and then come back out to re-configure swtor caster.
