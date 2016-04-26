@@ -60,11 +60,13 @@ Please consider using my [SWTOR referral link](http://www.swtor.com/r/rpNrdB) as
 - [Ldsiris](https://www.twitch.tv/ldsiris/)
 - [Punisher_Biz](Punisher_Biz)
 
-Some Example Youtube videos
+Some Example Youtube videos using SWTOR Caster
 
 - [Scoff - Youtube Video showing a Marauder rotation](https://www.youtube.com/watch?v=_vWI6QTJtQ0)
 - [Ldsiris - Operative Leathiality PvP video](https://www.youtube.com/watch?v=LSNgHVaItUE)
 - [LdSiris - Powetech Advanted Prototype PvP video](https://www.youtube.com/watch?v=JNQBfGADHyk)
+- [Aravail - Hard Mode Temple of Sacrifice](https://www.youtube.com/watch?v=BGeRbw0gnFA)
+- [Aravail - Sage Dummy Parsing](https://www.youtube.com/watch?v=QsgZGIqqhOA)
 
 ## Libraries/Frameworks used in SWTOR Caster
 
