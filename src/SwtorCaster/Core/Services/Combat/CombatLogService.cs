@@ -99,9 +99,9 @@ namespace SwtorCaster.Core.Services.Combat
 		{
 			FileSystemWatcher watcher = new FileSystemWatcher();
 			watcher.Path = SwtorCombatLogPath;
-			watcher.NotifyFilter = NotifyFilters.LastWrite;
+			watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName;
 			watcher.Filter = "combat_*.txt";
-			watcher.Changed += new FileSystemEventHandler(NewCombatFile);
+			watcher.Created += new FileSystemEventHandler(NewCombatFile);
 			watcher.EnableRaisingEvents = true;
 		}
 				
