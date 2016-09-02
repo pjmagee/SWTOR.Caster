@@ -30,13 +30,10 @@ namespace SwtorCaster.Core.Services.Images
             var assembly = Assembly.GetExecutingAssembly();
             var resourceName = "SwtorCaster.Resources.mappings.json";
 
-            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            using (StreamReader reader = new StreamReader(assembly.GetManifestResourceStream(resourceName)))
             {
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    string json = reader.ReadToEnd();
-                    _imageMappings = JsonConvert.DeserializeObject<List<ImageMapping>>(json);
-                }
+                string json = reader.ReadToEnd();
+                _imageMappings = JsonConvert.DeserializeObject<List<ImageMapping>>(json);
             }
         }
 

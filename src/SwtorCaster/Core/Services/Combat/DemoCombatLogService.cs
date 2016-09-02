@@ -49,22 +49,19 @@ namespace SwtorCaster.Core.Services.Combat
 
             if (IsRunning)
             {
-                using (var fs = new FileStream(_settingsService.Settings.CombatLogFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete))
+                using (var reader = new StreamReader(new FileStream(_settingsService.Settings.CombatLogFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete)))
                 {
-                    using (var reader = new StreamReader(fs))
+                    while (IsRunning)
                     {
-                        while (IsRunning)
+                        var value = reader.ReadLine();
+                        TryRead(value);
+
+                        if (reader.EndOfStream)
                         {
-                            var value = reader.ReadLine();
-                            TryRead(value);
-
-                            if (reader.EndOfStream)
-                            {
-                                reader.BaseStream.Seek(0, SeekOrigin.Begin);
-                            }
-
-                            Thread.Sleep(250);
+                            reader.BaseStream.Seek(0, SeekOrigin.Begin);
                         }
+
+                        Thread.Sleep(250);
                     }
                 }
             }
@@ -78,7 +75,7 @@ namespace SwtorCaster.Core.Services.Combat
                 _eventService.Handle(combatLogEvent);
                 Application.Current.Dispatcher.Invoke(() => Render(combatLogEvent));
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
             }

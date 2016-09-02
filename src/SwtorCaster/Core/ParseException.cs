@@ -2,6 +2,7 @@
 {
     using System;
 
+    [Serializable]
     public class ParseException : ApplicationException
     {
         public ParseException(string message) : base(message)

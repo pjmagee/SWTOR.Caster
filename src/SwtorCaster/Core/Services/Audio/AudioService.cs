@@ -35,7 +35,7 @@ namespace SwtorCaster.Core.Services.Audio
                         }
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     
                 }

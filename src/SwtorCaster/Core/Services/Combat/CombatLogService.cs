@@ -158,31 +158,29 @@ namespace SwtorCaster.Core.Services.Combat
 
         public void Read(string file)
         {
-            using (var fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete))
+            using (var reader = new StreamReader(new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete)))
             {
-                using (var reader = new StreamReader(fs))
+                reader.ReadToEnd();
+
+                while (true)
                 {
-                    reader.ReadToEnd();
-
-                    while (true)
+                    if (!reader.EndOfStream)
                     {
-                        if (!reader.EndOfStream)
-                        {
-                            var value = reader.ReadLine();
-                            if (value != null)
-                            {
-                                Handle(value);
+                        var value = reader.ReadLine();
 
-                                if (clearStopwatch.IsRunning)
-                                {
-                                    clearStopwatch.Restart();
-                                }
+                        if (value != null)
+                        {
+                            Handle(value);
+
+                            if (clearStopwatch.IsRunning)
+                            {
+                                clearStopwatch.Restart();
                             }
                         }
-                        else
-                        {
-                            Thread.Sleep(500);
-                        }
+                    }
+                    else
+                    {
+                        Thread.Sleep(500);
                     }
                 }
             }

@@ -4,7 +4,7 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         Icon="../Resources/swtorcaster.ico" ShowInTaskbar="True"
         SizeToContent="WidthAndHeight" ResizeMode="CanMinimize"
-        Title="SWTOR Caster">
+        Title="SWTOR Caster" Margin="5">
     <Window.Resources>
         <ToolTip x:Key="TooltipAbility" Content="You should manually add this window as a window source to OBS" />
         <ToolTip x:Key="TooltipSettings" Content="Configure SWTOR Caster" />
