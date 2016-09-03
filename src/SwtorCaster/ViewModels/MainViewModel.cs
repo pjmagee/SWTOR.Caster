@@ -1,3 +1,5 @@
+using System.Windows;
+
 namespace SwtorCaster.ViewModels
 {
     using Caliburn.Micro;
@@ -87,6 +89,14 @@ namespace SwtorCaster.ViewModels
             else
             {
                 focusableScreen.Focus();
+            }
+        }
+
+        protected override void OnDeactivate(bool close)
+        {
+            if (close)
+            {
+                Application.Current.Shutdown();
             }
         }
 
