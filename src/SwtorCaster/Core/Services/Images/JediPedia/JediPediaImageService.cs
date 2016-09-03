@@ -23,10 +23,12 @@ namespace SwtorCaster.Core.Services.Images.JediPedia
         {
             if (!Directory.Exists(imagesFolder))
             {
-                ZipFile.ExtractToDirectory(imagesZip, imagesFolder);
+                ZipFile.ExtractToDirectory(imagesZip, Environment.CurrentDirectory);
             }
 
-            abilities = JsonConvert.DeserializeObject<IEnumerable<Ability>>(abilitiesJsonFile).ToList();
+            var json = File.ReadAllText(abilitiesJsonFile);
+
+            abilities = JsonConvert.DeserializeObject<IEnumerable<Ability>>(json).ToList();
         }
 
         public string GetImageById(long abilityId)

@@ -18,7 +18,6 @@
             <Button x:Name="OpenAbilityOverlayView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipAbilityOntop}" Content="Logger overlay" />
             <Button x:Name="OpenSettingsView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipSettings}" Content="Settings" />
             <Button x:Name="OpenAboutView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipAbout}" Content="About" />
-            <Button x:Name="OpenLoggerView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipLogging}" Content="Debug logging window" />
         </StackPanel>
     </Grid>
 </controls:MetroWindow>

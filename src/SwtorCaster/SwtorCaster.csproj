@@ -323,7 +323,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
-    <None Include="JediPediaImages.zip" />
+    <None Include="JediPediaImages.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\app.manifest" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
