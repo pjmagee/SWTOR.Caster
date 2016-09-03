@@ -9,6 +9,7 @@ namespace SwtorCaster.Core
     using Services.Audio;
     using Services.Combat;
     using Services.Images;
+    using Services.Images.JediPedia;
     using Services.Logging;
     using Services.Parsing;
     using Services.Settings;
@@ -125,8 +126,7 @@ namespace SwtorCaster.Core
             container.Singleton<IAudioService, AudioService>();
 
             // Image services
-            // container.Singleton<IImageService, ImageService>();
-            container.Singleton<IImageService, MappedImageService>();
+            container.Singleton<IImageService, JediPediaImageService>();
 
             // Helper services
             container.Singleton<ILoggerService, LoggerService>();

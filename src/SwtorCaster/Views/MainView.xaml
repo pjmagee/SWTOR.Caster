@@ -10,6 +10,7 @@
         <ToolTip x:Key="TooltipSettings" Content="Configure SWTOR Caster" />
         <ToolTip x:Key="TooltipAbilityOntop" Content="Use this if you're capturing your monitor. Good for recording tutorials or making a guide" />
         <ToolTip x:Key="TooltipAbout" Content="Shows information about SWTOR Caster" />
+        <ToolTip x:Key="TooltipLogging" Content="Display the debug log" />
     </Window.Resources>
     <Grid Margin="5">
         <StackPanel Orientation="Vertical">
@@ -17,6 +18,7 @@
             <Button x:Name="OpenAbilityOverlayView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipAbilityOntop}" Content="Logger overlay" />
             <Button x:Name="OpenSettingsView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipSettings}" Content="Settings" />
             <Button x:Name="OpenAboutView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipAbout}" Content="About" />
+            <Button x:Name="OpenLoggerView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipLogging}" Content="Debug logging window" />
         </StackPanel>
     </Grid>
 </controls:MetroWindow>

@@ -190,8 +190,10 @@
     <Compile Include="Core\Services\Events\EventService.cs" />
     <Compile Include="Core\Extensions\SettingExtensions.cs" />
     <Compile Include="Core\Services\Events\IEventService.cs" />
-    <Compile Include="Core\Services\Images\ImageMapping.cs" />
-    <Compile Include="Core\Services\Images\MappedImageService.cs" />
+    <Compile Include="Core\Services\Images\JediPedia\Ability.cs" />
+    <Compile Include="Core\Services\Images\Mapping\ImageMapping.cs" />
+    <Compile Include="Core\Services\Images\JediPedia\JediPediaImageService.cs" />
+    <Compile Include="Core\Services\Images\Mapping\MappedImageService.cs" />
     <Compile Include="Core\Services\Parsing\CombatLogParser.cs" />
     <Compile Include="Core\Services\Settings\FontService.cs" />
     <Compile Include="Core\Services\Settings\IFontService.cs" />
@@ -213,7 +215,7 @@
     <Compile Include="Core\Services\Combat\DemoCombatLogService.cs" />
     <Compile Include="Core\Services\Images\IImageService.cs" />
     <Compile Include="Core\Services\Logging\ILoggerService.cs" />
-    <Compile Include="Core\Services\Images\ImageService.cs" />
+    <Compile Include="Core\Services\Images\Flattened\ImageService.cs" />
     <Compile Include="Core\Services\Combat\ICombatLogService.cs" />
     <Compile Include="Core\Services\Settings\ISettingsService.cs" />
     <Compile Include="Core\Services\Logging\LoggerService.cs" />
@@ -312,12 +314,6 @@
     <Resource Include="Resources\swtorcaster.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <EmbeddedResource Include="Resources\mappings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <Content Include="MappedImages.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Resource Include="Resources\SF Distant Galaxy.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -327,6 +323,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="JediPediaImages.zip" />
     <None Include="Properties\app.manifest" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

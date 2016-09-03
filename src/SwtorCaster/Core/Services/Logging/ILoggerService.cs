@@ -4,6 +4,6 @@
     {
         void Clear();
         void Log(string line);
-        string Text { get; }
+        bool IsEnabled { get; }
     }
 }

@@ -30,5 +30,10 @@ namespace SwtorCaster.ViewModels
         {
             Process.Start("https://github.com/pjmagee/swtor-caster/");
         }
+
+        public void OpenJediPedia()
+        {
+            Process.Start("https://swtor.jedipedia.net/en");
+        }
     }
 }

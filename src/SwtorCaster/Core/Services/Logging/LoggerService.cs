@@ -4,19 +4,13 @@ namespace SwtorCaster.Core.Services.Logging
 {
     using System;
     using System.IO;
-    using System.Linq;
 
     public class LoggerService : ILoggerService
     {
         private readonly string _logPath = Path.Combine(Environment.CurrentDirectory, "log.txt");
         
-        public LoggerService()
-        {
-            IsLoggingEnabled = ConfigurationManager.AppSettings["logging"] == "True";
-        }
+        public bool IsEnabled => ConfigurationManager.AppSettings["logging"] == "True";
 
-        private bool IsLoggingEnabled { get; }
-        
         public void Clear()
         {
             try
@@ -33,25 +27,14 @@ namespace SwtorCaster.Core.Services.Logging
         {
             try
             {
-                if (IsLoggingEnabled)
+                if (IsEnabled)
                 {
-                    File.AppendAllText(_logPath, $"[{DateTime.Now}] {line}.{Environment.NewLine}");
+                    File.AppendAllText(_logPath, $@"[{DateTime.Now}] {line.TrimEnd('.')}.{Environment.NewLine}");
                 }
             }
             catch
             {
                 // ignored
-            }
-        }
-
-        // Take the last 100 log lines
-        public string Text
-        {
-            get
-            {
-                var lines = File.ReadAllLines(_logPath);
-                var take = Math.Min(100, lines.Length);
-                return string.Join(Environment.NewLine, lines.Reverse().Take(take));
             }
         }
     }

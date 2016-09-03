@@ -90,6 +90,14 @@
                     </TextBlock>
                 </Button>
             </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label FontWeight="Bold">JediPedia:</Label>
+                <Button cal:Message.Attach="[Event Click] = [Action OpenJediPedia]" Style="{StaticResource HyperlinkButton}">
+                    <TextBlock VerticalAlignment="Center">
+                        <Hyperlink Focusable="False">https://swtor.jedipedia.net/</Hyperlink>
+                    </TextBlock>
+                </Button>
+            </StackPanel>
       
             <StackPanel Orientation="Horizontal">
                 <Label FontWeight="Bold">Twitch:</Label>

@@ -1,3 +1,6 @@
+using System.Diagnostics;
+using SwtorCaster.Core.Services.Logging;
+
 namespace SwtorCaster.Core.Services.Parsing
 {
     using System;
@@ -29,10 +32,19 @@ namespace SwtorCaster.Core.Services.Parsing
 
         private CombatLogEvent CombatLogEvent { get; set; }
 
+        private readonly ILoggerService loggerService;
+
+        public CombatLogParser(ILoggerService loggerService)
+        {
+            this.loggerService = loggerService;
+        }
+
         public CombatLogEvent Parse(string line)
         {
             if (string.IsNullOrEmpty(line))
                 throw new ParseException("Line was null.");
+
+            var stopWatch = Stopwatch.StartNew();
 
             CombatLogEvent = new CombatLogEvent();
 
@@ -50,6 +62,10 @@ namespace SwtorCaster.Core.Services.Parsing
             }
 
             ProcessTrackedPlayer();
+
+            loggerService.Log($"Time to parse line: {stopWatch.Elapsed}");
+
+            stopWatch.Stop();
 
             return CombatLogEvent;
         }
@@ -206,18 +222,20 @@ namespace SwtorCaster.Core.Services.Parsing
 
         private CombatLogParticipant ProcessParticipant(string entity)
         {
-            string name = null;
+            string name;
 
-            var participant = new CombatLogParticipant(CombatLogParticipant.EmptyParticipantName, entityId: 0);
-            participant.IsPlayer = entity.StartsWith("@");
+            var participant = new CombatLogParticipant(CombatLogParticipant.EmptyParticipantName, entityId: 0)
+            {
+                IsPlayer = entity.StartsWith("@")
+            };
 
             if (participant.IsPlayer)
             {
-                name = MatchByPlayer(entity, name, participant);
+                name = MatchByPlayer(entity, participant);
             }
             else // NPC
             {
-                name = MatchByNPC(entity, name, participant);
+                name = MatchByNPC(entity, participant);
             }
 
             if (!string.IsNullOrEmpty(name))
@@ -228,21 +246,21 @@ namespace SwtorCaster.Core.Services.Parsing
             return participant;
         }
 
-        private static string MatchByNPC(string entity, string name, CombatLogParticipant participant)
+        private static string MatchByNPC(string entity, CombatLogParticipant participant)
         {
             var match = NpcRegex.Match(entity);
 
             if (match.Success)
             {
-                name = match.Groups[1].Value;
                 participant.EntityId = Convert.ToInt64(match.Groups[2].Value);
                 participant.UniqueId = Convert.ToInt64(match.Groups[3].Value);
+                return match.Groups[1].Value;
             }
 
-            return name;
+            return null;
         }
 
-        private static string MatchByPlayer(string entity, string name, CombatLogParticipant participant)
+        private static string MatchByPlayer(string entity, CombatLogParticipant participant)
         {
             if (entity.EndsWith("}"))
             {
@@ -250,18 +268,18 @@ namespace SwtorCaster.Core.Services.Parsing
 
                 if (match.Success)
                 {
-                    name = match.Groups[2].Value;
                     participant.IsPlayerCompanion = true;
                     participant.CompanionOwner = match.Groups[1].Value;
                     participant.EntityId = Convert.ToInt64(match.Groups[3].Value);
+                    return match.Groups[2].Value;
                 }
             }
             else
             {
-                name = entity.Substring(1);
+                return entity.Substring(1);
             }
 
-            return name;
+            return null;
         }
     }
 }
