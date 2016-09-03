@@ -33,22 +33,16 @@ namespace SwtorCaster.Core.Services.Combat
         private readonly ICombatLogViewModelFactory logViewModelFactory;
         private readonly Stopwatch clearStopwatch;
         private readonly DispatcherTimer clearTimer;
-        private readonly DispatcherTimer fileWriteTimer;
         private readonly DirectoryInfo logDirectory;
 
-        private DateTime lastModded;
-        private FileInfo cachedLogFileInfo;
-
-        public bool IsRunning { get; private set; }
+		public bool IsRunning { get; private set; }
 
         private CombatLogService()
         {
             clearTimer = new DispatcherTimer(DispatcherPriority.Normal) { Interval = TimeSpan.FromSeconds(1), IsEnabled = true };
             clearStopwatch = new Stopwatch();
-            fileWriteTimer = new DispatcherTimer(DispatcherPriority.Normal) { Interval = TimeSpan.FromSeconds(10), IsEnabled = true };
             logDirectory = new DirectoryInfo(SwtorCombatLogPath);
             clearTimer.Tick += ClearTimerOnTick;
-            fileWriteTimer.Tick += FileWriteTimerOnTick;
         }
 
         public CombatLogService(
@@ -73,12 +67,15 @@ namespace SwtorCaster.Core.Services.Combat
 
             try
             {
-                currentFile = GetLatestFile();
-                clearTimer.Start();
+                if (currentFile == null)
+				{
+					currentFile = GetLastFile();
+				}
+				StartWatcherNewCombatFile();
+				clearTimer.Start();
                 clearStopwatch.Start();
 
                 ReadCurrentFile();
-                fileWriteTimer.Start();
 
                 loggerService.Log($"Parser service started.");
             }
@@ -94,32 +91,39 @@ namespace SwtorCaster.Core.Services.Combat
             thread?.Abort();
             clearStopwatch?.Stop();
             clearTimer?.Stop();
-            fileWriteTimer?.Stop();
             thread = null;
             loggerService.Log($"Parser service stopped");
         }
 
-        private FileInfo GetLatestFile()
-        {
-            if (!Directory.Exists(logDirectory.FullName))
-                Directory.CreateDirectory(logDirectory.FullName);
+		private void StartWatcherNewCombatFile()
+		{
+			FileSystemWatcher watcher = new FileSystemWatcher();
+			watcher.Path = SwtorCombatLogPath;
+			watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName;
+			watcher.Filter = "combat_*.txt";
+			watcher.Created += new FileSystemEventHandler(NewCombatFile);
+			watcher.EnableRaisingEvents = true;
+		}
+				
+		private void NewCombatFile(object source, FileSystemEventArgs e)
+		{
+			loggerService.Log($"Detected new file {e.Name}");
+			loggerService.Log($"Restarting parser service with new file");
+			currentFile = new FileInfo(e.FullPath);
+			Stop();
+			Start();
+		}
 
-            DateTime lastLogFolderMod = Directory.GetLastWriteTime(logDirectory.FullName);
+		private FileInfo GetLastFile()
+		{
+			if (!Directory.Exists(logDirectory.FullName))
+				Directory.CreateDirectory(logDirectory.FullName);
 
-            if (lastModded != lastLogFolderMod)
-            {
-                lastModded = lastLogFolderMod;
-                var fileInfos = logDirectory.EnumerateFiles("*.txt", SearchOption.TopDirectoryOnly);
-                FileInfo logInfo = fileInfos.OrderByDescending(x => x.LastWriteTime).FirstOrDefault();
-                cachedLogFileInfo = logInfo;
+			var fileInfos = logDirectory.EnumerateFiles("combat_*.txt", SearchOption.TopDirectoryOnly);
+			FileInfo logInfo = fileInfos.OrderByDescending(x => x.LastWriteTime).FirstOrDefault();
+			return logInfo;
+		}
 
-                return logInfo;
-            }
-            else
-            {
-                return cachedLogFileInfo;
-            }
-        }
 
         private void ClearTimerOnTick(object sender, EventArgs eventArgs)
         {
@@ -132,21 +136,9 @@ namespace SwtorCaster.Core.Services.Combat
             });
         }
 
-        private void FileWriteTimerOnTick(object sender, EventArgs eventArgs)
-        {
-            var file = GetLatestFile();
-            if (file?.FullName == currentFile?.FullName) return;
-
-            loggerService.Log($"Detected new file {file?.FullName}");
-            loggerService.Log($"Restarting parser service with new file");
-
-            Stop();
-            Start();
-        }
-
         private void ReadCurrentFile()
         {
-            var file = GetLatestFile();
+            var file = currentFile;
 
             if (file != null)
             {
