@@ -15,15 +15,13 @@ namespace SwtorCaster.Core.Services.Combat
     using Logging;
     using Parsing;
     using Settings;
+    using Domain.Settings;
     using static System.Environment;
 
-    public class CombatLogService : ICombatLogService
+    public class CombatLogService : ICombatLogService, IHandle<Domain.Settings.Settings>
     {
         private Thread thread;
-        private FileInfo currentFile;
-
-        private static string SwtorCombatLogPath => Path.Combine(GetFolderPath(SpecialFolder.MyDocuments),
-            "Star Wars - The Old Republic", "CombatLogs");
+        private FileInfo currentFile;              
 
         private readonly ILoggerService loggerService;
         private readonly ISettingsService settingsService;
@@ -33,15 +31,16 @@ namespace SwtorCaster.Core.Services.Combat
         private readonly ICombatLogViewModelFactory logViewModelFactory;
         private readonly Stopwatch clearStopwatch;
         private readonly DispatcherTimer clearTimer;
-        private readonly DirectoryInfo logDirectory;
+        private DirectoryInfo logDirectory;
 
-		public bool IsRunning { get; private set; }
+        public static string SwtorCombatLogPath => Path.Combine(GetFolderPath(SpecialFolder.MyDocuments), "Star Wars - The Old Republic", "CombatLogs");
+
+        public bool IsRunning { get; private set; }
 
         private CombatLogService()
         {
             clearTimer = new DispatcherTimer(DispatcherPriority.Normal) { Interval = TimeSpan.FromSeconds(1), IsEnabled = true };
             clearStopwatch = new Stopwatch();
-            logDirectory = new DirectoryInfo(SwtorCombatLogPath);
             clearTimer.Tick += ClearTimerOnTick;
         }
 
@@ -58,12 +57,21 @@ namespace SwtorCaster.Core.Services.Combat
             this.eventAggregator = eventAggregator;
             this.eventService = eventService;
             this.parser = parser;
-            this.logViewModelFactory = logViewModelFactory;
+            this.logViewModelFactory = logViewModelFactory;            
+        }
+
+        private DirectoryInfo GetLogDirectory()
+        {
+            var customDirectory = settingsService.Settings.CustomCombatLogDirectory;
+            if (!string.IsNullOrEmpty(customDirectory) && Directory.Exists(customDirectory)) return new DirectoryInfo(customDirectory);
+            return new DirectoryInfo(SwtorCombatLogPath);
         }
 
         public void Start()
         {
             if (IsRunning) return;
+
+            logDirectory = GetLogDirectory();
 
             try
             {
@@ -196,6 +204,13 @@ namespace SwtorCaster.Core.Services.Combat
         {
             var viewModel = logViewModelFactory.Create(logLine);
             eventAggregator.PublishOnUIThread(viewModel);
+        }
+
+
+        public void Handle(Settings message)
+        {
+            Stop();
+            Start();
         }
     }
 }

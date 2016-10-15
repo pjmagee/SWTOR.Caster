@@ -6,6 +6,7 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:viewModels="clr-namespace:SwtorCaster.ViewModels"
              xmlns:custom="clr-namespace:SwtorCaster.Custom"
+             xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" Background="White">
     <UserControl.Resources>
         <ToolTip x:Key="TooltipMaxItems" Content="The maximum number of logged abilitys to display in the ability logger window (recommend between 3 and 6)" />
@@ -29,6 +30,12 @@
                 </Rectangle.Fill>
             </Rectangle>
             <Label>Hover over each option for a tooltip description.</Label>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="Usually the current user, but if you are running under a normal user with admin privileges, you may need to set this.">
+            <Label Content="Combat log directory:" />
+            <Label Content="{Binding Path=CustomCombatLogDirectory}" />
+            <Button Content="Change" cal:Message.Attach="AddCustomCombatLogDirectory" ToolTip="Select custom combat log directory" Style="{StaticResource ActionButton}" />
+            <Button Content="Default" cal:Message.Attach="DefaultCustomCombatLogDirectory" ToolTip="Clear the custom directory" Style="{StaticResource ActionButton}" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipOpenLoggerOnStartup}">
             <Label Content="Open logger window on startup:" />

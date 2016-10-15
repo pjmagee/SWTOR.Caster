@@ -23,6 +23,7 @@ namespace SwtorCaster.Core.Domain.Settings
         private string abilityTextBorderColor = Colors.Black.ToHex();
 
         private string version;
+        private string customCombatLogDirectory;
         private string combatLogFile;
         private string textFont = "SF Distant Galaxy"; // default font in Resources folder shipped with SWTORCaster
 
@@ -91,6 +92,17 @@ namespace SwtorCaster.Core.Domain.Settings
             set
             {
                 companionAbilityBorderColor = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonProperty("customCombatLogDirectory")]
+        public string CustomCombatLogDirectory
+        {
+            get { return customCombatLogDirectory; }
+            set
+            {
+                customCombatLogDirectory = value;
                 OnPropertyChanged();
             }
         }

@@ -2,12 +2,13 @@ namespace SwtorCaster.ViewModels
 {
     using System;
     using System.Windows.Media;
-    using Caliburn.Micro;
     using Core.Extensions;
     using Core.Services.Settings;
     using System.Collections.Generic;
+    using System.Windows.Forms;
+    using Core.Services.Combat;
 
-    public class MainSettingsViewModel : PropertyChangedBase
+    public class MainSettingsViewModel : Caliburn.Micro.Screen
     {
         private readonly ISettingsService settingsService;
         private readonly IFontService fontService;
@@ -32,6 +33,40 @@ namespace SwtorCaster.ViewModels
         {
             get { return settingsService.Settings.OpenLoggerWindowOnStartup; }
             set { settingsService.Settings.OpenLoggerWindowOnStartup = value; }
+        }
+
+        public string CustomCombatLogDirectory
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(settingsService.Settings.CustomCombatLogDirectory)) return CombatLogService.SwtorCombatLogPath;
+                return settingsService.Settings.CustomCombatLogDirectory;
+            }
+            set
+            {
+                settingsService.Settings.CustomCombatLogDirectory = value;                
+            }
+        }
+
+        public void AddCustomCombatLogDirectory()
+        {
+            using (var folderSelector = new FolderBrowserDialog())
+            {
+                folderSelector.ShowNewFolderButton = false;
+                var result = folderSelector.ShowDialog();
+
+                if (result == DialogResult.OK)
+                {
+                    CustomCombatLogDirectory = folderSelector.SelectedPath;
+                    NotifyOfPropertyChange(() => CustomCombatLogDirectory);
+                }                
+            }
+        }
+
+        public void DefaultCustomCombatLogDirectory()
+        {
+            CustomCombatLogDirectory = null;
+            NotifyOfPropertyChange(() => CustomCombatLogDirectory);
         }
 
         public int Items
@@ -93,7 +128,7 @@ namespace SwtorCaster.ViewModels
             get { return settingsService.Settings.IgnoreUnknownAbilities; }
             set { settingsService.Settings.IgnoreUnknownAbilities = value; }
         }
-        
+
         public int FontSize
         {
             get { return settingsService.Settings.FontSize; }
