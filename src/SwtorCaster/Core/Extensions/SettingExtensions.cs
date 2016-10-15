@@ -12,7 +12,13 @@ namespace SwtorCaster.Core.Extensions
                    setting.IsEnterCombat(line) ||
                    setting.IsExitCombat(line) ||
                    setting.IsAbilityActivate(line) ||
-                   setting.IsAbilityCancel(line);
+                   setting.IsAbilityCancel(line) || 
+                   setting.IsPlayerSurrender(line);
+        }
+
+        public static bool IsPlayerSurrender(this EventSetting setting, CombatLogEvent line)
+        {
+            return line.IsSurrender();
         }
 
         public static bool IsAbilityActivate(this EventSetting setting, CombatLogEvent line)

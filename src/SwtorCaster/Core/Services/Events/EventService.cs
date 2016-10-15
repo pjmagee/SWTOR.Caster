@@ -11,22 +11,24 @@
 
     public class EventService : IEventService
     {
-        private readonly IAudioService _audioService;
-        private readonly ILoggerService _loggerService;
-        private readonly ISettingsService _settingsService;
+        private readonly IAudioService audioService;
+        private readonly ILoggerService loggerService;
+        private readonly ISettingsService settingsService;
 
         public EventService(ISettingsService settingsService, IAudioService audioService, ILoggerService loggerService)
         {
-            _settingsService = settingsService;
-            _audioService = audioService;
-            _loggerService = loggerService;
+            this.settingsService = settingsService;
+            this.audioService = audioService;
+            this.loggerService = loggerService;
         }
 
         public void Handle(CombatLogEvent line)
         {
-            if (!_settingsService.Settings.EnableSound) return;
+            var settings = settingsService.Settings;
 
-            foreach (var eventSetting in _settingsService.Settings.EventSettings.Where(x => x.Enabled))
+            if (!settings.EnableSound) return;
+
+            foreach (var eventSetting in settings.EventSettings.Where(x => x.Enabled))
             {
                 HandleEventLine(line, eventSetting);
             }
@@ -36,19 +38,21 @@
         {
             try
             {
-                if (setting.CanPlay(line) && !string.IsNullOrEmpty(setting.Sound))
-                {
-                    _audioService.Play(setting.Sound);
-                }
+                var canPlay = setting.CanPlay(line);
+                var hasSoundFile = !string.IsNullOrEmpty(setting.Sound);
 
-                if (setting.CanPlay(line) && string.IsNullOrEmpty(setting.Sound))
+                if (canPlay && hasSoundFile)
                 {
-                    _audioService.Stop();
+                    audioService.Play(setting.Sound);
+                }
+                else if (canPlay && !hasSoundFile)
+                {
+                    audioService.Stop();
                 }
             }
             catch (Exception e)
             {
-                _loggerService.Log(e.Message);
+                loggerService.Log(e.Message);
             }
         }
     }

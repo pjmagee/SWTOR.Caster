@@ -120,6 +120,11 @@ namespace SwtorCaster.Core.Extensions
             return @event.IsEffectType(EffectType.ApplyEffect);
         }
 
+        public static bool IsSurrender(this CombatLogEvent @event)
+        {
+            return @event.IsApplyEffect() && @event.IsEffectName(EffectName.Surrender);
+        }
+
         public static bool IsRemoveEffect(this CombatLogEvent @event)
         {
             return @event.IsEffectType(EffectType.RemoveEffect);

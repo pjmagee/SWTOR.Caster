@@ -7,6 +7,8 @@ namespace SwtorCaster.Core.Domain.Settings
     using Annotations;
     using Extensions;
     using Newtonsoft.Json;
+    using System;
+    using NAudio.Wave;
 
     public class Settings : INotifyPropertyChanged
     {
@@ -22,13 +24,14 @@ namespace SwtorCaster.Core.Domain.Settings
 
         private string version;
         private string combatLogFile;
-        private string textFont = "SF Distant Galaxy";
+        private string textFont = "SF Distant Galaxy"; // default font in Resources folder shipped with SWTORCaster
 
         private int items = 5; // 5 items in the ability logger window
         private int rotate = 5; // +/- 5 degree angle rotation on image
         private int clearAfterInactivity = 10; // 10 seconds
         private int fontSize = 32; // default text ability font size
         private int volume = 10; // the default volume of 100%
+        private Guid audioDeviceId = Guid.Empty;
         private double opacity = 0.15; // the top window opacity over the game.
         
         private bool enableSound;
@@ -339,9 +342,20 @@ namespace SwtorCaster.Core.Domain.Settings
             get { return opacity; }
             set
             {
-				//if (value == opacity) return;
 				if ((value - opacity) < 0.01) return;
                 opacity = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonProperty("audioDeviceId")]
+        public Guid AudioDeviceId
+        {
+            get { return audioDeviceId; }
+            set
+            {
+                if (value.Equals(audioDeviceId)) return;
+                audioDeviceId = value;
                 OnPropertyChanged();
             }
         }

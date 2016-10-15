@@ -6,7 +6,7 @@
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:cal="http://www.caliburnproject.org"
              xmlns:custom="clr-namespace:SwtorCaster.Custom"
-             mc:Ignorable="d" d:DesignWidth="400" Background="White">
+             mc:Ignorable="d" d:DesignWidth="800" Background="White">
     <UserControl.Resources>
         <ToolTip x:Key="TooltipEnableEvents" Content="Play sounds when configured events occur." />
         <ToolTip x:Key="TooltipAddAudio" Content="Select an audio file to play when the event occurs." />
@@ -14,11 +14,22 @@
     </UserControl.Resources>
     <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
         <StackPanel Orientation="Horizontal" Margin="5">
-            <Label Content="Enable sound settings:" ToolTip="{StaticResource TooltipEnableEvents}" />
-            <CheckBox x:Name="SoundsEnabled" IsChecked="{Binding EnableSound}" />
-            <Label Content="Volume:" />
-            <Slider x:Name="Volume" Minimum="1" Maximum="100" Width="150" VerticalAlignment="Center" AutoToolTipPrecision="2" TickFrequency="5" AutoToolTipPlacement="TopLeft" />
-            <Label Content="{Binding ElementName=Volume, Path=Value}" />
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Enabled:" ToolTip="{StaticResource TooltipEnableEvents}" />
+                <CheckBox x:Name="SoundsEnabled" IsChecked="{Binding EnableSound}" />
+                <Label Content="Volume:" />
+                <Slider x:Name="Volume" Minimum="1" Maximum="100" Width="100" VerticalAlignment="Center" AutoToolTipPrecision="2" TickFrequency="5" AutoToolTipPlacement="TopLeft" />
+                <Label Content="{Binding ElementName=Volume, Path=Value}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Width="Auto" HorizontalAlignment="Stretch">
+                <Label Content="Device:" />
+                <controls:SplitButton ItemsSource="{Binding Path=SoundDevices}" 
+                                      SelectedItem="{Binding Path=SelectedSoundDevice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      DisplayMemberPath="Key"
+                                      HorizontalAlignment="Center" Width="Auto"
+                                      HorizontalContentAlignment="Stretch">
+                </controls:SplitButton>
+            </StackPanel>
         </StackPanel>
         <DataGrid Name="Events" 
                   ItemsSource="{Binding EventSettingViewModels}" 

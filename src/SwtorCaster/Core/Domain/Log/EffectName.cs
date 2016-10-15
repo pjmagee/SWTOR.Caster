@@ -5,6 +5,9 @@ namespace SwtorCaster.Core.Domain.Log
         EnterCombat = 836045448945489,
         ExitCombat = 836045448945490,
 
+        Surrender = 973484402409472,
+        PVP = 632919265640448,
+
         AbilityActivate = 836045448945479,
         AbilityCancel = 836045448945481,
         AbilityDeactivate = 836045448945480,

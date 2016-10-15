@@ -11,6 +11,7 @@ namespace SwtorCaster.ViewModels
     using Core.Services.Audio;
     using MahApps.Metro.Controls.Dialogs;
     using Microsoft.Win32;
+    using System.Linq;
 
     public class EventSettingItem : Screen
     {
@@ -20,16 +21,7 @@ namespace SwtorCaster.ViewModels
 
         public EventSetting EventSetting { get; }
 
-        public IEnumerable<SoundEvent> EffectNames => new[]
-        {
-            SoundEvent.EnterCombat,
-            SoundEvent.ExitCombat,
-            SoundEvent.AbilityActivate,
-            SoundEvent.AbilityCancel,
-            SoundEvent.Kill, 
-            SoundEvent.Death,
-            SoundEvent.Revived
-        };
+        public IEnumerable<SoundEvent> EffectNames => Enum.GetValues(typeof(SoundEvent)).Cast<SoundEvent>();
 
         public EventSettingItem(EventSettingsViewModel eventSettingsViewModel, EventSetting eventSetting, IAudioService audioService, ISettingsService settingsService)
         {
@@ -90,7 +82,7 @@ namespace SwtorCaster.ViewModels
         {
             try
             {
-                audioService.Play(EventSetting.Sound, settingsService.Settings.Volume);
+                audioService.Play(EventSetting.Sound);
             }
             catch (Exception e)
             {

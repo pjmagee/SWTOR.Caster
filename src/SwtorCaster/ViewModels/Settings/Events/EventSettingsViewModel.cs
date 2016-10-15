@@ -7,6 +7,8 @@ namespace SwtorCaster.ViewModels
     using Core.Services.Settings;
     using System.Windows.Controls;
     using MahApps.Metro.Controls;
+    using System.Collections.Generic;
+    using System;
 
     public class EventSettingsViewModel : Screen
     {
@@ -16,6 +18,8 @@ namespace SwtorCaster.ViewModels
         private readonly IAudioService audioService;
 
         public MetroWindow Window => (GetView() as UserControl).TryFindParent<MetroWindow>();
+
+        public IEnumerable<KeyValuePair<string, Guid>> SoundDevices => audioService.GetAudioDevices();
 
         public bool EnableSound
         {
@@ -27,6 +31,15 @@ namespace SwtorCaster.ViewModels
         {
             get { return settingsService.Settings.Volume; }
             set { settingsService.Settings.Volume = value; }
+        }
+
+        public KeyValuePair<string, Guid> SelectedSoundDevice
+        {
+            set {  settingsService.Settings.AudioDeviceId = value.Value; }
+            get
+            {
+                return SoundDevices.First(x => x.Value == settingsService.Settings.AudioDeviceId);
+            }
         }
 
         public EventSettingsViewModel(ISettingsService settingsService, IAudioService audioService)

@@ -1,50 +1,68 @@
 namespace SwtorCaster.Core.Services.Audio
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
     using NAudio.Wave;
+    using System.Linq;
+    using Settings;
 
     public class AudioService : IAudioService
     {
-        private WaveOut waveOut;
-        private ManualResetEvent _event;
+        private DirectSoundOut dso;
+        private ManualResetEvent eventWaiter;
+        private ISettingsService settingsService;
 
-        public async void Play(string audioFile, int volume)
+        public AudioService(ISettingsService settingsService)
+        {         
+            this.settingsService = settingsService;
+        }
+
+        public IEnumerable<KeyValuePair<string, Guid>> GetAudioDevices()
         {
-            waveOut?.Stop();
+            return DirectSoundOut.Devices.Select(device => new KeyValuePair<string, Guid>(device.Description, device.Guid));
+        }
 
+        public async void Play(string audioFile)
+        {
+            Stop();
+            await Start(audioFile);
+        }
+
+        public void Stop()
+        {
+            dso?.Stop();
+        }
+
+        private async Task Start(string audioFile)
+        {
             await Task.Run(() =>
             {
                 try
                 {
                     using (var audioFileReader = new AudioFileReader(audioFile))
                     {
-                        audioFileReader.Volume = volume * 0.01f;
+                        audioFileReader.Volume = settingsService.Settings.Volume * 0.01f;
 
-                        using (waveOut = new WaveOut())
+                        using (dso = new DirectSoundOut(settingsService.Settings.AudioDeviceId))
                         {
-                            waveOut.Init(audioFileReader);
+                            dso.Init(audioFileReader);
 
-                            using (_event = new ManualResetEvent(false))
+                            using (eventWaiter = new ManualResetEvent(false))
                             {
-                                waveOut.Play();
-                                waveOut.PlaybackStopped += (sender, args) => _event.Set();
-                                _event.WaitOne();
+                                dso.Play();
+                                dso.PlaybackStopped += (sender, args) => eventWaiter.Set();
+                                eventWaiter.WaitOne();
                             }
                         }
                     }
                 }
                 catch (Exception)
                 {
-                    
+
                 }
             });
-        }
-
-        public void Stop()
-        {
-            waveOut?.Stop();
         }
     }
 }
