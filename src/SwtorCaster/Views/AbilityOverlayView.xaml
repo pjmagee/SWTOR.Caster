@@ -4,7 +4,7 @@
         x:Class="SwtorCaster.Views.AbilityOverlayView"
         Height="400" Width="600" ResizeMode="CanResizeWithGrip" 
         AllowsTransparency="True" cal:Message.Attach="[Event MouseLeftButtonDown] = [Action OnLeftMouseButtonDown($event)]"
-        WindowStartupLocation="CenterOwner" WindowStyle="None" BorderBrush="Transparent">
+        WindowStartupLocation="CenterOwner" WindowStyle="None" BorderBrush="Transparent" ShowInTaskbar="False">
     <Window.Background>
         <SolidColorBrush Color="LightBlue" Opacity="{Binding Opacity}" />
     </Window.Background>

@@ -51,13 +51,18 @@ namespace SwtorCaster.ViewModels
 
         public string Sound
         {
-            get { return Path.GetFileNameWithoutExtension(EventSetting.Sound); }
+            get
+            {
+                var isNoFile = string.IsNullOrWhiteSpace(EventSetting.Sound) || !File.Exists(EventSetting.Sound);
+                if (isNoFile) return "No file";
+                return Path.GetFileNameWithoutExtension(EventSetting.Sound);
+            }
             set
             {
                 EventSetting.Sound = value;
                 NotifyOfPropertyChange(() => Sound);
             }
-        }
+        }        
 
         public void AddAudio()
         {

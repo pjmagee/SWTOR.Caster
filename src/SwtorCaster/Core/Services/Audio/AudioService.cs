@@ -13,9 +13,10 @@ namespace SwtorCaster.Core.Services.Audio
         private DirectSoundOut dso;
         private ManualResetEvent eventWaiter;
         private ISettingsService settingsService;
+        private object syncLock = new object();
 
         public AudioService(ISettingsService settingsService)
-        {         
+        {
             this.settingsService = settingsService;
         }
 
@@ -41,19 +42,22 @@ namespace SwtorCaster.Core.Services.Audio
             {
                 try
                 {
-                    using (var audioFileReader = new AudioFileReader(audioFile))
+                    lock (syncLock)
                     {
-                        audioFileReader.Volume = settingsService.Settings.Volume * 0.01f;
-
-                        using (dso = new DirectSoundOut(settingsService.Settings.AudioDeviceId))
+                        using (var audioFileReader = new AudioFileReader(audioFile))
                         {
-                            dso.Init(audioFileReader);
+                            audioFileReader.Volume = settingsService.Settings.Volume * 0.01f;
 
-                            using (eventWaiter = new ManualResetEvent(false))
+                            using (dso = new DirectSoundOut(settingsService.Settings.AudioDeviceId))
                             {
-                                dso.Play();
-                                dso.PlaybackStopped += (sender, args) => eventWaiter.Set();
-                                eventWaiter.WaitOne();
+                                dso.Init(audioFileReader);
+
+                                using (eventWaiter = new ManualResetEvent(false))
+                                {
+                                    dso.Play();
+                                    dso.PlaybackStopped += (sender, args) => eventWaiter.Set();
+                                    eventWaiter.WaitOne();
+                                }
                             }
                         }
                     }

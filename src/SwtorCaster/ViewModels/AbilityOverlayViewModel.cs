@@ -21,7 +21,7 @@ namespace SwtorCaster.ViewModels
         {
             this.settingsService = settingsService;
             AbilityViewModel = abilityViewModel;
-            aggregator.Subscribe(this);
+            aggregator.Subscribe(this);            
         }
 
         public void OnLeftMouseButtonDown(MouseButtonEventArgs e)

@@ -342,8 +342,8 @@ namespace SwtorCaster.Core.Domain.Settings
             get { return opacity; }
             set
             {
-				if ((value - opacity) < 0.01) return;
                 opacity = value;
+                if (opacity < 0.01) opacity = 0.01;
                 OnPropertyChanged();
             }
         }
