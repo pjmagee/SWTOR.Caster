@@ -59,6 +59,7 @@ Please consider using my [SWTOR referral link](http://www.swtor.com/r/rpNrdB) as
 - [nGage Online](https://www.twitch.tv/ngageonline/)
 - [Ldsiris](https://www.twitch.tv/ldsiris/)
 - [Punisher_Biz](Punisher_Biz)
+- [Kakarrot](https://www.twitch.tv/kakarrot1138/)
 
 Some Example Youtube videos using SWTOR Caster
 
@@ -67,6 +68,7 @@ Some Example Youtube videos using SWTOR Caster
 - [LdSiris - Powetech Advanted Prototype PvP video](https://www.youtube.com/watch?v=JNQBfGADHyk)
 - [Aravail - Hard Mode Temple of Sacrifice](https://www.youtube.com/watch?v=BGeRbw0gnFA)
 - [Aravail - Sage Dummy Parsing](https://www.youtube.com/watch?v=QsgZGIqqhOA)
+- [Helldog - Eternal Championship - Sprint Champion](https://www.youtube.com/watch?v=sp-2fycKtqE)
 
 ## Libraries/Frameworks used in SWTOR Caster
 
@@ -83,6 +85,6 @@ Contributions are welcome, read the code and ensure you adhere to the same consi
 
 # Contributions to SWTOR Caster
 
-- TOR Community - Providing the images
+- [TOR Community](http://torcommunity.com) - Providing the images
 - SWTOR Potato - Optimisations
 - atesca09 - Optimisations
