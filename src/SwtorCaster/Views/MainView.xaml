@@ -18,6 +18,10 @@
             <Button x:Name="OpenAbilityOverlayView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipAbilityOntop}" Content="Logger overlay" />
             <Button x:Name="OpenSettingsView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipSettings}" Content="Settings" />
             <Button x:Name="OpenAboutView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipAbout}" Content="About" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Label HorizontalAlignment="Right" Content="Version:" />
+                <Label Content="{Binding Version}" />
+            </StackPanel> 
         </StackPanel>
     </Grid>
 </controls:MetroWindow>

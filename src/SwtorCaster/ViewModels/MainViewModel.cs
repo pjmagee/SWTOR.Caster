@@ -2,10 +2,12 @@ using System.Windows;
 
 namespace SwtorCaster.ViewModels
 {
+    using System;
     using Caliburn.Micro;
     using Core.Domain.Settings;
     using Core.Services.Combat;
     using Core.Services.Providers;
+    using System.Deployment.Application;
 
     public class MainViewModel : Screen, IHandle<Settings>, IHandle<ICombatLogService>
     {
@@ -90,6 +92,19 @@ namespace SwtorCaster.ViewModels
             {
                 focusableScreen.Focus();
             }
+        }
+
+        public string Version => GetVersion();
+
+        private string GetVersion()
+        {
+            if (ApplicationDeployment.IsNetworkDeployed)
+            {
+                var deployment = ApplicationDeployment.CurrentDeployment;
+                return deployment.CurrentVersion.ToString();
+            }
+
+            return "Development";
         }
 
         protected override void OnDeactivate(bool close)

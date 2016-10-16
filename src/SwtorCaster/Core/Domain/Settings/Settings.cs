@@ -355,7 +355,7 @@ namespace SwtorCaster.Core.Domain.Settings
             set
             {
                 opacity = value;
-                if (opacity < 0.01) opacity = 0.01;
+                if (opacity < 0.001) opacity = 0.001; // still allow enough transparancy for click-through...or do we make this another option?
                 OnPropertyChanged();
             }
         }

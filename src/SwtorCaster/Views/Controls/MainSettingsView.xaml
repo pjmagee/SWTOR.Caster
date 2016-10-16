@@ -20,6 +20,7 @@
         <ToolTip x:Key="TooltipColorKey" Content="This should also be set as the Colour key in OBS (to add transparency when streaming)" />
         <ToolTip x:Key="TooltipOpenLoggerOnStartup" Content="Opens the default logger window on application start up." />
         <ToolTip x:Key="TooltipTextFont" Content="The font to use in the ability logger window. You can google and install custom fonts." />
+        <ToolTip x:Key="TooltipCombatLog" Content="Do not change this unless you know where SWTOR is writing your combat log files to" />
         <custom:FontFamilyConverter x:Key="FontFamilyConverter" />
     </UserControl.Resources>
     <StackPanel Orientation="Vertical" Margin="5">
@@ -31,7 +32,7 @@
             </Rectangle>
             <Label>Hover over each option for a tooltip description.</Label>
         </StackPanel>
-        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="Usually the current user, but if you are running under a normal user with admin privileges, you may need to set this.">
+        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipCombatLog}">
             <Label Content="Combat log directory:" />
             <Label Content="{Binding Path=CustomCombatLogDirectory}" />
             <Button Content="Change" cal:Message.Attach="AddCustomCombatLogDirectory" ToolTip="Select custom combat log directory" Style="{StaticResource ActionButton}" />

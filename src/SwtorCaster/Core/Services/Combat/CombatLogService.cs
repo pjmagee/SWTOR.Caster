@@ -18,7 +18,7 @@ namespace SwtorCaster.Core.Services.Combat
     using Domain.Settings;
     using static System.Environment;
 
-    public class CombatLogService : ICombatLogService, IHandle<Domain.Settings.Settings>
+    public class CombatLogService : ICombatLogService, IHandle<Settings>
     {
         private Thread thread;
         private FileInfo currentFile;              
