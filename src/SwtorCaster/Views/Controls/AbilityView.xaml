@@ -11,7 +11,7 @@
         ItemsSource="{Binding LogLines}" Background="{Binding BackgroundColor}"
         Focusable="False" Padding="10,10,0,0"
         IsTextSearchEnabled="False"
-        BorderBrush="Transparent"
+        BorderThickness="0"
         ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
         ScrollViewer.VerticalScrollBarVisibility="Disabled">
        <ListView.ItemTemplate>
