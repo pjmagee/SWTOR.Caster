@@ -15,10 +15,9 @@ namespace SwtorCaster.Core.Services.Combat
     using Logging;
     using Parsing;
     using Settings;
-    using Domain.Settings;
     using static System.Environment;
 
-    public class CombatLogService : ICombatLogService, IHandle<Settings>
+    public class CombatLogService : ICombatLogService
     {
         private Thread thread;
         private FileInfo currentFile;              
@@ -204,13 +203,6 @@ namespace SwtorCaster.Core.Services.Combat
         {
             var viewModel = logViewModelFactory.Create(logLine);
             eventAggregator.PublishOnUIThread(viewModel);
-        }
-
-
-        public void Handle(Settings message)
-        {
-            Stop();
-            Start();
         }
     }
 }
