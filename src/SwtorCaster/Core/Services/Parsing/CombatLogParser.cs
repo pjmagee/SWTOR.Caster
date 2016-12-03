@@ -1,12 +1,10 @@
-using System.Diagnostics;
-using SwtorCaster.Core.Services.Logging;
-
 namespace SwtorCaster.Core.Services.Parsing
 {
     using System;
     using System.Text.RegularExpressions;
     using Domain.Log;
-    using Extensions;
+    using System.Diagnostics;
+    using SwtorCaster.Core.Services.Logging;
 
     public class CombatLogParser : ICombatLogParser
     {
@@ -44,8 +42,6 @@ namespace SwtorCaster.Core.Services.Parsing
             if (string.IsNullOrEmpty(line))
                 throw new ParseException("Line was null.");
 
-            var stopWatch = Stopwatch.StartNew();
-
             CombatLogEvent = new CombatLogEvent();
 
             var match = BaseLineRegex.Match(line);
@@ -62,10 +58,6 @@ namespace SwtorCaster.Core.Services.Parsing
             }
 
             ProcessTrackedPlayer();
-
-            loggerService.Log($"Time to parse line: {stopWatch.Elapsed}");
-
-            stopWatch.Stop();
 
             return CombatLogEvent;
         }

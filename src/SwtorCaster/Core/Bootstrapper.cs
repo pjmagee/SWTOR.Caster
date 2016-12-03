@@ -17,6 +17,7 @@ namespace SwtorCaster.Core
     using Services.Factory;
     using Services.Providers;
     using ViewModels;
+    using System.Threading;
 
     public sealed class Bootstrapper : BootstrapperBase
     {
@@ -63,10 +64,7 @@ namespace SwtorCaster.Core
 
         protected override async void OnStartup(object sender, StartupEventArgs e)
         {
-            Timeline.DesiredFrameRateProperty.OverrideMetadata(
-                typeof (Timeline),
-                new FrameworkPropertyMetadata { DefaultValue = 30 });
-            
+            Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof (Timeline), new FrameworkPropertyMetadata { DefaultValue = 30 });            
             await InitializeImages();
             DisplayRootViewFor<MainViewModel>();
         }
@@ -81,6 +79,7 @@ namespace SwtorCaster.Core
 
             await Task.Run(() => imageService.Initialize());
             await Task.Run(() => fontService.Initialize());
+            await Task.Run(() => Thread.Sleep(2));
 
             splashViewModel.TryClose();
         }
@@ -100,7 +99,7 @@ namespace SwtorCaster.Core
             container.Singleton<MainSettingsViewModel>();
             container.Singleton<AbilitySettingsViewModel>();
             container.Singleton<EventSettingsViewModel>();
-            container.Singleton<DemoSettingsViewModel>();
+            container.Singleton<PlayBackSettingsViewModel>();
             container.Singleton<SettingsViewModel>();
             
             // About
@@ -110,11 +109,11 @@ namespace SwtorCaster.Core
         private void BindServices()
         {
             // Combat services
-            container.Singleton<ICombatLogProvider, CombatLogProvider>();
-            container.Singleton<ICombatLogService, CombatLogService>("CombatLogParser");
-            container.Singleton<ICombatLogService, DemoCombatLogService>("DemoParser");
             container.Singleton<ICombatLogParser, CombatLogParser>();
             container.Singleton<ICombatLogViewModelFactory, CombatLogViewModelFactory>();
+            container.Singleton<ICombatLogProvider, CombatLogProvider>();
+            container.Singleton<ICombatLogService, RealTimeLogService>("RealTime");
+            container.Singleton<ICombatLogService, PlayBackLogService>("PlayBack");
 
             // Caliburn services
             container.Singleton<IEventAggregator, EventAggregator>();
@@ -135,8 +134,10 @@ namespace SwtorCaster.Core
 
         protected override void OnExit(object sender, EventArgs e)
         {
-            var parser = container.GetInstance<ICombatLogService>();
-            parser?.Stop();                        
+            foreach(var combatLogService in container.GetAllInstances<ICombatLogService>())
+            {
+                combatLogService?.Stop();
+            }            
         }
     }
 }

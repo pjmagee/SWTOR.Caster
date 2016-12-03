@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Linq;
-using System.Net;
-using Newtonsoft.Json;
-
-namespace SwtorCaster.JediPedia
+﻿namespace SwtorCaster.JediPedia
 {
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.Drawing.Imaging;
+    using System.IO;
+    using System.Linq;
+    using System.Net;
+    using Newtonsoft.Json;
+
     public class Program
     {
         /// <summary>

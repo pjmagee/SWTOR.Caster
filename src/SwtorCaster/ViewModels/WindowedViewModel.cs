@@ -1,7 +1,7 @@
 namespace SwtorCaster.ViewModels
 {
     using System.Windows.Media;
-    using Core.Extensions;
+    using Core;
     using Core.Services.Settings;
     using Core.Domain.Settings;
     using Caliburn.Micro;
@@ -12,7 +12,7 @@ namespace SwtorCaster.ViewModels
 
         public override string DisplayName { get; set; } = "SWTOR Caster - Ability Logger";
 
-        public WindowedViewModel(AbilityViewModel abilityViewModel, ISettingsService settingsService)
+        public WindowedViewModel(AbilityViewModel abilityViewModel, ISettingsService settingsService) 
         {
             this.settingsService = settingsService;
             AbilityViewModel = abilityViewModel;
@@ -25,6 +25,19 @@ namespace SwtorCaster.ViewModels
         public void Handle(Settings message)
         {
             Refresh();
+        }
+
+        protected override void OnDeactivate(bool close)
+        {
+            // this.settingsService.Settings.WindowedLoggerWindowPlacementXml = this.Window.GetPlacement();
+        }
+
+        protected override void OnInitialize()
+        {
+            if (IsInitialized)
+            {
+                // this.Window.SetPlacement(this.settingsService.Settings.WindowedLoggerWindowPlacementXml);
+            }
         }
     }
 }

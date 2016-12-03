@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace SwtorCaster.Core.Extensions
+namespace SwtorCaster.Core
 {
     using System.Windows.Media;
 

@@ -7,7 +7,6 @@ namespace SwtorCaster.Core.Services.Factory
     using System.Windows.Media;
     using Domain.Log;
     using Domain.Settings;
-    using Extensions;
     using Images;
     using Settings;
     using ViewModels;
@@ -37,33 +36,35 @@ namespace SwtorCaster.Core.Services.Factory
                 ApplyAbilitySettings(@event, viewModel, settings);
             }
 
-            if (@event.IsPlayerCompanion() && settings.EnableCompanionAbilities)
+            if (settings.EnableCompanionAbilities && @event.IsPlayerCompanion())
             {
                 viewModel.ImageBorderColor = settings.CompanionAbilityBorderColor.FromHexToColor();
             }
 
-            ApplyTextSettings(viewModel, settings);
+            ApplyFontSettings(viewModel, settings);
 
             return viewModel;
         }
 
-        private void ApplyTextSettings(CombatLogViewModel viewModel, Settings settings)
+        private void ApplyFontSettings(CombatLogViewModel viewModel, Settings settings)
         {
             viewModel.FontColor = new SolidColorBrush(settings.AbilityTextColor.FromHexToColor());
             viewModel.FontFamily = fontService.GetFontFromString(settings.TextFont);
             viewModel.FontSize = settings.FontSize;
             viewModel.FontBorderColor = new SolidColorBrush(settings.AbilityTextBorderColor.FromHexToColor());
+            viewModel.FontBorderThickness = settings.FontBorderThickness;
         }
 
         private void ApplyLoggerSettings(CombatLogEvent combatLogEvent, CombatLogViewModel viewModel, Settings settings)
         {
-            viewModel.ImageUrl = imageService.GetImageById(combatLogEvent.Ability.EntityId);
-            viewModel.ImageBorderColor = Colors.Transparent;
-            viewModel.ImageAngle = random.Next(-settings.Rotate, settings.Rotate);
+            var abilityId = combatLogEvent.Ability.EntityId;
 
+            viewModel.ImageUrl = imageService.GetImageById(abilityId);
+            viewModel.IsUnknown = imageService.IsUnknown(abilityId);
+            viewModel.ImageBorderColor = Colors.Transparent;
             viewModel.Text = combatLogEvent.Ability.DisplayName;
             viewModel.TextVisibility = settings.EnableAbilityText ? Visibility.Visible : Visibility.Hidden;
-            viewModel.TooltipText = $"{combatLogEvent.Ability.EntityId} (Click to copy ability id to clipboard)";
+            viewModel.TooltipText = $"{combatLogEvent.Ability.EntityId} (Click to copy Ability ID to Clipboard!)";
         }
 
         private static void ApplyAbilitySettings(CombatLogEvent @event, CombatLogViewModel viewModel, Settings settings)
@@ -87,7 +88,7 @@ namespace SwtorCaster.Core.Services.Factory
 
                 if (abilitySetting.Aliases.Any())
                 {
-                    viewModel.Text = abilitySetting.Aliases.Concat(new[] { viewModel.Text }).ToList().PickRandom();
+                    viewModel.Text = abilitySetting.Aliases.PickRandom();
                 }
             }
         }

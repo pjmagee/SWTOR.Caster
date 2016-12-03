@@ -1,13 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.IO.Compression;
-using System.Linq;
-using System.Reflection;
-using Newtonsoft.Json;
-
 namespace SwtorCaster.Core.Services.Images.Mapping
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.IO.Compression;
+    using System.Linq;
+    using System.Reflection;
+    using Newtonsoft.Json;
+
     /// <summary>
     /// Mapped image implementation uses a JSON file as a lookup index to find the real image file to display.
     /// </summary>

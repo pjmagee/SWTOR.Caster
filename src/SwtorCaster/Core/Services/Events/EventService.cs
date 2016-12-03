@@ -6,8 +6,7 @@
     using Domain.Log;
     using Domain.Settings;
     using Logging;
-    using Settings;
-    using Extensions;
+    using Settings;    
 
     public class EventService : IEventService
     {

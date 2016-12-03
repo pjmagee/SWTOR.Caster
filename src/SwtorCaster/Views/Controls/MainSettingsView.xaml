@@ -10,34 +10,37 @@
              mc:Ignorable="d" Background="White">
     <UserControl.Resources>
         <ToolTip x:Key="TooltipMaxItems" Content="The maximum number of logged abilitys to display in the ability logger window (recommend between 3 and 6)" />
-        <ToolTip x:Key="TooltipRotate" Content="The rotation angle in degrees (recommend between -5 and 5). Set to 0 for both for no image rotation. Gives a rotation to the ability images." />
+        <ToolTip x:Key="TooltipRotate" Content="The rotation angle in degrees (recommend between -5 and 5). Set to 0 for both for no image rotation. Gives a rotation to the ability images" />
         <ToolTip x:Key="TooltipClearExitCombat" Content="When you exit combat, clear the logged abilities from the view (Good for Operations/Ranked PVP)" />
         <ToolTip x:Key="TooltipClearInactivity" Content="After the defined amount of seconds, clear the ability window" />
         <ToolTip x:Key="TooltipEnableText" Content="Display the ability name next to the icon in the ability window" />
         <ToolTip x:Key="TooltipHideUnknown" Content="Do not display abilities without known images, e.g hidden PVP Warzone Resets that can be confusing." />
-        <ToolTip x:Key="TooltipCompanions" Content="Hide or show the companions abilities in the logger window." />
+        <ToolTip x:Key="TooltipCompanions" Content="Hide or show the companions abilities in the logger window" />
         <ToolTip x:Key="TooltipCompanionBorder" Content="Set a border colour for companion abilities to help distinguish them from your own abilities" />
         <ToolTip x:Key="TooltipColorKey" Content="This should also be set as the Colour key in OBS (to add transparency when streaming)" />
-        <ToolTip x:Key="TooltipOpenLoggerOnStartup" Content="Opens the default logger window on application start up." />
-        <ToolTip x:Key="TooltipTextFont" Content="The font to use in the ability logger window. You can google and install custom fonts." />
+        <ToolTip x:Key="TooltipOpenLoggerOnStartup" Content="Opens the default logger window on application start up" />
+        <ToolTip x:Key="TooltipTextFont" Content="The font to use in the ability logger window. You can google and install custom fonts" />
         <ToolTip x:Key="TooltipCombatLog" Content="Do not change this unless you know where SWTOR is writing your combat log files to" />
+        <ToolTip x:Key="TooltipFontBorderThickness" Content="Change the thickness of the font outline" />
+        <ToolTip x:Key="TooltipFontCase" Content="Force the text from the combat log file to be displayed as standard, uppercase or lowercase - this can help on some fonts" />
         <custom:FontFamilyConverter x:Key="FontFamilyConverter" />
     </UserControl.Resources>
-    <StackPanel Orientation="Vertical" Margin="5">
-        <StackPanel Orientation="Horizontal">
+    <StackPanel Orientation="Vertical" Margin="2" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
             <Rectangle Width="15" Height="15" Margin="5">
                 <Rectangle.Fill>
                     <VisualBrush Visual="{StaticResource appbar_alert}" />
                 </Rectangle.Fill>
             </Rectangle>
-            <Label>Hover over each option for a tooltip description.</Label>
+            <Label HorizontalAlignment="Left" Width="Auto">Hover over each option for a tooltip description.</Label>
         </StackPanel>
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipCombatLog}">
-            <Label Content="Combat log directory:" />
-            <Label Content="{Binding Path=CustomCombatLogDirectory}" />
+            <Label Content="Combat log directory:" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Label Content="{Binding Path=CustomCombatLogDirectory}" FontWeight="Bold" VerticalAlignment="Center" />
             <Button Content="Change" cal:Message.Attach="AddCustomCombatLogDirectory" ToolTip="Select custom combat log directory" Style="{StaticResource ActionButton}" />
             <Button Content="Default" cal:Message.Attach="DefaultCustomCombatLogDirectory" ToolTip="Clear the custom directory" Style="{StaticResource ActionButton}" />
         </StackPanel>
+        <Separator />
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipOpenLoggerOnStartup}">
             <Label Content="Open logger window on startup:" />
             <CheckBox Name="OpenLoggerWindowOnStartup" VerticalAlignment="Center" />
@@ -65,9 +68,13 @@
             <Slider x:Name="ClearAfterInactivity" Minimum="5" Maximum="30" Width="150" IsSnapToTickEnabled="True" VerticalAlignment="Center" AutoToolTipPlacement="TopLeft" />
             <Label Content="{Binding ElementName=ClearAfterInactivity, Path=Value}" />
         </StackPanel>
+        <Separator />
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipEnableText}">
             <Label Content="Enable ability text:" />
             <CheckBox Name="EnableAbilityText" VerticalAlignment="Center" />
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipFontCase}">
+            <Label Content="Force font casing:" />            
         </StackPanel>
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipTextFont}">
             <Label Content="Ability text font:" />
@@ -92,17 +99,23 @@
         </StackPanel>
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipEnableText}" >
             <Label Content="Ability text font size:" />
-            <Slider x:Name="FontSize" Minimum="20" Maximum="65" Width="150" IsSnapToTickEnabled="True" VerticalAlignment="Center" AutoToolTipPlacement="TopLeft" />
+            <Slider x:Name="FontSize" Minimum="20" Maximum="200" Width="150" IsSnapToTickEnabled="True" VerticalAlignment="Center" AutoToolTipPlacement="TopLeft" />
             <Label Content="{Binding ElementName=FontSize, Path=Value}" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipCompanionBorder}" Margin="0,0,0,5">
             <Label Content="Ability text fill colour:" />
             <xctk:ColorPicker ColorMode="ColorPalette" Width="100" DisplayColorAndName="False" SelectedColor="{Binding SelectedAbilityTextColor}" />
         </StackPanel>
+        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipFontBorderThickness}" >
+            <Label Content="Ability text outline thickness:" />
+            <Slider x:Name="FontBorderThickness" Minimum="1" Maximum="30" Width="150" IsSnapToTickEnabled="True" VerticalAlignment="Center" AutoToolTipPlacement="TopLeft" />
+            <Label Content="{Binding ElementName=FontBorderThickness, Path=Value}" />
+        </StackPanel>
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipCompanionBorder}" Margin="0,0,0,5">
             <Label Content="Ability text outline colour:" />
             <xctk:ColorPicker ColorMode="ColorPalette" Width="100" DisplayColorAndName="False" SelectedColor="{Binding SelectedAbilityTextBorderColor}" />
         </StackPanel>
+        <Separator />
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipHideUnknown}">
             <Label Content="Ignore unknown abilities:" />
             <CheckBox Name="IgnoreUnknownAbilities" VerticalAlignment="Center" />
@@ -116,7 +129,7 @@
             <xctk:ColorPicker ColorMode="ColorPalette" Width="100" DisplayColorAndName="False" SelectedColor="{Binding SelectedCompanionAbilityBorderColor}" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipColorKey}">
-            <Label Content="Logger windowed background:" />
+            <Label Content="Window background:" />
             <xctk:ColorPicker ColorMode="ColorPalette" Width="100" DisplayColorAndName="False" SelectedColor="{Binding SelectedAbilityBackgroundColor}" />
             <Rectangle Width="15" Height="15" Margin="5" ToolTip="Use this colour in the OBS Colour key settings to make the window transparant on the stream.">
                 <Rectangle.Fill>
@@ -125,7 +138,7 @@
             </Rectangle>
         </StackPanel>
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipColorKey}">
-            <Label Content="Logger Overlay opacity:" />
+            <Label Content="Overlay opacity:" />
             <Slider x:Name="TopWindowOpacity" Minimum="0" Maximum="1" Width="150"
                     IsSnapToTickEnabled="True" TickFrequency="0.025"
                     VerticalAlignment="Center" AutoToolTipPrecision="2" AutoToolTipPlacement="TopLeft" />

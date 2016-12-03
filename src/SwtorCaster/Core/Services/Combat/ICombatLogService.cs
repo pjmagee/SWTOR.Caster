@@ -1,3 +1,5 @@
+using System;
+
 namespace SwtorCaster.Core.Services.Combat
 {
     public interface ICombatLogService
@@ -5,5 +7,5 @@ namespace SwtorCaster.Core.Services.Combat
         bool IsRunning { get; }
         void Start();
         void Stop();
-    }
+    }   
 }

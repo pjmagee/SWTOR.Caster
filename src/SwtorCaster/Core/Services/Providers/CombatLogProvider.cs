@@ -17,24 +17,26 @@ namespace SwtorCaster.Core.Services.Providers
             eventAggregator.Subscribe(this);
         }
 
+        private ICombatLogService PlayBackService => IoC.Get<ICombatLogService>("PlayBack");
+        private ICombatLogService RealtimeService => IoC.Get<ICombatLogService>("RealTime");
+
         public void Handle(Settings message)
         {
-            if (!message.EnableDemoMode)
+            if(message.EnablePlaybackMode)
             {
-                var demoService = IoC.Get<ICombatLogService>("DemoParser");
-                demoService.Stop();
+                RealtimeService.Stop();
+            }
+            else
+            {
+                PlayBackService.Stop();
             }
 
-            _eventAggregator.PublishOnCurrentThread(message.EnableDemoMode
-                ? IoC.Get<ICombatLogService>("DemoParser")
-                : IoC.Get<ICombatLogService>("CombatLogParser"));
+            _eventAggregator.PublishOnCurrentThread(message.EnablePlaybackMode ? PlayBackService : RealtimeService);
         }
 
         public ICombatLogService GetCombatLogService()
         {
-            return _settingsService.Settings.EnableDemoMode
-                ? IoC.Get<ICombatLogService>("DemoParser")
-                : IoC.Get<ICombatLogService>("CombatLogParser");
+            return _settingsService.Settings.EnablePlaybackMode ? PlayBackService : RealtimeService;
         }
     }
 }

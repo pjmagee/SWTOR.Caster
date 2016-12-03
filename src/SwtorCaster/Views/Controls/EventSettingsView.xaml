@@ -13,7 +13,7 @@
         <custom:SoundEventValueConverter x:Key="SoundEventValueConverter" />
     </UserControl.Resources>
     <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
-        <StackPanel Orientation="Horizontal" Margin="5">
+        <StackPanel Orientation="Horizontal" Margin="2">
             <StackPanel Orientation="Horizontal">
                 <Label Content="Enabled:" ToolTip="{StaticResource TooltipEnableEvents}" />
                 <CheckBox x:Name="SoundsEnabled" IsChecked="{Binding EnableSound}" />
@@ -66,7 +66,7 @@
                 <DataGridTemplateColumn Header="Ability Id">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBox Text="{Binding Path=AbilityId, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBox Text="{Binding Path=AbilityId, UpdateSourceTrigger=PropertyChanged}" Background="WhiteSmoke" MinWidth="20" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -84,6 +84,6 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="AddEvent" Margin="5" Content="Add Event" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+        <Button x:Name="AddEvent" Margin="5" Content="Add" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
     </StackPanel>
 </UserControl>

@@ -1,7 +1,6 @@
-﻿using System.Configuration;
-
-namespace SwtorCaster.Core.Services.Logging
+﻿namespace SwtorCaster.Core.Services.Logging
 {
+    using System.Configuration;
     using System;
     using System.IO;
 

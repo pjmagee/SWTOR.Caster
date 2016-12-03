@@ -9,41 +9,34 @@
     mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="500">
     <ListView Name="AbilityList" 
         ItemsSource="{Binding LogLines}" Background="{Binding BackgroundColor}"
-        Focusable="False" Padding="10,10,0,0"
-        IsTextSearchEnabled="False"
-        BorderThickness="0"
+        Focusable="False" IsTextSearchEnabled="False" 
         ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
         ScrollViewer.VerticalScrollBarVisibility="Disabled">
        <ListView.ItemTemplate>
             <DataTemplate>
-                <StackPanel cal:Message.Attach="[Event MouseLeftButtonUp] = [Action CopyToClipBoard($dataContext)]" x:Name="Item" Orientation="Horizontal" ToolTip="{Binding TooltipText}">
-                    <Border x:Name="AbilityBorder" VerticalAlignment="Center"
-                            BorderThickness="2"  Margin="0,0,10,0"
-                            CornerRadius="8,8,8,8" RenderTransformOrigin=".5,.5">
-                        <Image x:Name="AbilityIcon" Source="{Binding ImageUrl}" Width="52" Height="52" VerticalAlignment="Center"
-                               RenderTransformOrigin=".5,.5">
-                            <Image.RenderTransform>
-                                <RotateTransform Angle="{Binding ImageAngle}" />
-                            </Image.RenderTransform>
-                        </Image>
+                <Grid Width="Auto" Height="Auto">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="{Binding Path=ActualHeight, ElementName=AbilityText}"  />
+                    </Grid.RowDefinitions>
+                    <Border x:Name="AbilityBorder" BorderThickness="2" Grid.Column="0" Grid.Row="0">
+                        <Image Grid.Column="0" Grid.Row="0" x:Name="AbilityIcon" Source="{Binding ImageUrl}" />
                         <Border.BorderBrush>
                             <SolidColorBrush Color="{Binding ImageBorderColor}" />
                         </Border.BorderBrush>
                         <Border.Background>
                             <SolidColorBrush Color="{Binding ImageBorderColor}" />
                         </Border.Background>
-                        <Border.RenderTransform>
-                            <RotateTransform Angle="{Binding ImageAngle}" />
-                        </Border.RenderTransform>
                     </Border>
-                    <custom:OutlinedText Text="{Binding Text}" 
-                        VerticalAlignment="Center" Visibility="{Binding TextVisibility}" 
-                        FontSize="{Binding FontSize, FallbackValue=32}" 
-                        FontFamily="{Binding FontFamily}" 
-                        Fill="{Binding FontColor}" 
-                        Stroke="{Binding FontBorderColor}">
+                    <custom:OutlinedText x:Name="AbilityText" Grid.Row="0" Grid.Column="1"
+                        Text="{Binding Text}" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center"
+                        Visibility="{Binding TextVisibility}" FontSize="{Binding FontSize}" FontFamily="{Binding FontFamily}"
+                        Fill="{Binding FontColor}" Stroke="{Binding FontBorderColor}" StrokeThickness="{Binding FontBorderThickness}">
                     </custom:OutlinedText>
-                </StackPanel>
+                </Grid>
             </DataTemplate>
         </ListView.ItemTemplate>
         <ListView.ItemContainerStyle>
@@ -59,7 +52,7 @@
                         <EventTrigger.Actions>
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.10" />
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.0" />
                                     <DoubleAnimation Storyboard.TargetProperty="LayoutTransform.ScaleY" From="0" Duration="0:0:0.1"/>
                                 </Storyboard>
                             </BeginStoryboard>

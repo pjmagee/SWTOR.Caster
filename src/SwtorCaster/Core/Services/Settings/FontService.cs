@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Windows.Media;
-using SwtorCaster.Core.Extensions;
-
-namespace SwtorCaster.Core.Services.Settings
+﻿namespace SwtorCaster.Core.Services.Settings
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Windows.Media;
+
     public class FontService : IFontService
     {
         private static readonly string SwtorCaster = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SwtorCaster");
@@ -55,7 +54,4 @@ namespace SwtorCaster.Core.Services.Settings
             }
         }
     }
-
-
-
 }

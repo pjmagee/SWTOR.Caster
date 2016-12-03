@@ -32,9 +32,13 @@
 
             FormattedText formattedText = new FormattedText(
                 Text,
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.CurrentCulture,
                 FlowDirection.LeftToRight,
-                new Typeface(FontFamily, fontStyle, fontWeight, FontStretches.Normal),
+                new Typeface(
+                    FontFamily, 
+                    fontStyle, 
+                    fontWeight, 
+                    FontStretches.Normal),
                 FontSize,
                 Brushes.Black
                 );
@@ -153,20 +157,24 @@
                  )
             );
 
-        public ushort StrokeThickness
+        public int StrokeThickness
         {
-            get { return (ushort)GetValue(StrokeThicknessProperty); }
+            get
+            {
+                var thickness = (int)GetValue(StrokeThicknessProperty);
+                return thickness;
+            }
             set { SetValue(StrokeThicknessProperty, value); }
         }
 
         public static readonly DependencyProperty StrokeThicknessProperty = DependencyProperty.Register(
             "StrokeThickness",
-            typeof(ushort),
+            typeof(int),
             typeof(OutlinedText),
             new FrameworkPropertyMetadata(
-                 (ushort)2,
+                 2,
                  FrameworkPropertyMetadataOptions.AffectsRender,
-                 OnOutlineTextInvalidated,
+                 null,
                  null
                  )
             );

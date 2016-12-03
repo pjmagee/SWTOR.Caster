@@ -2,7 +2,7 @@ namespace SwtorCaster.ViewModels
 {
     using System;
     using System.Windows.Media;
-    using Core.Extensions;
+    using Core;
     using Core.Services.Settings;
     using System.Collections.Generic;
     using System.Windows.Forms;
@@ -39,7 +39,7 @@ namespace SwtorCaster.ViewModels
         {
             get
             {
-                if (string.IsNullOrEmpty(settingsService.Settings.CustomCombatLogDirectory)) return CombatLogService.SwtorCombatLogPath;
+                if (string.IsNullOrEmpty(settingsService.Settings.CustomCombatLogDirectory)) return RealTimeLogService.SwtorCombatLogPath;
                 return settingsService.Settings.CustomCombatLogDirectory;
             }
             set
@@ -79,12 +79,6 @@ namespace SwtorCaster.ViewModels
         {
             get { return settingsService.Settings.EnableCompanionAbilities; }
             set { settingsService.Settings.EnableCompanionAbilities = value; }
-        }
-
-        public int Rotate
-        {
-            get { return settingsService.Settings.Rotate; }
-            set { settingsService.Settings.Rotate = value; }
         }
 
         public bool EnableCombatClear
@@ -151,6 +145,12 @@ namespace SwtorCaster.ViewModels
         {
             get { return settingsService.Settings.AbilityTextBorderColor.FromHexToColor(); }
             set { settingsService.Settings.AbilityTextBorderColor = value.ToHex(); }
+        }
+
+        public int FontBorderThickness
+        {
+            get { return settingsService.Settings.FontBorderThickness; }
+            set { settingsService.Settings.FontBorderThickness = value; }
         }
 
         public Color SelectedCompanionAbilityBorderColor

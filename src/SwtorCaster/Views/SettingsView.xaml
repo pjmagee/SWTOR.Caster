@@ -3,28 +3,25 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         Icon="../Resources/swtorcaster.ico" WindowStartupLocation="CenterOwner"
-        Width="800" Height="600" ResizeMode="CanResizeWithGrip"
-        SizeToContent="Width">
+        ResizeMode="CanResizeWithGrip" SizeToContent="WidthAndHeight">
     <controls:MetroWindow.Resources>
         <ToolTip x:Key="TooltipMainSettings" Content="Main settings for SWTOR Caster" />
         <ToolTip x:Key="TooltipSoundSettings" Content="Sound settings for SWTOR Logger window" />
         <ToolTip x:Key="TooltipAbilitySettings" Content="Ability settings for SWTOR Logger window" />
         <ToolTip x:Key="TooltipDemoSettings" Content="Demo settings for SWTOR Logger window" />
     </controls:MetroWindow.Resources>
-    <Grid HorizontalAlignment="Stretch" Margin="10" VerticalAlignment="Stretch">
-        <TabControl>
-            <TabItem Header="Main Settings" ToolTip="{StaticResource TooltipMainSettings}">
-                <ContentControl x:Name="MainSettingsViewModel" />
-            </TabItem>
-            <TabItem Header="Sound Settings" ToolTip="{StaticResource TooltipSoundSettings}">
-                <ContentControl x:Name="EventSettingsViewModel" />
-            </TabItem>
-            <TabItem Header="Abilities Settings" ToolTip="{StaticResource TooltipAbilitySettings}">
-                <ContentControl x:Name="AbilitySettingsViewModel" />
-            </TabItem>
-            <TabItem Header="Demo Settings" ToolTip="{StaticResource TooltipDemoSettings}">
-                <ContentControl x:Name="DemoSettingsViewModel" />
-            </TabItem>
-        </TabControl>
-    </Grid>
+    <TabControl>
+        <TabItem Header="Main" ToolTip="{StaticResource TooltipMainSettings}">
+            <ContentControl x:Name="MainSettingsViewModel" />
+        </TabItem>
+        <TabItem Header="Sounds" ToolTip="{StaticResource TooltipSoundSettings}">
+            <ContentControl x:Name="EventSettingsViewModel" />
+        </TabItem>
+        <TabItem Header="Abilities" ToolTip="{StaticResource TooltipAbilitySettings}">
+            <ContentControl x:Name="AbilitySettingsViewModel" />
+        </TabItem>
+        <TabItem Header="Playback" ToolTip="{StaticResource TooltipDemoSettings}">
+            <ContentControl x:Name="DemoSettingsViewModel" />
+        </TabItem>
+    </TabControl>
 </controls:MetroWindow>

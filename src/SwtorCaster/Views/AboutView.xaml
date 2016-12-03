@@ -6,7 +6,7 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:cal="http://www.caliburnproject.org"
         mc:Ignorable="d" 
-        Icon="../../Resources/swtorcaster.ico"
+        Icon="../Resources/swtorcaster.ico"
         Height="242" WindowStartupLocation="CenterOwner"
         SizeToContent="WidthAndHeight" ResizeMode="NoResize" Padding="10" Width="468">
     <StackPanel Orientation="Horizontal">
@@ -83,15 +83,15 @@
                     Delegate's SWTOR Caster
             </TextBlock>
             <StackPanel Orientation="Horizontal">
-                <Label FontWeight="Bold">Site:</Label>
+                <Label FontWeight="Bold">TORCommunity:</Label>
                 <Button cal:Message.Attach="[Event Click] = [Action OpenSWTORCaster]" Style="{StaticResource HyperlinkButton}">
                     <TextBlock VerticalAlignment="Center">
-                        <Hyperlink Focusable="False">https://torcommunity.com/tools/swtor-caster</Hyperlink>
+                        <Hyperlink Focusable="False">https://torcommunity.com/</Hyperlink>
                     </TextBlock>
                 </Button>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Label FontWeight="Bold">JediPedia:</Label>
+                <Label FontWeight="Bold">Jedipedia:</Label>
                 <Button cal:Message.Attach="[Event Click] = [Action OpenJediPedia]" Style="{StaticResource HyperlinkButton}">
                     <TextBlock VerticalAlignment="Center">
                         <Hyperlink Focusable="False">https://swtor.jedipedia.net/</Hyperlink>
@@ -115,12 +115,11 @@
                         <Hyperlink Focusable="False">https://github.com/pjmagee/swtor-caster/</Hyperlink>
                     </TextBlock>
                 </Button>
-            </StackPanel>
-            
-            <StackPanel Orientation="Horizontal">
-                <Label Content="Referral link:" FontWeight="Bold" />
+            </StackPanel>            
+            <StackPanel Orientation="Horizontal" Margin="20">
+                <Label Content="Referral:" FontWeight="ExtraBold" />
                 <Button cal:Message.Attach="[Event Click] = [Action OpenReferral]" Style="{StaticResource HyperlinkButton}">
-                    <TextBlock VerticalAlignment="Center">
+                    <TextBlock VerticalAlignment="Center" FontWeight="ExtraBold" >
                         <Hyperlink Focusable="False">http://www.swtor.com/r/rpNrdB</Hyperlink>
                     </TextBlock>
                 </Button>

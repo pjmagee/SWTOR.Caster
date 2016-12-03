@@ -6,7 +6,7 @@ namespace SwtorCaster.ViewModels
     using MahApps.Metro.Controls.Dialogs;
     using Microsoft.Win32;
     using Core.Domain.Settings;
-    using Core.Extensions;
+    using Core;
 
     public class AbilitySettingItem : PropertyChangedBase
     {

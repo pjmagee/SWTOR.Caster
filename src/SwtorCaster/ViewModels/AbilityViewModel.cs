@@ -9,8 +9,8 @@ namespace SwtorCaster.ViewModels
     using Core.Domain;
     using Core.Domain.Settings;
     using Core.Services.Settings;
-    using Core.Extensions;
-    
+    using Core;
+
     public class AbilityViewModel : Screen, IHandle<ParserMessage>, IHandle<CombatLogViewModel>, IHandle<Settings>
     {
         private readonly ISettingsService settingsService;
@@ -69,7 +69,7 @@ namespace SwtorCaster.ViewModels
 
             if (settings.EnableCombatClear && message.CombatLogEvent.IsExitCombat()) LogLines.Clear();
             if (!settings.EnableCompanionAbilities && message.CombatLogEvent.IsPlayerCompanion()) return;
-            if (settings.IgnoreUnknownAbilities && (message.CombatLogEvent.IsUnknown() || message.ImageUrl == null || message.ImageUrl.Contains("missing.png"))) return;
+            if (settings.IgnoreUnknownAbilities && message.IsUnknown) return;
          
             if (message.CombatLogEvent.IsAbilityActivate())
             {

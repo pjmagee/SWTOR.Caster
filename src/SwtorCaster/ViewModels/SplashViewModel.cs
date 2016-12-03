@@ -13,7 +13,7 @@ namespace SwtorCaster.ViewModels
 
         public void Start()
         {
-            windowManager.ShowWindow(this);
+            windowManager.ShowWindow(this);            
         }
     }
 }

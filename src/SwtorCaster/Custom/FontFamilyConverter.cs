@@ -1,11 +1,11 @@
-using System;
-using System.Globalization;
-using System.Windows.Data;
-using System.Windows.Media;
-using SwtorCaster.Core.Extensions;
-
 namespace SwtorCaster.Custom
 {
+    using System;
+    using System.Globalization;
+    using System.Windows.Data;
+    using System.Windows.Media;
+    using SwtorCaster.Core;
+
     public class FontFamilyConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

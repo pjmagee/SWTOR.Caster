@@ -1,7 +1,7 @@
-using Newtonsoft.Json;
-
 namespace SwtorCaster.Core.Services.Images.JediPedia
 {
+    using Newtonsoft.Json;
+
     public class Ability
     {
         [JsonProperty("id")]

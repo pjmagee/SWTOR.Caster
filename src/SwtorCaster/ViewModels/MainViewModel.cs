@@ -1,16 +1,16 @@
-using System.Windows;
-
 namespace SwtorCaster.ViewModels
 {
-    using System;
+    using System.Windows;
     using Caliburn.Micro;
+    using Core;
     using Core.Domain.Settings;
     using Core.Services.Combat;
     using Core.Services.Providers;
-    using System.Deployment.Application;
+    using Core.Services.Settings;
 
-    public class MainViewModel : Screen, IHandle<Settings>, IHandle<ICombatLogService>
+    public class MainViewModel : FocusableScreen, IHandle<Settings>, IHandle<ICombatLogService>
     {
+        private readonly ISettingsService settingsService;
         private readonly ICombatLogProvider combatLogProvider;
         private readonly IWindowManager windowManager;
 
@@ -23,6 +23,7 @@ namespace SwtorCaster.ViewModels
         public MainViewModel(
             IWindowManager windowManager,
             IEventAggregator eventAggregator,
+            ISettingsService settingsService,
             WindowedViewModel windowedViewModel,
             SettingsViewModel settingsViewModel,
             AbilityOverlayViewModel abilityOverlayViewModel,
@@ -35,14 +36,17 @@ namespace SwtorCaster.ViewModels
             this.aboutViewModel = aboutViewModel;
             this.combatLogProvider = combatLogProvider;
             this.windowedViewModel = windowedViewModel;
+            this.settingsService = settingsService;
 
             eventAggregator.Subscribe(this);
-            Initialized();
         }
 
-        private void Initialized()
+        protected override void OnInitialize()
         {
-            StartParserService();
+            // this.Window.SetPlacement(this.settingsService.Settings.MainWindowPlacementXml);
+
+            StartParserService();            
+            
             OpenDefaultWindows();
         }
 
@@ -94,25 +98,16 @@ namespace SwtorCaster.ViewModels
             }
         }
 
-        public string Version => GetVersion();
-
-        private string GetVersion()
-        {
-            if (ApplicationDeployment.IsNetworkDeployed)
-            {
-                var deployment = ApplicationDeployment.CurrentDeployment;
-                return deployment.CurrentVersion.ToString();
-            }
-
-            return "Development";
-        }
-
         protected override void OnDeactivate(bool close)
         {
+            base.OnDeactivate(close);
+
+            // this.settingsService.Settings.MainWindowPlacementXml = this.Window.GetPlacement();
+
             if (close)
-            {
+            {                
                 Application.Current.Shutdown();
-            }
+            }            
         }
 
         public void Handle(Settings message)

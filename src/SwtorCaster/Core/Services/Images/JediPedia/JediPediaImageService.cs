@@ -1,12 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.IO.Compression;
-using System.Linq;
-using Newtonsoft.Json;
-
 namespace SwtorCaster.Core.Services.Images.JediPedia
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.IO.Compression;
+    using System.Linq;
+    using Newtonsoft.Json;
+
     /// <summary>
     /// JediPedia implementation allows us to find an image in a file 
     /// </summary>
@@ -23,7 +23,7 @@ namespace SwtorCaster.Core.Services.Images.JediPedia
         {
             if (!Directory.Exists(imagesFolder))
             {
-                ZipFile.ExtractToDirectory(imagesZip, Environment.CurrentDirectory);
+                ZipFile.ExtractToDirectory(imagesZip, imagesFolder);
             }
 
             var json = File.ReadAllText(abilitiesJsonFile);

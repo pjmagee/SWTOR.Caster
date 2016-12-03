@@ -34,11 +34,15 @@ namespace SwtorCaster.ViewModels
             set { text = value; }
         }
 
+        public bool IsUnknown { get; set; }
+
         public Visibility TextVisibility { get; set; }
 
         public int FontSize { get; set; }
 
         public Brush FontBorderColor { get; set; }
+        
+        public int FontBorderThickness { get; set; }
 
         public FontFamily FontFamily { get; set; }
 

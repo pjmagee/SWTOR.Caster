@@ -16,9 +16,9 @@
         <ToolTip x:Key="TooltipDeleteAlias" Content="Click the alias and press the [DEL] key to remove it." />
     </UserControl.Resources>
     <StackPanel Orientation="Vertical">
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <Label Content="Enable ability settings:" ToolTip="{StaticResource TooltipEnableAbilitySettings}" />
-            <CheckBox IsChecked="{Binding EnableAbilitySettings}" />
+        <StackPanel Orientation="Horizontal" Margin="2">
+            <Label Content="Enable ability settings:" ToolTip="{StaticResource TooltipEnableAbilitySettings}" VerticalAlignment="Center" />
+            <CheckBox IsChecked="{Binding EnableAbilitySettings}" VerticalAlignment="Center" HorizontalAlignment="Center" />
         </StackPanel>
         <DataGrid 
             ItemsSource="{Binding AbilitySettingViewModels}"
@@ -65,7 +65,7 @@
                                           VirtualizingPanel.IsVirtualizing="False" 
                                           AutoGenerateColumns="False" ToolTip="{StaticResource TooltipDeleteAlias}"
                                           CanUserAddRows="True" CanUserDeleteRows="True"
-                                          AlternatingRowBackground="{StaticResource AccentColorBrush2}" RowBackground="{StaticResource AccentColorBrush3}">
+                                          AlternatingRowBackground="{StaticResource AccentColorBrush2}" RowBackground="{StaticResource AccentColorBrush3}" Background="WhiteSmoke" MinWidth="20">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Binding="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     </DataGrid.Columns>
@@ -88,6 +88,6 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="AddAbility" Content="Add Ability" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5" />
+        <Button x:Name="AddAbility" Content="Add" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5" />
     </StackPanel>
 </UserControl>

@@ -1,12 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.IO.Compression;
-using System.Linq;
-using SwtorCaster.Core.Services.Logging;
-
 namespace SwtorCaster.Core.Services.Images.Flattened
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.IO.Compression;
+    using System.Linq;
+    using SwtorCaster.Core.Services.Logging;
+
     /// <summary>
     /// Default flattend images implemenetation finds an image file with the name of the ability ID.
     /// </summary>

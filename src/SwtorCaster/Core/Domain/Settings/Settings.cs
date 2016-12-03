@@ -5,10 +5,8 @@ namespace SwtorCaster.Core.Domain.Settings
     using System.Runtime.CompilerServices;
     using System.Windows.Media;
     using Annotations;
-    using Extensions;
     using Newtonsoft.Json;
     using System;
-    using NAudio.Wave;
 
     public class Settings : INotifyPropertyChanged
     {
@@ -26,18 +24,20 @@ namespace SwtorCaster.Core.Domain.Settings
         private string customCombatLogDirectory;
         private string combatLogFile;
         private string textFont = "SF Distant Galaxy"; // default font in Resources folder shipped with SWTORCaster
+        private string mainWindowPlacementXml;
+        private string windowedLoggerWindowPlacementXml;
 
         private int items = 5; // 5 items in the ability logger window
-        private int rotate = 5; // +/- 5 degree angle rotation on image
         private int clearAfterInactivity = 10; // 10 seconds
         private int fontSize = 32; // default text ability font size
+        private int fontBorderThickness = 2;
         private int volume = 10; // the default volume of 100%
         private Guid audioDeviceId = Guid.Empty;
         private double opacity = 0.15; // the top window opacity over the game.
         
         private bool enableSound;
         private bool enableAbilitySettings;
-        private bool enableDemoMode;
+        private bool enablePlaybackMode;
 
         private bool openLoggerWindowOnStartup = true;
         private bool enableAbilityText = true;
@@ -131,17 +131,29 @@ namespace SwtorCaster.Core.Domain.Settings
             }
         }
 
-        [JsonProperty("rotate")]
-        public int Rotate
+        [JsonProperty("mainWindowPlacementXml")]
+        public string MainWindowPlacementXml
         {
-            get { return rotate; }
+            get { return mainWindowPlacementXml; }
             set
             {
-                if (value == rotate) return;
-                rotate = value;
+                if (value == mainWindowPlacementXml) return;
+                mainWindowPlacementXml = value;
                 OnPropertyChanged();
             }
         }
+
+        [JsonProperty("windowedLoggerWindowPlacementXml")]
+        public string WindowedLoggerWindowPlacementXml
+        {
+            get { return windowedLoggerWindowPlacementXml; }
+            set
+            {
+                if (value == windowedLoggerWindowPlacementXml) return;
+                windowedLoggerWindowPlacementXml = value;
+                OnPropertyChanged();
+            }
+        }        
 
         [JsonProperty("enableClearInactivity")]
         public bool EnableClearInactivity
@@ -264,6 +276,18 @@ namespace SwtorCaster.Core.Domain.Settings
             }
         }
 
+        [JsonProperty("fontBorderThickness")]
+        public int FontBorderThickness
+        {
+            get { return fontBorderThickness; }
+            set
+            {
+                if (fontBorderThickness == value) return;
+                fontBorderThickness = value;
+                OnPropertyChanged();
+            }
+        }
+
         [JsonProperty("volume")]
         public int Volume
         {
@@ -325,13 +349,13 @@ namespace SwtorCaster.Core.Domain.Settings
         }
 
         [JsonProperty("enableDemoMode")]
-        public bool EnableDemoMode
+        public bool EnablePlaybackMode
         {
-            get { return enableDemoMode; }
+            get { return enablePlaybackMode; }
             set
             {
-                if (value == enableDemoMode) return;
-                enableDemoMode = value;
+                if (value == enablePlaybackMode) return;
+                enablePlaybackMode = value;
                 OnPropertyChanged();
             }
         }

@@ -1,4 +1,4 @@
-namespace SwtorCaster.Core.Extensions
+namespace SwtorCaster.Core
 {
     using Domain.Log;
     using Domain.Settings;

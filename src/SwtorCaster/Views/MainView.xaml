@@ -4,7 +4,7 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         Icon="../Resources/swtorcaster.ico" ShowInTaskbar="True"
         SizeToContent="WidthAndHeight" ResizeMode="CanMinimize"
-        Title="SWTOR Caster" Margin="5">
+        Title="SWTOR Caster" BorderThickness="0" SaveWindowPosition="True" ShowIconOnTitleBar="True">
     <Window.Resources>
         <ToolTip x:Key="TooltipAbility" Content="You should manually add this window as a window source to OBS" />
         <ToolTip x:Key="TooltipSettings" Content="Configure SWTOR Caster" />
@@ -14,14 +14,11 @@
     </Window.Resources>
     <Grid Margin="5">
         <StackPanel Orientation="Vertical">
-            <Button x:Name="OpenAbilityWindowedView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipAbility}" Content="Logger windowed" />
-            <Button x:Name="OpenAbilityOverlayView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipAbilityOntop}" Content="Logger overlay" />
+            <Button x:Name="OpenAbilityWindowedView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipAbility}" Content="Window" />
+            <Button x:Name="OpenAbilityOverlayView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipAbilityOntop}" Content="Overlay" />
+            <Separator />
             <Button x:Name="OpenSettingsView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipSettings}" Content="Settings" />
-            <Button x:Name="OpenAboutView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipAbout}" Content="About" />
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Label HorizontalAlignment="Right" Content="Version:" />
-                <Label Content="{Binding Version}" />
-            </StackPanel> 
+            <Button x:Name="OpenAboutView" Padding="10" Margin="2" ToolTip="{StaticResource TooltipAbout}" Content="About" />          
         </StackPanel>
     </Grid>
 </controls:MetroWindow>

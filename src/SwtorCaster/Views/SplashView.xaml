@@ -10,7 +10,7 @@
     <Window.Resources>
         <FontFamily x:Key="StarWars">/Resources/#SF Distant Galaxy</FontFamily>
         <Storyboard x:Key="ExitAnimation">
-            <DoubleAnimation Storyboard.Target="{Binding ElementName='window'}"
+            <DoubleAnimation Storyboard.Target="{Binding ElementName=Window}"
                              Storyboard.TargetProperty="(Window.Opacity)"
                              Duration="0:0:2" From="1" To="0"/>
         </Storyboard>
@@ -24,17 +24,8 @@
     <i:Interaction.Behaviors>
         <custom:CloseBehavior Storyboard="{StaticResource ExitAnimation}" />
     </i:Interaction.Behaviors>
-    <Grid Margin="10">
-        <StackPanel Orientation="Horizontal">
-            <StackPanel VerticalAlignment="Center">
-                <Image Source="../Resources/tor community.png" Width="140" Height="auto" VerticalAlignment="Stretch" />
-            </StackPanel>
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,10,0">
-                <custom:OutlinedText Text="Delegate's" HorizontalAlignment="Center" FontFamily="{StaticResource StarWars}" />
-                <custom:OutlinedText Text="SWTOR Caster" HorizontalAlignment="Center" FontFamily="{StaticResource StarWars}" />
-                <controls:ProgressRing Foreground="Yellow" Height="50" Width="50" IsActive="True" Margin="0,10,0,10" />
-                <Label Content="Loading ancient knowledge..." FontWeight="Bold" HorizontalContentAlignment="Center" />
-            </StackPanel>
-        </StackPanel>
+    <Grid Height="216" Width="776">
+        <Image Source="..\Resources\Caster.png" Stretch="Fill" HorizontalAlignment="Left" Width="770" Height="219" VerticalAlignment="Bottom" />
+        <controls:ProgressRing  Height="44" Width="58" IsActive="True" Margin="359,151,359,21" Foreground="Yellow" BorderThickness="2,2,2,2"  />
     </Grid>
 </controls:MetroWindow>
