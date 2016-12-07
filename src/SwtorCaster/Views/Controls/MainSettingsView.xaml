@@ -81,7 +81,7 @@
             <ComboBox DataContext="{Binding}" Name="TextFont" ItemsSource="{Binding SelectableFonts}" Width="200" SelectedItem="{Binding TextFont}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
-                        <Label Content="{Binding Converter={StaticResource FontFamilyConverter} }" />
+                        <Label Content="{Binding Converter={StaticResource FontFamilyConverter} }" FontFamily="{Binding}" />
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
