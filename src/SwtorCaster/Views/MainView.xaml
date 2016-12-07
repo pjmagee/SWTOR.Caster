@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         Icon="../Resources/swtorcaster.ico" ShowInTaskbar="True"
-        SizeToContent="WidthAndHeight" ResizeMode="CanMinimize"
+        SizeToContent="WidthAndHeight" ResizeMode="CanMinimize" WindowStartupLocation="Manual"
         Title="SWTOR Caster" BorderThickness="0" SaveWindowPosition="True" ShowIconOnTitleBar="True">
     <Window.Resources>
         <ToolTip x:Key="TooltipAbility" Content="You should manually add this window as a window source to OBS" />

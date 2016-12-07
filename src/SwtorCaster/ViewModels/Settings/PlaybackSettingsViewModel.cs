@@ -11,7 +11,9 @@ namespace SwtorCaster.ViewModels
         private readonly ISettingsService settingsService;
         private readonly ICombatLogProvider combatLogProvider;
 
-        public PlayBackSettingsViewModel(ISettingsService settingsService, ICombatLogProvider combatLogProvider)
+        public PlayBackSettingsViewModel(
+            ISettingsService settingsService, 
+            ICombatLogProvider combatLogProvider)
         {
             this.settingsService = settingsService;
             this.combatLogProvider = combatLogProvider;

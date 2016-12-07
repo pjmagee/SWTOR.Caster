@@ -15,13 +15,13 @@
 
     public class PlayBackLogService : ICombatLogService
     {
-        private readonly ICombatLogViewModelFactory _logViewModelFactory;
-        private readonly ICombatLogParser _logParser;
-        private readonly ISettingsService _settingsService;
-        private readonly IEventAggregator _eventAggregator;
-        private readonly IEventService _eventService;
+        private readonly ICombatLogViewModelFactory logViewModelFactory;
+        private readonly ICombatLogParser logParser;
+        private readonly ISettingsService settingsService;
+        private readonly IEventAggregator eventAggregator;
+        private readonly IEventService eventService;
 
-        private Thread _parserThread;
+        private Thread parserThread;
 
         public PlayBackLogService(
             ISettingsService settingsService,
@@ -30,11 +30,11 @@
             ICombatLogViewModelFactory logViewModelFactory,
             ICombatLogParser logParser)
         {
-            _settingsService = settingsService;
-            _eventAggregator = eventAggregator;
-            _eventService = eventService;
-            _logViewModelFactory = logViewModelFactory;
-            _logParser = logParser;
+            this.settingsService = settingsService;
+            this.eventAggregator = eventAggregator;
+            this.eventService = eventService;
+            this.logViewModelFactory = logViewModelFactory;
+            this.logParser = logParser;
         }
 
 
@@ -42,19 +42,19 @@
 
         public void Start()
         {
-            if (_parserThread != null) return;
-            _parserThread = new Thread(Run);
-            _parserThread.Start();
+            if (parserThread != null) return;
+            parserThread = new Thread(Run);
+            parserThread.Start();
         }
 
         private void Run()
         {
-            IsRunning = File.Exists(_settingsService.Settings.CombatLogFile);
+            IsRunning = File.Exists(settingsService.Settings.CombatLogFile);
             Events.Clear();
 
             if (IsRunning)
             {
-                var lines = File.ReadAllLines(_settingsService.Settings.CombatLogFile);
+                var lines = File.ReadAllLines(settingsService.Settings.CombatLogFile);
                 
                 foreach(var line in lines)
                 {
@@ -67,31 +67,45 @@
 
         private void PlayBack()
         {
-            var temp = Events.Dequeue();
-            _eventService.Handle(temp);
+            try
+            {
+                var temp = Events.Dequeue();
+                eventService.Handle(temp);
 
-            while (Events.Count > 0)
-            {              
-                Application.Current.Dispatcher.Invoke(() => Render(temp));
+                while (Events.Count > 0)
+                {
+                    try
+                    {
+                        Application.Current.Dispatcher.Invoke(() => Render(temp));
 
-                var next = Events.Dequeue();
-                var pause = next.TimeStamp.Subtract(temp.TimeStamp);
-                temp = next;
-                Thread.Sleep(pause);
+                        var next = Events.Dequeue();
+                        var pause = next.TimeStamp.Subtract(temp.TimeStamp);
+                        temp = next;
+                        Thread.Sleep(pause);
+                    }
+                    catch (Exception e)
+                    {
+                        
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                
             }
         }
 
         private void Render(CombatLogEvent combatLogEvent)
         {
-            var logLine = _logViewModelFactory.Create(combatLogEvent);
-            _eventAggregator.PublishOnUIThread(logLine);
+            var logLine = logViewModelFactory.Create(combatLogEvent);
+            eventAggregator.PublishOnUIThread(logLine);
         }
 
         private Queue<CombatLogEvent> Events { get; set; } = new Queue<CombatLogEvent>();
 
         private void AddLine(string line)
         {
-            var combatLogEvent = _logParser.Parse(line);
+            var combatLogEvent = logParser.Parse(line);
 
             if (combatLogEvent.IsAbilityActivate())
             {
@@ -103,13 +117,13 @@
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                this._eventAggregator.PublishOnUIThread(new ParserMessage() { ClearLog = true });
+                this.eventAggregator.PublishOnUIThread(new ParserMessage() { ClearLog = true });
             });
 
             IsRunning = false;
-            if (_parserThread == null) return;
-            _parserThread.Abort();
-            _parserThread = null;
+            if (parserThread == null) return;
+            parserThread.Abort();
+            parserThread = null;
         }
     }
 }

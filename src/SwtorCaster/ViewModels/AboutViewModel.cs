@@ -1,7 +1,6 @@
 namespace SwtorCaster.ViewModels
 {
     using System.Diagnostics;
-    using Core.Services.Settings;
 
     public class AboutViewModel : FocusableScreen
     {

@@ -1,3 +1,5 @@
+using System.Windows;
+
 namespace SwtorCaster.Core.Domain.Settings
 {
     using System.Collections.Generic;
@@ -46,7 +48,33 @@ namespace SwtorCaster.Core.Domain.Settings
         private bool enableCompanionAbilities = true;
         private bool enableLogging = true;
         private bool ignoreUnknownAbilities = true;
-        
+
+        private Point mainWindowLocation;
+        private Point loggerWindowLocation;
+
+        [JsonProperty("mainWindowLocation")]
+        public Point MainWindowLocation
+        {
+            get { return mainWindowLocation; }
+            set
+            {
+                if (value == mainWindowLocation) return;
+                mainWindowLocation = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonProperty("loggerWindowLocation")]
+        public Point LoggerWindowLocation
+        {
+            get { return loggerWindowLocation; }
+            set
+            {
+                if (value == loggerWindowLocation) return;
+                loggerWindowLocation = value;
+                OnPropertyChanged();
+            }
+        }
 
         [JsonProperty("items")]
         public int Items

@@ -2,7 +2,6 @@ namespace SwtorCaster.ViewModels
 {
     using System.Windows;
     using Caliburn.Micro;
-    using Core;
     using Core.Domain.Settings;
     using Core.Services.Combat;
     using Core.Services.Providers;
@@ -43,11 +42,18 @@ namespace SwtorCaster.ViewModels
 
         protected override void OnInitialize()
         {
-            // this.Window.SetPlacement(this.settingsService.Settings.MainWindowPlacementXml);
+            SetWindowLocation();
 
             StartParserService();            
             
             OpenDefaultWindows();
+        }
+
+        private void SetWindowLocation()
+        {
+            if (settingsService.Settings.MainWindowLocation == default(Point)) return;
+            Window.Left = settingsService.Settings.MainWindowLocation.X;
+            Window.Top = settingsService.Settings.MainWindowLocation.Y;
         }
 
         private void OpenDefaultWindows()
@@ -102,12 +108,17 @@ namespace SwtorCaster.ViewModels
         {
             base.OnDeactivate(close);
 
-            // this.settingsService.Settings.MainWindowPlacementXml = this.Window.GetPlacement();
+            SaveWindowLocation();
 
             if (close)
             {                
                 Application.Current.Shutdown();
             }            
+        }
+
+        private void SaveWindowLocation()
+        {
+            settingsService.Settings.MainWindowLocation = new Point(Window.Left, Window.Top);
         }
 
         public void Handle(Settings message)

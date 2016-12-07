@@ -5,6 +5,7 @@ namespace SwtorCaster.ViewModels
     using Core.Services.Settings;
     using Core.Domain.Settings;
     using Caliburn.Micro;
+    using System.Windows;
 
     public class WindowedViewModel : FocusableScreen, IHandle<Settings>
     {
@@ -29,15 +30,27 @@ namespace SwtorCaster.ViewModels
 
         protected override void OnDeactivate(bool close)
         {
-            // this.settingsService.Settings.WindowedLoggerWindowPlacementXml = this.Window.GetPlacement();
+            base.OnDeactivate(close);
+
+            SaveWindowLocation();
+        }
+
+        private void SaveWindowLocation()
+        {
+            settingsService.Settings.LoggerWindowLocation = new Point(Window.Left, Window.Top);
         }
 
         protected override void OnInitialize()
         {
-            if (IsInitialized)
-            {
-                // this.Window.SetPlacement(this.settingsService.Settings.WindowedLoggerWindowPlacementXml);
-            }
+            SetWindowLocation();
+        }
+
+        private void SetWindowLocation()
+        {
+            if (settingsService.Settings.LoggerWindowLocation == default(Point)) return;
+            Window.WindowStartupLocation = WindowStartupLocation.Manual;
+            Window.Left = settingsService.Settings.LoggerWindowLocation.X;
+            Window.Top = settingsService.Settings.LoggerWindowLocation.Y;
         }
     }
 }
