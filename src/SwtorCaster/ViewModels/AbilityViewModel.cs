@@ -64,12 +64,12 @@ namespace SwtorCaster.ViewModels
         public void Handle(CombatLogViewModel message)
         {
             if (message == null) return;
+            if (message.IsUnknown) return;
 
             var settings = settingsService.Settings;
-
             if (settings.EnableCombatClear && message.CombatLogEvent.IsExitCombat()) LogLines.Clear();
             if (!settings.EnableCompanionAbilities && message.CombatLogEvent.IsPlayerCompanion()) return;
-            if (settings.IgnoreUnknownAbilities && message.IsUnknown) return;
+            
          
             if (message.CombatLogEvent.IsAbilityActivate())
             {

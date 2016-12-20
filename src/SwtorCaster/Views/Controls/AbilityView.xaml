@@ -9,7 +9,7 @@
     mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="500">
     <ListView Name="AbilityList" 
         ItemsSource="{Binding LogLines}" Background="{Binding BackgroundColor}"
-        Focusable="False" IsTextSearchEnabled="False" 
+        Focusable="False" IsTextSearchEnabled="False" BorderThickness="0"
         ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
         ScrollViewer.VerticalScrollBarVisibility="Disabled">
        <ListView.ItemTemplate>
@@ -27,9 +27,6 @@
                         <Border.BorderBrush>
                             <SolidColorBrush Color="{Binding ImageBorderColor}" />
                         </Border.BorderBrush>
-                        <Border.Background>
-                            <SolidColorBrush Color="{Binding ImageBorderColor}" />
-                        </Border.Background>
                     </Border>
                     <custom:OutlinedText x:Name="AbilityText" Grid.Row="0" Grid.Column="1"
                         Text="{Binding Text}" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center"

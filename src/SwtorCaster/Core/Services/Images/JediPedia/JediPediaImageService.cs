@@ -34,7 +34,8 @@ namespace SwtorCaster.Core.Services.Images.JediPedia
         public string GetImageById(long abilityId)
         {
             var ability = abilities.FirstOrDefault(x => x.Id == abilityId.ToString());
-            return ability != null ? Path.Combine(imagesFolder, ability.IconName + ".png") : missingImage;
+            if (ability == null || string.IsNullOrEmpty(ability.IconName)) return null;
+            return Path.Combine(imagesFolder, ability.IconName + ".png");
         }
 
         public IEnumerable<string> GetImages()
@@ -44,7 +45,7 @@ namespace SwtorCaster.Core.Services.Images.JediPedia
 
         public bool IsUnknown(long abilityId)
         {
-            return GetImageById(abilityId).Equals(missingImage);
+            return GetImageById(abilityId) == null;
         }
     }
 }

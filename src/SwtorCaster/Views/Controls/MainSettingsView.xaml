@@ -13,8 +13,7 @@
         <ToolTip x:Key="TooltipRotate" Content="The rotation angle in degrees (recommend between -5 and 5). Set to 0 for both for no image rotation. Gives a rotation to the ability images" />
         <ToolTip x:Key="TooltipClearExitCombat" Content="When you exit combat, clear the logged abilities from the view (Good for Operations/Ranked PVP)" />
         <ToolTip x:Key="TooltipClearInactivity" Content="After the defined amount of seconds, clear the ability window" />
-        <ToolTip x:Key="TooltipEnableText" Content="Display the ability name next to the icon in the ability window" />
-        <ToolTip x:Key="TooltipHideUnknown" Content="Do not display abilities without known images, e.g hidden PVP Warzone Resets that can be confusing." />
+        <ToolTip x:Key="TooltipEnableText" Content="Display the ability name next to the icon in the ability window" />        
         <ToolTip x:Key="TooltipCompanions" Content="Hide or show the companions abilities in the logger window" />
         <ToolTip x:Key="TooltipCompanionBorder" Content="Set a border colour for companion abilities to help distinguish them from your own abilities" />
         <ToolTip x:Key="TooltipColorKey" Content="This should also be set as the Colour key in OBS (to add transparency when streaming)" />
@@ -116,10 +115,6 @@
             <xctk:ColorPicker ColorMode="ColorPalette" Width="100" DisplayColorAndName="False" SelectedColor="{Binding SelectedAbilityTextBorderColor}" />
         </StackPanel>
         <Separator />
-        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipHideUnknown}">
-            <Label Content="Ignore unknown abilities:" />
-            <CheckBox Name="IgnoreUnknownAbilities" VerticalAlignment="Center" />
-        </StackPanel>
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipCompanions}" >
             <Label Content="Enable companion abilities:" />
             <CheckBox Name="EnableCompanionAbilities" VerticalAlignment="Center" />

@@ -117,12 +117,6 @@ namespace SwtorCaster.ViewModels
             set { settingsService.Settings.EnableLogging = value; }
         }
 
-        public bool IgnoreUnknownAbilities
-        {
-            get { return settingsService.Settings.IgnoreUnknownAbilities; }
-            set { settingsService.Settings.IgnoreUnknownAbilities = value; }
-        }
-
         public int FontSize
         {
             get { return settingsService.Settings.FontSize; }

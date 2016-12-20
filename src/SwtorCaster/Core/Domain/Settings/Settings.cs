@@ -47,7 +47,6 @@ namespace SwtorCaster.Core.Domain.Settings
         private bool enableCombatClear = true;
         private bool enableCompanionAbilities = true;
         private bool enableLogging = true;
-        private bool ignoreUnknownAbilities = true;
 
         private Point mainWindowLocation;
         private Point loggerWindowLocation;
@@ -275,19 +274,6 @@ namespace SwtorCaster.Core.Domain.Settings
             {
                 if (value == abilityTextBorderColor) return;
                 abilityTextBorderColor = value;
-                OnPropertyChanged();
-            }
-        }
-
-
-        [JsonProperty("ignoreUnknownAbilities")]
-        public bool IgnoreUnknownAbilities
-        {
-            get { return ignoreUnknownAbilities; }
-            set
-            {
-                if (ignoreUnknownAbilities == value) return;
-                ignoreUnknownAbilities = value;
                 OnPropertyChanged();
             }
         }
