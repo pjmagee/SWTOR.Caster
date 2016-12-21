@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:cal="http://www.caliburnproject.org"
     xmlns:custom="clr-namespace:SwtorCaster.Custom"
-    mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="500">
+    mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="500" BorderThickness="0">
     <ListView Name="AbilityList" 
         ItemsSource="{Binding LogLines}" Background="{Binding BackgroundColor}"
         Focusable="False" IsTextSearchEnabled="False" BorderThickness="0"

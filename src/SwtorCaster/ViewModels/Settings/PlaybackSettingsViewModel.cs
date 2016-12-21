@@ -59,19 +59,20 @@ namespace SwtorCaster.ViewModels
             {
                 CombatLogFile = fileDialog.FileName;
                 NotifyOfPropertyChange(() => SelectedCombatLogFile);
+                Stop();
             }
         }
 
         public void Start()
         {
             var service = this.combatLogProvider.GetCombatLogService();
-            service.Start();
+            service?.Start();
         }
 
         public void Stop()
         {
             var service = this.combatLogProvider.GetCombatLogService();
-            service.Stop();
+            service?.Stop();
         }
 
         public string CombatLogFile
@@ -84,6 +85,7 @@ namespace SwtorCaster.ViewModels
         {
             CombatLogFile = string.Empty;
             NotifyOfPropertyChange(() => SelectedCombatLogFile);
+            Stop();
         }
     }
 }

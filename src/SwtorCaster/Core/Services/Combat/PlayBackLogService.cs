@@ -42,9 +42,16 @@
 
         public void Start()
         {
-            if (parserThread != null) return;
-            parserThread = new Thread(Run);
-            parserThread.Start();
+            try
+            {
+                if (parserThread != null) return;
+                parserThread = new Thread(Run);
+                parserThread.Start();
+            }
+            catch(Exception e)
+            {
+                Stop();
+            }            
         }
 
         private void Run()
@@ -67,31 +74,21 @@
 
         private void PlayBack()
         {
-            try
+            while (Events.Count > 0)
             {
-                var temp = Events.Dequeue();
-                eventService.Handle(temp);
+                var current = Events.Dequeue();
 
-                while (Events.Count > 0)
+                try
                 {
-                    try
-                    {
-                        Application.Current.Dispatcher.Invoke(() => Render(temp));
-
-                        var next = Events.Dequeue();
-                        var pause = next.TimeStamp.Subtract(temp.TimeStamp);
-                        temp = next;
-                        Thread.Sleep(pause);
-                    }
-                    catch (Exception e)
-                    {
-                        
-                    }
+                    Application.Current.Dispatcher.Invoke(() => Render(current));
+                    var peek = Events.Peek();
+                    var pause = peek.TimeStamp.Subtract(current.TimeStamp);
+                    Thread.Sleep(pause);
                 }
-            }
-            catch (Exception e)
-            {
-                
+                catch (Exception e)
+                {
+
+                }
             }
         }
 

@@ -25,15 +25,6 @@ namespace SwtorCaster.Core
 
         public Bootstrapper()
         {
-            //if (Execute.InDesignMode)
-            //{
-            //    StartDesignTime();
-            //}
-            //else 
-            //{
-            //    StartRuntime();
-            //}
-
             base.Initialize();
         }
 
@@ -91,7 +82,7 @@ namespace SwtorCaster.Core
             container.Singleton<MainViewModel>();
 
             // Ability logger
-            container.PerRequest<AbilityViewModel>();
+            container.Singleton<AbilityViewModel>();
             container.Singleton<AbilityOverlayViewModel>();
             container.Singleton<WindowedViewModel>();
 

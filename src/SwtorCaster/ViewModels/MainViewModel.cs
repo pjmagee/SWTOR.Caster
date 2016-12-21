@@ -67,7 +67,11 @@ namespace SwtorCaster.ViewModels
         private void StartParserService()
         {
             var parser = combatLogProvider.GetCombatLogService();
-            parser.Start();
+
+            if (!settingsService.Settings.EnablePlaybackMode)
+            {
+                parser.Start();
+            }            
         }
 
         public override string DisplayName { get; set; } = "SWTOR Caster";
@@ -128,6 +132,7 @@ namespace SwtorCaster.ViewModels
 
         public void Handle(ICombatLogService combatLogService)
         {
+            if (settingsService.Settings.EnablePlaybackMode) return;
             combatLogService.Start();
         }
     }

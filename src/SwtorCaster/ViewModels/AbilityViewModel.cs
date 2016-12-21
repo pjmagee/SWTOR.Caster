@@ -22,8 +22,6 @@ namespace SwtorCaster.ViewModels
                 var control = GetView() as UserControl;
                 var window = control.TryFindParent<Window>();
 
-                // ObsView Transpareny is False
-                // OverlayView Transparency is True
                 if (window.AllowsTransparency)
                 {
                     return new SolidColorBrush(Colors.Transparent);
