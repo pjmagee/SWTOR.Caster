@@ -48,12 +48,7 @@
             <Label Content="Number of abilities to display:" />
             <Slider x:Name="Items" Minimum="1" Maximum="20" Width="200" IsSnapToTickEnabled="True" VerticalAlignment="Center" AutoToolTipPlacement="TopLeft" />
             <Label Content="{Binding ElementName=Items, Path=Value}" />
-        </StackPanel>
-        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipRotate}">
-            <Label Content="Image rotate in degrees:" />
-            <Slider x:Name="Rotate" Minimum="0" Maximum="45" Width="150" IsSnapToTickEnabled="True" VerticalAlignment="Center" AutoToolTipPlacement="TopLeft" />
-            <Label Content="{Binding ElementName=Rotate, Path=Value}" />
-        </StackPanel>
+        </StackPanel>      
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipClearExitCombat}">
             <Label Content="Exiting combat clears the ability window:" />
             <CheckBox x:Name="EnableCombatClear" VerticalAlignment="Center" />
@@ -71,10 +66,7 @@
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipEnableText}">
             <Label Content="Enable ability text:" />
             <CheckBox Name="EnableAbilityText" VerticalAlignment="Center" />
-        </StackPanel>
-        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipFontCase}">
-            <Label Content="Force font casing:" />            
-        </StackPanel>
+        </StackPanel>      
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipTextFont}">
             <Label Content="Ability text font:" />
             <ComboBox DataContext="{Binding}" Name="TextFont" ItemsSource="{Binding SelectableFonts}" Width="200" SelectedItem="{Binding TextFont}">

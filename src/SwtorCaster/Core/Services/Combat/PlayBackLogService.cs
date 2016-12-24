@@ -7,7 +7,6 @@
     using Factory;
     using Parsing;
     using Settings;
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Threading;
@@ -48,10 +47,10 @@
                 parserThread = new Thread(Run);
                 parserThread.Start();
             }
-            catch(Exception e)
+            catch
             {
                 Stop();
-            }            
+            }
         }
 
         private void Run()
@@ -62,13 +61,14 @@
             if (IsRunning)
             {
                 var lines = File.ReadAllLines(settingsService.Settings.CombatLogFile);
-                
-                foreach(var line in lines)
+
+                foreach (var line in lines)
                 {
                     AddLine(line);
                 }
 
-                PlayBack();     
+                PlayBack();
+                Stop();
             }
         }
 
@@ -85,7 +85,7 @@
                     var pause = peek.TimeStamp.Subtract(current.TimeStamp);
                     Thread.Sleep(pause);
                 }
-                catch (Exception e)
+                catch
                 {
 
                 }
@@ -107,16 +107,12 @@
             if (combatLogEvent.IsAbilityActivate())
             {
                 Events.Enqueue(combatLogEvent);
-            }            
+            }
         }
 
         public void Stop()
         {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                this.eventAggregator.PublishOnUIThread(new ParserMessage() { ClearLog = true });
-            });
-
+            Application.Current.Dispatcher.Invoke(() => eventAggregator.PublishOnUIThread(new ParserMessage() { ClearLog = true }));
             IsRunning = false;
             if (parserThread == null) return;
             parserThread.Abort();

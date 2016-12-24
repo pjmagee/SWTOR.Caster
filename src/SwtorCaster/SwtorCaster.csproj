@@ -34,7 +34,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>81</ApplicationRevision>
+    <ApplicationRevision>84</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -191,7 +191,6 @@
     <Compile Include="Core\Domain\Settings\EventSetting.cs" />
     <Compile Include="Core\Extensions\CombatLogExtensions.cs" />
     <Compile Include="Core\Extensions\EnumerableExtension.cs" />
-    <Compile Include="Core\Extensions\WindowExtensions.cs" />
     <Compile Include="Core\ParseException.cs" />
     <Compile Include="Core\Services\Ability\AbilityItem.cs" />
     <Compile Include="Core\Services\Combat\PlayBackLogService.cs" />
@@ -207,7 +206,6 @@
     <Compile Include="Core\Services\Settings\IFontService.cs" />
     <Compile Include="Custom\FontFamilyConverter.cs" />
     <Compile Include="Custom\SoundEventValueConverter.cs" />
-    <Compile Include="Custom\WindowPlacement.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModels\Settings\PlayBackSettingsViewModel.cs" />
     <Compile Include="ViewModels\WindowedViewModel.cs" />
