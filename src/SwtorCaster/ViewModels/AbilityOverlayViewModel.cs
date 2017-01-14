@@ -3,11 +3,11 @@ namespace SwtorCaster.ViewModels
     using System;
     using System.Windows;
     using System.Windows.Input;
-    using Core.Services.Settings;
-    using Caliburn.Micro;
     using Core.Domain.Settings;
+    using Core.Services.Settings;
+    using Caliburn.Micro;   
 
-    public class AbilityOverlayViewModel : FocusableScreen, IHandle<Settings>
+    public class AbilityOverlayViewModel : FocusableScreen, IHandle<AppSettings>
     {
         private readonly ISettingsService settingsService;
 
@@ -61,7 +61,7 @@ namespace SwtorCaster.ViewModels
             }
         }
 
-        public void Handle(Settings message)
+        public void Handle(AppSettings message)
         {
             Refresh();
         }

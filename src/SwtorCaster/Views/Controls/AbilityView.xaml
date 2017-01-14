@@ -7,9 +7,13 @@
     xmlns:cal="http://www.caliburnproject.org"
     xmlns:custom="clr-namespace:SwtorCaster.Custom"
     mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="500" BorderThickness="0">
+    <UserControl.Resources>
+        <RelativeSource x:Key="Parent" AncestorType="{x:Type UserControl}" Mode="FindAncestor"/>
+    </UserControl.Resources>
     <ListView Name="AbilityList" 
         ItemsSource="{Binding LogLines}" Background="{Binding BackgroundColor}"
-        Focusable="False" IsTextSearchEnabled="False" BorderThickness="0"
+        Focusable="False" IsTextSearchEnabled="False" BorderThickness="0"       
+        HorizontalContentAlignment="{Binding Path=HorizontalAlignment}"
         ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
         ScrollViewer.VerticalScrollBarVisibility="Disabled">
        <ListView.ItemTemplate>
@@ -22,13 +26,17 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="{Binding Path=ActualHeight, ElementName=AbilityText}"  />
                     </Grid.RowDefinitions>
-                    <Border x:Name="AbilityBorder" BorderThickness="2" Grid.Column="0" Grid.Row="0">
-                        <Image Grid.Column="0" Grid.Row="0" x:Name="AbilityIcon" Source="{Binding ImageUrl}" />
+                    <Border x:Name="AbilityBorder" BorderThickness="2" Grid.Row="0" 
+                            Grid.Column="{Binding RelativeSource={StaticResource Parent}, Path=DataContext.ImageColumn}">
+                        <Image Grid.Column="{Binding RelativeSource={StaticResource Parent}, Path=DataContext.ImageColumn}"
+                            Grid.Row="0" x:Name="AbilityIcon" Source="{Binding ImageUrl}" />
                         <Border.BorderBrush>
                             <SolidColorBrush Color="{Binding ImageBorderColor}" />
                         </Border.BorderBrush>
                     </Border>
-                    <custom:OutlinedText x:Name="AbilityText" Grid.Row="0" Grid.Column="1"
+                    <custom:OutlinedText 
+                        x:Name="AbilityText" Grid.Row="0" 
+                        Grid.Column="{Binding RelativeSource={StaticResource Parent}, Path=DataContext.TextColumn}"
                         Text="{Binding Text}" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center"
                         Visibility="{Binding TextVisibility}" FontSize="{Binding FontSize}" FontFamily="{Binding FontFamily}"
                         Fill="{Binding FontColor}" Stroke="{Binding FontBorderColor}" StrokeThickness="{Binding FontBorderThickness}">

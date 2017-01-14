@@ -46,7 +46,7 @@ namespace SwtorCaster.Core.Services.Factory
             return viewModel;
         }
 
-        private void ApplyFontSettings(CombatLogViewModel viewModel, Settings settings)
+        private void ApplyFontSettings(CombatLogViewModel viewModel, AppSettings settings)
         {
             viewModel.FontColor = new SolidColorBrush(settings.AbilityTextColor.FromHexToColor());
             viewModel.FontFamily = fontService.GetFontFromString(settings.TextFont);
@@ -55,7 +55,7 @@ namespace SwtorCaster.Core.Services.Factory
             viewModel.FontBorderThickness = settings.FontBorderThickness;
         }
 
-        private void ApplyLoggerSettings(CombatLogEvent combatLogEvent, CombatLogViewModel viewModel, Settings settings)
+        private void ApplyLoggerSettings(CombatLogEvent combatLogEvent, CombatLogViewModel viewModel, AppSettings settings)
         {
             var abilityId = combatLogEvent.Ability.EntityId;
 
@@ -67,7 +67,7 @@ namespace SwtorCaster.Core.Services.Factory
             viewModel.TooltipText = $"{combatLogEvent.Ability.EntityId} (Click to copy Ability ID to Clipboard!)";
         }
 
-        private static void ApplyAbilitySettings(CombatLogEvent @event, CombatLogViewModel viewModel, Settings settings)
+        private static void ApplyAbilitySettings(CombatLogEvent @event, CombatLogViewModel viewModel, AppSettings settings)
         {
             if (!settings.EnableAbilitySettings) return;
 

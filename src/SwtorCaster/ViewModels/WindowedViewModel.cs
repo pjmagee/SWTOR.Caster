@@ -1,13 +1,13 @@
 namespace SwtorCaster.ViewModels
 {
     using System.Windows.Media;
-    using Core;
-    using Core.Services.Settings;
-    using Core.Domain.Settings;
     using Caliburn.Micro;
     using System.Windows;
+    using Core.Services.Settings;
+    using Core;
+    using Core.Domain.Settings;
 
-    public class WindowedViewModel : FocusableScreen, IHandle<Settings>
+    public class WindowedViewModel : FocusableScreen, IHandle<AppSettings>
     {
         private readonly ISettingsService settingsService;
 
@@ -23,7 +23,7 @@ namespace SwtorCaster.ViewModels
 
         public AbilityViewModel AbilityViewModel { get; }
 
-        public void Handle(Settings message)
+        public void Handle(AppSettings message)
         {
             Refresh();
         }

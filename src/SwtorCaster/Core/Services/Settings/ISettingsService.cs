@@ -4,7 +4,7 @@
 
     public interface ISettingsService
     {
-        Settings Settings { get; }
+        AppSettings Settings { get; }
         void Save();
     }
 }

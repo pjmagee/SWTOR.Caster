@@ -6,14 +6,46 @@ namespace SwtorCaster.ViewModels
     using System.Windows.Media;
     using MahApps.Metro.Controls;
     using Caliburn.Micro;
+    using Core;
     using Core.Domain;
     using Core.Domain.Settings;
     using Core.Services.Settings;
-    using Core;
 
-    public class AbilityViewModel : Screen, IHandle<ParserMessage>, IHandle<CombatLogViewModel>, IHandle<Settings>
+    public class AbilityViewModel : Screen, IHandle<ParserMessage>, IHandle<CombatLogViewModel>, IHandle<AppSettings>
     {
         private readonly ISettingsService settingsService;
+
+        private Layout layout => settingsService.Settings.Layout;
+
+        public HorizontalAlignment HorizontalAlignment
+        {
+            get
+            {                
+                if (layout == Layout.LeftToRight) return HorizontalAlignment.Left;
+                if (layout == Layout.RightToLeft) return HorizontalAlignment.Right;
+                return HorizontalAlignment.Center;
+            }
+        }
+
+        public int ImageColumn
+        {
+            get
+            {
+                if (layout == Layout.LeftToRight) return 0;
+                if (layout == Layout.RightToLeft) return 1;
+                return 1;
+            }
+        }
+
+        public int TextColumn
+        {
+            get
+            {
+                if (layout == Layout.LeftToRight) return 1;
+                if (layout == Layout.RightToLeft) return 0;
+                return 0;    
+            }
+        }
 
         public SolidColorBrush BackgroundColor
         {
@@ -75,7 +107,7 @@ namespace SwtorCaster.ViewModels
             }
         }
 
-        public void Handle(Settings message)
+        public void Handle(AppSettings message)
         {
             Refresh();
         }

@@ -1,16 +1,15 @@
-using System.Windows;
-
 namespace SwtorCaster.Core.Domain.Settings
 {
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
+    using System.Windows;
     using System.Windows.Media;
     using Annotations;
     using Newtonsoft.Json;
     using System;
 
-    public class Settings : INotifyPropertyChanged
+    public class AppSettings : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -21,13 +20,12 @@ namespace SwtorCaster.Core.Domain.Settings
         private string companionAbilityBorderColor = Colors.Purple.ToHex();
         private string abilityTextColor = Colors.Yellow.ToHex();
         private string abilityTextBorderColor = Colors.Black.ToHex();
+        private Layout layout = Layout.LeftToRight;
 
         private string version;
         private string customCombatLogDirectory;
         private string combatLogFile;
         private string textFont = "SF Distant Galaxy"; // default font in Resources folder shipped with SWTORCaster
-        private string mainWindowPlacementXml;
-        private string windowedLoggerWindowPlacementXml;
 
         private int items = 5; // 5 items in the ability logger window
         private int clearAfterInactivity = 10; // 10 seconds
@@ -71,6 +69,21 @@ namespace SwtorCaster.Core.Domain.Settings
             {
                 if (value == loggerWindowLocation) return;
                 loggerWindowLocation = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonProperty("layout")]
+        public Layout Layout
+        {
+            get
+            {
+                return layout;
+            }
+            set
+            {
+                if (value == layout) return;
+                layout = value;
                 OnPropertyChanged();
             }
         }
@@ -157,30 +170,6 @@ namespace SwtorCaster.Core.Domain.Settings
                 OnPropertyChanged();
             }
         }
-
-        [JsonProperty("mainWindowPlacementXml")]
-        public string MainWindowPlacementXml
-        {
-            get { return mainWindowPlacementXml; }
-            set
-            {
-                if (value == mainWindowPlacementXml) return;
-                mainWindowPlacementXml = value;
-                OnPropertyChanged();
-            }
-        }
-
-        [JsonProperty("windowedLoggerWindowPlacementXml")]
-        public string WindowedLoggerWindowPlacementXml
-        {
-            get { return windowedLoggerWindowPlacementXml; }
-            set
-            {
-                if (value == windowedLoggerWindowPlacementXml) return;
-                windowedLoggerWindowPlacementXml = value;
-                OnPropertyChanged();
-            }
-        }        
 
         [JsonProperty("enableClearInactivity")]
         public bool EnableClearInactivity

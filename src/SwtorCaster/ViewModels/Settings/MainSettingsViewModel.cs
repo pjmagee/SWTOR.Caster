@@ -7,6 +7,8 @@ namespace SwtorCaster.ViewModels
     using System.Collections.Generic;
     using System.Windows.Forms;
     using Core.Services.Combat;
+    using System.Linq;
+    using Settings;
 
     public class MainSettingsViewModel : Caliburn.Micro.Screen
     {
@@ -97,6 +99,28 @@ namespace SwtorCaster.ViewModels
         {
             get { return fontService.GetFontFromString(settingsService.Settings.TextFont); }
             set { settingsService.Settings.TextFont = fontService.GetStringFromFont(value); }
+        }
+
+        public LayoutViewModel SelectedLayout
+        {
+            get
+            {
+                return SelectableLayouts.Single(x => x.Layout == settingsService.Settings.Layout);
+            }
+            set
+            {
+                settingsService.Settings.Layout = value.Layout;
+                this.NotifyOfPropertyChange(() => this.SelectedLayout);
+            }
+        } 
+
+        public IEnumerable<LayoutViewModel> SelectableLayouts
+        {
+            get
+            {
+                var layouts = new[] { Core.Domain.Settings.Layout.LeftToRight, Core.Domain.Settings.Layout.RightToLeft };
+                return layouts.Select(layout => new LayoutViewModel() { Layout = layout });
+            }
         }
 
         public bool EnableInactivityClear

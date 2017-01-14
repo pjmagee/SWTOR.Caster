@@ -5,7 +5,7 @@ namespace SwtorCaster.Core.Services.Providers
     using Domain.Settings;
     using Settings;
 
-    public class CombatLogProvider : ICombatLogProvider, IHandle<Settings>
+    public class CombatLogProvider : ICombatLogProvider, IHandle<AppSettings>
     {
         private readonly ISettingsService _settingsService;
         private readonly IEventAggregator _eventAggregator;
@@ -20,7 +20,7 @@ namespace SwtorCaster.Core.Services.Providers
         private ICombatLogService PlayBackService => IoC.Get<ICombatLogService>("PlayBack");
         private ICombatLogService RealtimeService => IoC.Get<ICombatLogService>("RealTime");
 
-        public void Handle(Settings message)
+        public void Handle(AppSettings message)
         {
             if(message.EnablePlaybackMode)
             {

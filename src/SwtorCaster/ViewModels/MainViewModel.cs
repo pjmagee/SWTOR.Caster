@@ -2,12 +2,12 @@ namespace SwtorCaster.ViewModels
 {
     using System.Windows;
     using Caliburn.Micro;
-    using Core.Domain.Settings;
     using Core.Services.Combat;
     using Core.Services.Providers;
     using Core.Services.Settings;
+    using Core.Domain.Settings;
 
-    public class MainViewModel : FocusableScreen, IHandle<Settings>, IHandle<ICombatLogService>
+    public class MainViewModel : FocusableScreen, IHandle<AppSettings>, IHandle<ICombatLogService>
     {
         private readonly ISettingsService settingsService;
         private readonly ICombatLogProvider combatLogProvider;
@@ -125,7 +125,7 @@ namespace SwtorCaster.ViewModels
             settingsService.Settings.MainWindowLocation = new Point(Window.Left, Window.Top);
         }
 
-        public void Handle(Settings message)
+        public void Handle(AppSettings message)
         {
             Refresh();
         }

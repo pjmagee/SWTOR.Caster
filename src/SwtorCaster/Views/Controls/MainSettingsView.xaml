@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:viewModels="clr-namespace:SwtorCaster.ViewModels"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:custom="clr-namespace:SwtorCaster.Custom"
              xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" Background="White">
@@ -22,6 +23,7 @@
         <ToolTip x:Key="TooltipCombatLog" Content="Do not change this unless you know where SWTOR is writing your combat log files to" />
         <ToolTip x:Key="TooltipFontBorderThickness" Content="Change the thickness of the font outline" />
         <ToolTip x:Key="TooltipFontCase" Content="Force the text from the combat log file to be displayed as standard, uppercase or lowercase - this can help on some fonts" />
+        <ToolTip x:Key="TooltipAbilityLayout" Content="Display the icon on the left of ability text or right of the ability text (changes the  flow)" />
         <custom:FontFamilyConverter x:Key="FontFamilyConverter" />
     </UserControl.Resources>
     <StackPanel Orientation="Vertical" Margin="2" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
@@ -61,6 +63,10 @@
             <Label Content="Clear abilities after seconds of inactivity:" />
             <Slider x:Name="ClearAfterInactivity" Minimum="5" Maximum="30" Width="150" IsSnapToTickEnabled="True" VerticalAlignment="Center" AutoToolTipPlacement="TopLeft" />
             <Label Content="{Binding ElementName=ClearAfterInactivity, Path=Value}" />
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipAbilityLayout}">
+            <Label Content="Layout:" />
+            <controls:SplitButton DisplayMemberPath="Name" ItemsSource="{Binding SelectableLayouts}" IsSynchronizedWithCurrentItem="True" SelectedItem="{Binding SelectedLayout, Mode=TwoWay}" Width="150" />
         </StackPanel>
         <Separator />
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTip="{StaticResource TooltipEnableText}">

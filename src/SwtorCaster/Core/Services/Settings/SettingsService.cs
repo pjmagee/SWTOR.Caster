@@ -16,7 +16,7 @@ namespace SwtorCaster.Core.Services.Settings
         private readonly ILoggerService loggerService;
         private readonly IEventAggregator eventAggregator;
 
-        public Settings Settings { get; set; }
+        public AppSettings Settings { get; set; }
 
         public SettingsService(ILoggerService loggerService, IEventAggregator eventAggregator)
         {
@@ -61,18 +61,18 @@ namespace SwtorCaster.Core.Services.Settings
                 try
                 {
                     var json = File.ReadAllText(SettingsPath);
-                    Settings = JsonConvert.DeserializeObject<Settings>(json);
+                    Settings = JsonConvert.DeserializeObject<AppSettings>(json);
                 }
                 catch (Exception e)
                 {
-                    Settings = new Settings();
+                    Settings = new AppSettings();
                     loggerService.Log(e.Message);
                     MessageBox.Show("Error reading saved settings, loading default settings.", "Settings", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             else
             {
-                Settings = new Settings();
+                Settings = new AppSettings();
             }
 
             WireEvents();

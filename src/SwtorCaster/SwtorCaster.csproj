@@ -188,6 +188,7 @@
     <Compile Include="Core\Domain\Log\EffectName.cs" />
     <Compile Include="Core\Domain\Log\EffectType.cs" />
     <Compile Include="Core\Domain\Log\SoundEvent.cs" />
+    <Compile Include="Core\Domain\Settings\Layout.cs" />
     <Compile Include="Core\Domain\Settings\EventSetting.cs" />
     <Compile Include="Core\Extensions\CombatLogExtensions.cs" />
     <Compile Include="Core\Extensions\EnumerableExtension.cs" />
@@ -207,6 +208,7 @@
     <Compile Include="Custom\FontFamilyConverter.cs" />
     <Compile Include="Custom\SoundEventValueConverter.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="ViewModels\Settings\LayoutViewModel.cs" />
     <Compile Include="ViewModels\Settings\PlayBackSettingsViewModel.cs" />
     <Compile Include="ViewModels\WindowedViewModel.cs" />
     <Compile Include="ViewModels\AbilityOverlayViewModel.cs" />
@@ -242,7 +244,7 @@
     <Compile Include="ViewModels\Settings\MainSettingsViewModel.cs" />
     <Compile Include="ViewModels\SplashViewModel.cs" />
     <Compile Include="Core\Bootstrapper.cs" />
-    <Compile Include="Core\Domain\Settings\Settings.cs" />
+    <Compile Include="Core\Domain\Settings\AppSettings.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\AbilityViewModel.cs" />
     <Page Include="Resources\Icons.xaml">
