@@ -63,6 +63,7 @@ Please consider using my [SWTOR referral link](http://www.swtor.com/r/rpNrdB) as
 
 Some Example Youtube videos using SWTOR Caster
 
+- [Delegate - Youtube Video showing Duel with playback feature](https://www.youtube.com/watch?v=yu9-MhUYgKo)
 - [Scoff - Youtube Video showing a Marauder rotation](https://www.youtube.com/watch?v=_vWI6QTJtQ0)
 - [Ldsiris - Operative Leathiality PvP video](https://www.youtube.com/watch?v=LSNgHVaItUE)
 - [LdSiris - Powetech Advanted Prototype PvP video](https://www.youtube.com/watch?v=JNQBfGADHyk)
