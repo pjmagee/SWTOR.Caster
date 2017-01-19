@@ -15,6 +15,8 @@ Windows 7 Users using OBS, will need to ensure Aero theme is enabled, otherwise 
 
 The combat log file is written to the client asyncronously which means that as soon as you execute an ability, it may have a 1-3 second delay before SWTOR Caster is able to display that you activated this ability. However, once you are in combat or are making a video guide, this shouldn't cause too much concern as the main focus for this tool is to help others see what you have been doing and for guides it's great to explain openers, rotations etc.
 
+However, the most recent feature allows to playback a combat log file, which can then be overlayed on top of a recorded video and does not produce this laggy/delay side-effect, since the combat log file is complete it just simulated each delay between each ability correctly, making it fluent when overlayed on a video with no ability delay.
+
 ## Customisation settings
 
 ### General features
