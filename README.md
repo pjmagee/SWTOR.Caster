@@ -35,7 +35,7 @@ However, the most recent feature allows to playback a combat log file, which can
 - Change the master audio player to help configure your stream audio channel or video guide.
 - Play a custom audio file when you kill another player or die.
 - Play a custom audio file when you activate an ability.
-- Play a custom audio file whe nyou enter or exit combat.
+- Play a custom audio file when you enter or exit combat.
 
 ### Ability features
 - Global option to disable/enable your custom images.
@@ -71,7 +71,7 @@ Some Example Youtube videos using SWTOR Caster
 - [LdSiris - Powetech Advanted Prototype PvP video](https://www.youtube.com/watch?v=JNQBfGADHyk)
 - [Aravail - Hard Mode Temple of Sacrifice](https://www.youtube.com/watch?v=BGeRbw0gnFA)
 - [Aravail - Sage Dummy Parsing](https://www.youtube.com/watch?v=QsgZGIqqhOA)
-- [Helldog - Eternal Championship - Sprint Champion](https://www.youtube.com/watch?v=sp-2fycKtqE)
+- [Hellhog - Eternal Championship - Sprint Champion](https://www.youtube.com/watch?v=sp-2fycKtqE)
 
 ## Libraries/Frameworks used in SWTOR Caster
 
