@@ -88,6 +88,7 @@ Contributions are welcome, read the code and ensure you adhere to the same consi
 
 # Contributions to SWTOR Caster
 
-- [TOR Community](http://torcommunity.com) - Providing the images
+- [TOR Community](http://torcommunity.com) - Providing ability icons
+- [JediPedia](https://swtor.jedipedia.net) - Providing ability icons
 - SWTOR Potato - Optimisations
 - atesca09 - Optimisations
