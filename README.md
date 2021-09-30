@@ -1,3 +1,8 @@
+## NOTICE for 2021
+
+With the coming expansion to Star Wars The old Republic, they are changing the way the combat log works. I will not be supporting this change. This project can be deemed as archived. If you are interested in upgrading or adding support for the Expansion, you are welcome to Fork this project but you must continue to use the same license provided.
+
+
 # SWTOR Caster
 
 SWTOR Caster is an ability overlay tool that can used with Open Broadcaster Software (OBS) or other recording software that can be used for streaming your gaming or making video guides for Star Wars™: The Old Republic™. It comes with two "popup windows", one which is stream friendly and one which can be used as a window on-top with configurable opacity for guides or what ever you feel more comfortable using.
